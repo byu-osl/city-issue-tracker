@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+	.indiv{
+		display:inline;
+		float:left;
+		width:50%;
+	}
+	input#searchBox{
+		position:relative;
+		height:32px;
+		top:3px
+	}
+	#issue-div{
+		margin:25px;
+	}
+	li{
+		display:block!important;
+		margin-bottom:3px;
+	}
+	</style>
+</head>
+<body>
+	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">City Issue Tracker</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</div><!-- /.nav-collapse -->
+		</div><!-- /.container -->
+	</div><!-- /.navbar -->
+	<div id="main" style="margin-top:60px;margin-left:10px">
+		<div class="row-offcanvas">
+			<div id="left-container" class="indiv">
+				<div id="search" class="glyphicon glyphicon-search">
+					<input type="text" id="searchBox"> 
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							Add new issue <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Add new issue...</a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="issue-div" class="panel panel-default">
+					<div class="panel-heading">Recent Issues</div>
+					<div class="panel-body">
+						<div id="issue-list">
+							<ul>
+								<li class="glyphicon glyphicon-map-marker">One</li>
+								<li class="glyphicon glyphicon-map-marker">Two</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="right-container" class="indiv">
+				<div id="map"> <img src="cedar.png"> </div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
