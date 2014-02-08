@@ -1,0 +1,17 @@
+sudo apt-get install python python-virtualenv python-pip
+cd ~
+mkdir virtualenvs
+cd virtualenvs
+mkdir city-issue-tracker
+virtualenv city-issue-tracker
+. city-issue-tracker/bin/activate
+pip install Flask
+
+/////////////////////////
+// Work on the project //
+/////////////////////////
+
+deactivate
+
+Any time you want to work on the project make sure to do ". ~/virtualenvs/city-issue-tracker/bin/activate", the "." is important. If you don't do this then you'll get messages saying the module flask doesn't exist.
+At some point we'll have more modules than just Flask, so we'll make a requirements.txt file that easily tells pip what to install by executing "pip install -r /path/to/requirements.txt"
