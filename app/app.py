@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request
+from fakeData import service_list, service_def, get_service_reqs, get_service_req
+
 app = Flask(__name__)
 
 @app.route('/hello_world')
@@ -13,9 +15,9 @@ def home():
 @app.route('/issue/<int:issue_num>', methods = ['GET', 'POST'])
 def view_issue(issue_num):
 	if request.method == 'GET':
-		return render_template('view_issue.html', issue_num = issue_num)
+		return render_template('view_issue.html', issue_num = issue_num, issue = get_service_req)
 	elif request.method == 'POST':
-		return render_template('post_issue.html', issue_num = issue_num)
+		return render_template('post_issue.html', issue_num = issue_num, issue = get_service_req)
 
 @app.route('/login')
 def login():
@@ -27,7 +29,7 @@ def logout():
 
 @app.route('/issues')
 def issues():
-	return render_template('issues.html')
+	return render_template('issues.html', issues = get_service_reqs)
 
 @app.route('/admin')
 def admin():
