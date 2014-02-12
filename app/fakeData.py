@@ -124,10 +124,10 @@ get_service_req = [
 ]
 
 user_data = {
-	"first_name": "Jeff"
-	"last_name": "Hoffman"
-	"email": "jhoffman@fakeemail.com"
-	"role": 1
+	"first_name": "Jeff",
+	"last_name": "Hoffman",
+	"email": "jhoffman@fakeemail.com",
+	"role": 1,
 	"subscriptions": [
 		{"issue_id": 1},
 		{"issue_id": 2},
