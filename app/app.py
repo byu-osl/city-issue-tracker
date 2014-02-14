@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from fakeData import service_list, service_def, get_service_reqs, get_service_req
+from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 
 app = Flask(__name__)
 
@@ -37,7 +37,7 @@ def admin():
 
 @app.route('/profile')
 def profile():
-	return render_template('profile.html')
+	return render_template('profile.html', user_data = user_data)
 
 @app.errorhandler(404)
 def page_not_found(e):
