@@ -1,4 +1,5 @@
 #NOTE: This is not done or tested and does NOT work on Windows.
+#ALSO SYSTEM_WIDE DOES NTO WORK... I want to try ot get it to work without using execfile
 
 #TODO: Include the she-bang for python so it makes it easier to use
 
