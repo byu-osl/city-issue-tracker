@@ -1,2 +1,9 @@
 #Ignore any .pyc file
 *.pyc
+
+
+#Ignore the virtualenv
+virtualenv-1.9/
+
+#For noew ignore the run.py (I have some ideas about how we can have a generic run.py but not just yet)
+run.py
