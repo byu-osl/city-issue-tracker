@@ -56,6 +56,10 @@ print(path+'pip')
 
 #TODO: Install the depens
 call([path + 'pip','install','Flask'])
+call([path + 'pip','install','sqlalchemy'])
+call([path + 'pip','install','flask-sqlalchemy'])
+
+
 
 #Create the run file
 f = open('run.py','w')

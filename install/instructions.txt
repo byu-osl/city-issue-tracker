@@ -6,6 +6,9 @@ mkdir city-issue-tracker
 virtualenv city-issue-tracker
 . city-issue-tracker/bin/activate
 pip install Flask
+pip install sqlalchemy
+pip install flask-sqlalchemy
+
 
 /////////////////////////
 // Work on the project //
