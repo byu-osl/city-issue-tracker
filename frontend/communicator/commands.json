@@ -1,0 +1,72 @@
+[
+  {
+    "name": "login",
+    "description": "Log into an account",
+    "args": ["form"],
+    "path": "/users/sign_in",
+    "request": "POST"
+  },
+  {
+    "name": "createAccount",
+    "description": "Create a new account",
+    "args": ["form"],
+    "path": "/users/new",
+    "request": "POST"
+  },
+  {
+    "name": "updateAccount",
+    "description": "Update account details. Account user and administrators only.",
+    "args": ["id", "form"],
+    "path": "/users/:id",
+    "request": "POST"
+  },
+  {
+    "name": "getAccount",
+    "description": "View account details. Account user and administrators only.",
+    "args": ["id"],
+    "path": "/users/:id",
+    "request": "GET"
+  },
+  {
+    "name": "signIn",
+    "description": "Sign into an account. Should set a session cookie.",
+    "args": ["form"],
+    "path": "/users/sign_in",
+    "request": "POST"
+  },
+  {
+    "name": "signOut",
+    "description": "Sign out of an account. Removes the session cookie.",
+    "args": [],
+    "path": "/users/sign_out",
+    "request": "POST"
+  },
+  {
+    "name": "createIssue",
+    "description": "Create a new issue. Shouldn't be visible until approved.",
+    "args": ["form"],
+    "path": "/issues",
+    "request": "POST"
+  },
+  {
+    "name": "updateIssue",
+    "description": "Updates an issue (admin only)",
+    "args": ["id", "form"],
+    "path": "/issues/:id",
+    "request": "POST"
+  },
+  {
+    "name": "getIssues",
+    "description": "retreives a list of issues",
+    "args": ["orderBy", "offset", "max", "query", "reversed"],
+    "path": "/issues",
+    "request": "GET"
+  },
+  {
+    "name": "getIssue",
+    "description": "retreives an issue",
+    "args": ["id"],
+    "path": "/issues/:id",
+    "request": "GET"
+  }
+]
