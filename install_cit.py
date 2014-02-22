@@ -64,7 +64,10 @@ call([path + 'pip','install','flask-sqlalchemy'])
 #Create the run file
 f = open('run.py','w')
 #NOTE: I don't want it done this way but for now it works
-print("#!"+path+"python\nfrom subprocess import Popen\nPopen(['"+path+"python"+"','app/app.py'])",file=f)#Time travel used
+#print("#!"+path+"python\nfrom subprocess import Popen\nPopen(['"+path+"python"+"','app/app.py'])",file=f)#Time travel used
+print("#!"+path+"python\nfrom app import app\napp.run(debug=True)",file=f)#Time travel used
+
+
 f.close()
 
 #Make newly created file runnable
