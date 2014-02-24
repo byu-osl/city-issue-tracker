@@ -1,11 +1,8 @@
-from flask import Flask, render_template, request
+from app import app, db
+from flask import render_template, request
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
-from flask.ext.sqlalchemy import SQLAlchemy
+from models import service
 
-
-app = Flask(__name__)
-
-db = SQLAlchemy(app)
 
 @app.route('/hello_world')
 def hello_world():
