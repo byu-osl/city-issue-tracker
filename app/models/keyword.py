@@ -17,7 +17,5 @@ class Keyword(db.Model):
 
 	"""
 	id = db.Column(db.Integer, primary_key=True)
-	keyword = db.Column(db.String(255))#I think that should be long enough TODO: Make unique
-
-
+	keyword = db.Column(db.String(255), unique=True)#I think that should be long enough TODO: Make unique
 
