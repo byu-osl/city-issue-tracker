@@ -1,8 +1,9 @@
 from app import app, db
 from flask import render_template, request
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
-from models import service
+from models import Service, ServiceAttribute, Keyword, KeywordMapping
 
+service_example_1 = Service()
 
 @app.route('/hello_world')
 def hello_world():
