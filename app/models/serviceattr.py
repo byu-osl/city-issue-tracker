@@ -46,10 +46,10 @@ class ServiceAttribute():
 		assert type in datatype_list
 		return type
 
-	@validates('oder')
+	@validates('order')
 	def validate_order(self, key, order):
 		"""
-		A validator that asserts order is above 0
+		A validator that asserts order is above 0 (starts at 1)
 		"""
 		assert order > 0
 		return order

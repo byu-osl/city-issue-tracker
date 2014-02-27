@@ -8,7 +8,6 @@ class Service(db.Model):
 	"""
 	A Model to deal with Service types and information about them
 
-	TODO: Make setter for type
 
 	Attributes
 	id (int): The primary key of the object
