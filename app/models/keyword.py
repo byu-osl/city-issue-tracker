@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy.orm import validates
 
 #http://stackoverflow.com/questions/5729500/how-does-sqlalchemy-handle-unique-constraint-in-table-definition
 

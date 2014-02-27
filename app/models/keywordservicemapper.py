@@ -1,7 +1,6 @@
 from app import db
 
 
-
 class KeywordMapping(db.Model):
 	"""
 	This model maps keywords with services and because of this is many-to-many
