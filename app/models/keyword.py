@@ -19,3 +19,11 @@ class Keyword(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	keyword = db.Column(db.String(255), unique=True)#I think that should be long enough TODO: Make unique
 
+
+	@validates('keyword')
+	def validate_type(self, key, keyword):
+		"""
+		A validator that check that the keyword is not the empty string
+		"""
+		assert keyword #TODO: Check this works. It should work based on the fact that empty strings are fasley
+		return keyword
