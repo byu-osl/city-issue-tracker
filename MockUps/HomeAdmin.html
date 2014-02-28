@@ -45,6 +45,22 @@
 	#add-new-issue{
 		top: 4px
 	}
+	.issue-location{
+		width:50%;
+
+	}
+	#right-container img{
+		max-width:100%;
+	}
+	.text-field{
+		border:1px solid #ddd;
+		padding:2px;
+	}
+	input.location{
+		width:100%;
+	}
+
+
 	</style>
 </head>
 <body>
@@ -125,10 +141,24 @@
 		</div>
 		<div class="panel-body">
 			<div>
-				<span>Title:</span><span contenteditable="true">Issue title</span>
-				<p>Description:</p>
-				<p contenteditable="true">Bacon ipsum dolor sit amet pig frankfurter ham hock pork loin, ribeye venison brisket biltong. Meatloaf pig biltong salami pastrami capicola. Brisket corned beef leberkas flank pork. T-bone pastrami beef ribs landjaeger corned beef, porchetta shank tongue meatball kielbasa tail venison salami bresaola andouille. Venison pork belly chicken hamburger, frankfurter ham filet mignon flank leberkas ham hock sirloin short ribs pork pancetta.Shankle tenderloin fatback, leberkas shoulder salami spare ribs meatball. Pig pastrami t-bone kevin jowl. Doner tail jowl bresaola flank, biltong meatloaf frankfurter jerky turkey meatball ground round. Bacon pastrami doner boudin, rump pork loin sausage. Kevin hamburger pastrami kielbasa tail t-bone. Swine drumstick leberkas biltong prosciutto pork loin frankfurter, capicola pork belly.
-				</p>				
+				<label>Title:</label><span class="text-field" contenteditable="true">Issue title</span>
+				<div class="issue-location">
+					<label> Location Cedar City:</label>
+					<input class="location" type="text"placeholder="Street Address or (longitude,latitude)"/>
+				</div>
+				<div id="edit-priority-div">
+					<label>Priority</label>
+					<select>
+						<option value="high">High</option>
+						<option value="moderate">Moderate</option>
+						<option value="low">Low</option>
+					</select>
+				</div>
+				<div>
+					<label>Description:</label>
+					<p class="text-field" contenteditable="true">Bacon ipsum dolor sit amet pig frankfurter ham hock pork loin, ribeye venison brisket biltong. Meatloaf pig biltong salami pastrami capicola. Brisket corned beef leberkas flank pork. T-bone pastrami beef ribs landjaeger corned beef, porchetta shank tongue meatball kielbasa tail venison salami bresaola andouille. Venison pork belly chicken hamburger, frankfurter ham filet mignon flank leberkas ham hock sirloin short ribs pork pancetta.Shankle tenderloin fatback, leberkas shoulder salami spare ribs meatball. Pig pastrami t-bone kevin jowl. Doner tail jowl bresaola flank, biltong meatloaf frankfurter jerky turkey meatball ground round. Bacon pastrami doner boudin, rump pork loin sausage. Kevin hamburger pastrami kielbasa tail t-bone. Swine drumstick leberkas biltong prosciutto pork loin frankfurter, capicola pork belly.
+					</p>
+				</div>				
 			</div>
 		</div>
 		<div class="panel-footer">
