@@ -42,6 +42,15 @@
 	#add-new-issue{
 		top: 4px
 	}
+	
+	#right-container{
+		width: 49%;
+		border: solid 1px black;
+	}
+	#map-canvas{
+		width: 100%;
+		height: 100%;
+	}
 	</style>
 </head>
 <body>
@@ -102,7 +111,7 @@
 				</div>
 			</div>
 			<div id="right-container" class="indiv">
-				<div id="map"> <img src="cedar.png"> </div>
+				<div id="map-canvas"></div>
 			</div>
 		</div>
 	</div>
@@ -123,6 +132,7 @@
 	
 </body>
 <footer>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script>
 	
@@ -155,5 +165,25 @@
 	});
 	
 	</script>
+	<script>
+		var map;
+		function initialize() {
+			var mapOptions = {
+				zoom: 14,
+				center: new google.maps.LatLng(37.67747689999999, -113.06189310000002),
+			};
+			map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		}
+		google.maps.event.addDomListener(window, 'load', initialize);
+
+		//Sets the height of the map's container.
+		//The height will be updated when the browser height changes.
+		function setMapHeight() {
+			var height = window.innerHeight - $('.navbar').height() - 15;
+			$('#right-container').height(height);
+		}
+		$(window).resize(setMapHeight);
+		setMapHeight();
+    </script>
 </footer>
 </html>
