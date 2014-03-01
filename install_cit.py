@@ -58,7 +58,7 @@ print(path+'pip')
 call([path + 'pip','install','Flask'])
 call([path + 'pip','install','sqlalchemy'])
 call([path + 'pip','install','flask-sqlalchemy'])
-
+call([path + 'pip','install','xmltodict']) #For the Open311 spec
 
 
 #Create the run file
