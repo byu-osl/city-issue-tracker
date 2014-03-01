@@ -22,6 +22,7 @@ class Service(db.Model):
 	description = db.Column(db.Text)
 	meta_data = db.Column(db.Boolean)
 	type = db.Column(db.String(10))#Note: I think the maxium number of character ever needed is 8 but just making it a round 10
+	attributes = db.relationship('ServiceAttribute', backref="service", lazy="joined")
 
 	def get_type_list(): #TODO: Maybe this is not needed
 		"""
