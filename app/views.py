@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping
 
@@ -13,6 +13,22 @@ def hello_world():
 @app.route('/')
 def home():
 	return render_template('index.html')
+
+@app.route('/api/services', methods=['GET'])
+def json_view_services():
+	return jsonify(service_list)
+
+@app.route('/api/services/<int:service_id>', methods = ['GET'])
+def json_view_service(service_id):
+	return jsonify(service_list[0])
+
+@app.route('/api/issue/<int:issue_id>', methods = ['GET'])
+def json_view_issue(issue_id):
+	return jsonify(get_service_req)
+
+@app.route('/api/issues', methods = ['GET'])
+def json_view_issues():
+	return jsonify(get_service_reqs)
 
 @app.route('/issue/<int:issue_num>', methods = ['GET', 'POST'])
 def view_issue(issue_num):
