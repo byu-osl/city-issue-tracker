@@ -52,14 +52,16 @@
 	#right-container img{
 		max-width:100%;
 	}
-	.text-field{
-		border:1px solid #ddd;
-		padding:2px;
-	}
 	input.location{
 		width:100%;
 	}
-
+	label{
+		vertical-align: top;
+	}
+	#popup-description{
+		width:100%;
+		max-width:100%;
+	}
 
 	</style>
 </head>
@@ -123,7 +125,7 @@
 		</div>
 		<div class="panel-body">
 			<div>
-				<label>Title:</label><span id="popup-issue-title" class="text-field" contenteditable="true">Issue title</span>
+				<label>Title:</label><input type="text" id="popup-issue-title"/>
 				<div class="issue-location">
 					<label> Location Cedar City:</label>
 					<input id="popup-location" type="text"placeholder="Street Address or (longitude,latitude)"/>
@@ -138,7 +140,7 @@
 				</div>
 				<div>
 					<label>Description:</label>
-					<p id="popup-description" class="text-field" contenteditable="true">
+					<textarea id="popup-description"></textarea>
 					</p>
 				</div>
 				<div id="popup-image">
@@ -180,7 +182,7 @@
 		$el.append('<span class="issue-description"> - '+issue.description +'</span>');
 		if(user.isAdmin){
 			$el.append('<span class="close glyphicon glyphicon-trash"></span>');
-			if(issue.status = "close"){
+			if(issue.status == "close"){
 				$el.append('<span class="close glyphicon glyphicon-ok"></span>');
 			}
 		}
@@ -197,17 +199,21 @@
 	});
 
 	function clearIssuePopup(){
-		$("#popup-issue-title").text("");
+		$("#popup-issue-title").val("");
 		$("#popup-location").val("");
-		$("#popup-description").text("");
+		$("#popup-description").val("");
 		$("#popup-image").empty()
+	}
+
+	function saveIssue(){
+
 	}
 
 	$(".issue").click(function(){
 		var issue = issues[$(this).attr("issue-id")];
-		$("#popup-issue-title").text(issue.service_name);
+		$("#popup-issue-title").val(issue.service_name);
 		$("#popup-location").val(issue.address);
-		$("#popup-description").text(issue.description);
+		$("#popup-description").val(issue.description);
 		$("#popup-image").html("<img src='" + issue.media_url + "'/>");
 		$("#issue-popup").show();
 	});
