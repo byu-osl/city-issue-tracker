@@ -1,4 +1,5 @@
 from app import db
+from keywordservicemapper import keywordMapping
 from sqlalchemy.orm import validates
 
 #TODO: Maybe this should be moved to somewhere else. Maybe a defs.py ???
@@ -23,6 +24,8 @@ class Service(db.Model):
 	meta_data = db.Column(db.Boolean)
 	type = db.Column(db.String(10))#Note: I think the maxium number of character ever needed is 8 but just making it a round 10
 	attributes = db.relationship('ServiceAttribute', backref="service", lazy="joined")
+	keywords = db.relationship("Keyword", secondary=keywordMapping, backref="services")
+
 
 	def get_type_list(): #TODO: Maybe this is not needed
 		"""
