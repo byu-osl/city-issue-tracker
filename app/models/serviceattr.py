@@ -10,7 +10,7 @@ datatype_list = [
 	"multivaluelist"
 ]
 
-class ServiceAttribute():
+class ServiceAttribute(db.Model):
 	"""
 	A model to deal with the additional metadata that the Service might require
 
@@ -31,6 +31,7 @@ class ServiceAttribute():
 	datatype_description = db.Column(db.String(255))#TODO: What is a good example of this?
 	description = db.Column(db.Text)#TODO: Should there be a limit on the description?
 	order = db.Column(db.Integer)
+	service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
 
 	def get_datatype_list(): #TODO: Maybe not needed
 		"""
