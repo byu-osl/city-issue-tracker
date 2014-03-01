@@ -9,7 +9,7 @@ ServiceAttribute = serviceattr.ServiceAttribute
 ServiceAttributeValue = serviceattrval.ServiceAttributeValue
 
 Keyword = keyword.Keyword
-KeywordMapping = keywordservicemapper.KeywordMapping
-
+keywordMapping = keywordservicemapper.keywordMapping
+KeywordMapping = keywordservicemapper.keywordMapping #TODO: Remove capital KeywordMapping after the views.py has changed to use lowercase
 
 
