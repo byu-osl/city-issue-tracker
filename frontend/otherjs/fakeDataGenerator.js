@@ -16,7 +16,7 @@ Generator = (function Generator_Namespace(){
     }
     
     function Generator(start){
-        this.start = withDefault(start, Math.random()
+        this.start = withDefault(start, Math.random())
         this.end = this.start;
     }
 
@@ -41,11 +41,11 @@ Generator = (function Generator_Namespace(){
     Generator.prototype.randAddr = function genAddr(){
         add = getRand(this.addresses)
         return {
-            zip = 84062,
-            street = add.street, 
-            id = add.id,
-            lat = add.lat,
-            long = add.long 
+            zip:84062,
+            street:add.street, 
+            id:add.id,
+            lat:add.lat,
+            long:add.long 
         }
     }
     
@@ -55,29 +55,54 @@ Generator = (function Generator_Namespace(){
     }
 
     Generator.prototype.next = function genSeq(){
-        dates = this.dates();
-        addr = this.randAddr();
-        service_name = "Sidewalk and Curb Issues";
+        var dates = this.dates();
+        var addr = this.randAddr();
+        var id = this.end++;
+        var open = Math.random() > 0.5;
+        var approved = open || Math.random() > 0.5;
         return {
-            "service_request_id":this.end++,
-            "status":Math.random() > 0.5 ? "open" : "close",
-            "status_notes":null,
-            "service_name":service_name,
-            "service_code":006,
-            "description":null,
-            "agency_responsible":null,
-            "service_notice":null,
-            "requested_datetime":dates[0],
-            "updated_datetime":dates[1],
-            "expected_datetime":dates[2],
-            "address":addr.street,
-            "address_id":addr.id,
-            "zipcode":addr.zip,
-            "lat":addr.lat,
-            "long":addr.long,
-            "media_url":this.randomImage(service_name.replace(/ /g, "-"))
+            "id":this.end++,
+            "owner":Math.floor(Math.random() *10),
+            "title":"title - " + id,
+            "description":"description of issue $ " + id,
+            "location":{
+                "lat": addr.lat,
+                "long": addr.long,
+                "address": addr.street
+            }
+            "open":open,
+            "approved":approved,
+            "priority":"medium",
+            "image_url":this.randomImage(service_name.replace(/ /g, "-"))
+            "created_at":dates[0],
+            "updated_at":dates[1],
         }
-    ]
+    }
     
     return Generator;
 }())
+
+
+var Users = (function UserGenerator(){
+    function getRand(list){
+        return list[Math.floor(Math.random() * list.length)]
+    }
+    function Users(){
+        this.start = 0;
+    }
+    Users.prototype.names = ["Gretchen","Hillary","Philbert","Whinney","Philemon","Georgetta","April",
+                              "Bertha","Sam","Steve","Alex", "Derek", "Xander", "Reynold", "Thelonious", "Spartacus"]
+    Users.prototype.next = function nextUser(isAdmin){
+        if (isAdmin != undefined):
+            isAdmin = Math.random() > 0.1;
+        name = getRand(this.names);
+        return {
+            id:start++,
+            name:name,
+            admin:isAdmin,
+            email:name+"@haha.jk",
+            password:name.toLowerCase()
+        }
+    }
+}())
+
