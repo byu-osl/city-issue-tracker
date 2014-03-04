@@ -16,7 +16,8 @@ class Service(db.Model):
 	description (string): A description of what the service is
 	meta_data (boolean): Says whether metadata is enabled or not
 	type (realtime/batch/blackbox): See docs for explaination
-
+	attributes (ServiceAttributes): An array of ServiceAttribute models
+	keywords (Keyword): An array of keywords models
 	"""
 	id = db.Column(db.Integer, primary_key=True)
 	service_name = db.Column(db.String(255))#TODO: Make unique
@@ -50,6 +51,9 @@ class Service(db.Model):
 
 	@validates('type')
 	def validate_type(self, key, type):
+		"""
+		Validates that the typebeing set
+		"""
 		#TODO:Check that it is valid
 		assert type in type_list;
 		return type;
