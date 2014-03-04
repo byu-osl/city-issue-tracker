@@ -23,6 +23,9 @@ class ServiceAttribute(db.Model):
 	datatype_description (text): A description of the datatype
 	order (int): The order of the attributes to be displayed
 	description (text): A description of this attribute
+	service_id (int): The foreign key for the Service this Attribute points too
+	values (ServiceAttributeValue): An array of ServiceAttributeValues
+	service (Service): The parent of this service
 	"""
 	id = db.Column(db.Integer, primary_key=True)
 	variable = db.Column(db.Boolean)
