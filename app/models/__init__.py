@@ -3,10 +3,12 @@ import serviceattr
 import keyword
 import keywordservicemapper
 import serviceattrval
+import servicerequest
 
 Service = service.Service
 ServiceAttribute = serviceattr.ServiceAttribute
 ServiceAttributeValue = serviceattrval.ServiceAttributeValue
+ServiceRequest = servicerequest.ServiceRequest
 
 Keyword = keyword.Keyword
 keywordMapping = keywordservicemapper.keywordMapping
