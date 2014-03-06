@@ -1,36 +1,8 @@
 [
   {
-    "name": "login",
-    "description": "Log into an account",
-    "args": ["form"],
-    "path": "/users/sign_in",
-    "request": "POST"
-  },
-  {
-    "name": "createAccount",
-    "description": "Create a new account",
-    "args": ["form"],
-    "path": "/users/new",
-    "request": "POST"
-  },
-  {
-    "name": "updateAccount",
-    "description": "Update account details. Account user and administrators only.",
-    "args": ["id", "form"],
-    "path": "/users/:id",
-    "request": "POST"
-  },
-  {
-    "name": "getAccount",
-    "description": "View account details. Account user and administrators only.",
-    "args": ["id"],
-    "path": "/users/:id",
-    "request": "GET"
-  },
-  {
     "name": "signIn",
     "description": "Sign into an account. Should set a session cookie.",
-    "args": ["form"],
+    "args": ["data"],
     "path": "/users/sign_in",
     "request": "POST"
   },
@@ -42,31 +14,66 @@
     "request": "POST"
   },
   {
+    "name": "createAccount",
+    "description": "Create a new account",
+    "args": ["data"],
+    "path": "/users",
+    "request": "POST"
+  },
+  {
+    "name": "updateAccount",
+    "description": "Update account details. Account user and administrators only.",
+    "args": ["id", "data"],
+    "path": "/users/:id",
+    "request": "POST"
+  },
+  {
+    "name": "getAccount",
+    "description": "View account details. Account user and administrators only.",
+    "args": ["id"],
+    "path": "/users/:id",
+    "request": "GET"
+  },
+  {
+    "name": "getAccounts",
+    "description": "Get a list of all accounts.",
+    "args": [],
+    "path": "/users",
+    "request": "GET"
+  },
+  {
+    "name": "getIssue",
+    "description": "View a particular issue.",
+    "args": ["id"],
+    "path": "/issues/:id",
+    "request": "GET"
+  },
+  {
     "name": "createIssue",
     "description": "Create a new issue. Shouldn't be visible until approved.",
-    "args": ["form"],
+    "args": ["data"],
     "path": "/issues",
     "request": "POST"
   },
   {
     "name": "updateIssue",
     "description": "Updates an issue (admin only)",
-    "args": ["id", "form"],
+    "args": ["id", "data"],
     "path": "/issues/:id",
     "request": "POST"
   },
   {
     "name": "getIssues",
     "description": "retreives a list of issues",
-    "args": ["orderBy", "offset", "max", "query", "reversed"],
+    "args": ["orderBy", "offset", "max", "query", "reversed", "includeClosed"],
     "path": "/issues",
     "request": "GET"
   },
   {
-    "name": "getIssue",
-    "description": "retreives an issue",
-    "args": ["id"],
-    "path": "/issues/:id",
-    "request": "GET"
+    "name": "uploadImage",
+    "description": "Submits a form with an image and returns the image URL",
+    "args": ["form"],
+    "path": "/issues/upload_image",
+    "request": "POST"
   }
 ]

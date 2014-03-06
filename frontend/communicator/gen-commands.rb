@@ -24,8 +24,8 @@ class JsMethod
   end
 
   def form_data
-    if @hash.args.include? "form"
-      return "form.serialize()"
+    if @hash.args.include? "data"
+      return "data"
     end
     return "{}"
   end
