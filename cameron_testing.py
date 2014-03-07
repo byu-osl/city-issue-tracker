@@ -1,4 +1,4 @@
-from flask.ext.testing import Testing
+from flask.ext.testing import TestCase
 from app import app, db
 
 class MyTest(TestCase):

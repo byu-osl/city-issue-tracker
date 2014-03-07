@@ -55,10 +55,7 @@ if args.system_wide == local:
 print(path+'pip')
 
 #TODO: Install the depens
-call([path + 'pip','install','Flask'])
-call([path + 'pip','install','sqlalchemy'])
-call([path + 'pip','install','flask-sqlalchemy'])
-call([path + 'pip','install','xmltodict']) #For the Open311 spec
+call([path + 'pip','install','-r', 'install/requirements.txt'])
 
 
 #Create the run file

@@ -2,3 +2,4 @@ Flask
 sqlalchemy
 flask-sqlalchemy
 xmltodict
+Flask-Testing
