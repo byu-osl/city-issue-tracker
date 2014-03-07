@@ -30,7 +30,7 @@ class User(db.Model):
 	role = db.Column(db.Enum('user', 'employee', 'admin'))
 	lastLogin = db.Column(db.TIMESTAMP)
 	joined = db.Column(db.Date)
-	subscriptions = db.relationship("ServiceRequest", secondary=subscriptions, backref = "subscribers")
+	subscriptions = db.relationship("ServiceRequest", secondary=subscriptions, backref=db.backref('subscribers', lazy='dynamic'))
 
 	@validates('email')
 	def validate_type(self, email):

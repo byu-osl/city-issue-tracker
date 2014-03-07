@@ -35,7 +35,7 @@ class ServiceAttribute(db.Model):
 	description = db.Column(db.Text)#TODO: Should there be a limit on the description?
 	order = db.Column(db.Integer)
 	service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
-	values = db.relationship('ServiceAttibuteValue', backref='attribute', lazy='joined')
+	values = db.relationship('ServiceAttributeValue', backref='attribute', lazy='joined')
 
 	def get_datatype_list(): #TODO: Maybe not needed
 		"""
