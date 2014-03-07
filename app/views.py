@@ -64,6 +64,3 @@ def page_not_found(e):
 @app.errorhandler(405)
 def page_not_found(e):
 	return render_template('405.html'), 405
-
-if __name__ == '__main__':
-	app.run(debug = True)

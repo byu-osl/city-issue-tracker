@@ -28,9 +28,9 @@ class User(db.Model):
 	passwordHash = db.Column(db.Text)
 	passwordSalt = db.Column(db.Text)
 	role = db.Column(db.Enum('user', 'employee', 'admin'))
-	lastLogin = db.Column(db.Timestamp)
+	lastLogin = db.Column(db.TIMESTAMP)
 	joined = db.Column(db.Date)
-	subscriptions = db.relationship("ServiceRequest", secondary=subscription, backref = "subscribers")
+	subscriptions = db.relationship("ServiceRequest", secondary=subscriptions, backref = "subscribers")
 
 	@validates('email')
 	def validate_type(self, email):
