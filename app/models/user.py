@@ -37,4 +37,3 @@ class User(db.Model):
 		#TODO: Check using regEx that this is a valid email
 		assert email;
 		return email;
-		
