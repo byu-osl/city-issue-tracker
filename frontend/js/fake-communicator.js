@@ -19,7 +19,7 @@ FakeCommunicator = (function communicator_namespace() {
 
     function getList(gen, num){
         var l = [];
-        for (var x = 0; x < num; num++){
+        for (var x = 0; x < num; x++){
             l.push(gen.next());
         }
         return l;
@@ -130,7 +130,7 @@ FakeCommunicator = (function communicator_namespace() {
     
     FakeCommunicator.prototype.signIn = function(credentials) {
         var self = this;
-        var user = getUserByName.call(self,account.email)[0];
+        var user = getUserByName.call(self,credentials.email)[0];
         return new Promise(function(resolve, reject){
             if (self.user){
                 reject(Error("You're already logged in."));
