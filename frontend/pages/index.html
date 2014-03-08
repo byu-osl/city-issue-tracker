@@ -4,66 +4,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link href="../dist/css/bootstrap.min.css" rel="stylesheet">
-	<style type="text/css">
-	.indiv{
-		display:inline;
-		float:left;
-		width:50%;
-	}
-	input#search-box{
-		position:relative;
-		height:32px;
-		top:3px
-	}
-	#issue-list-div{
-		margin:25px;
-	}
-	li{
-		display:block;
-		margin-bottom:3px;
-	}
-	#issue-popup{
-		position:fixed;
-		margin-left:100px;
-		width:50%;
-		z-index:1000;
-	}
-	.close-button{
-		float:right;
-	}
-	.issue{
-		border-bottom: 1px solid #ddd;
-		padding: 4px;
-		cursor: pointer;
-	}
-	.issue-private{
-		background: #aaa;
-	}
-	ul#issue-list{
-		padding: 0px;
-	}
-	#add-new-issue{
-		top: 4px
-	}
-	.issue-location{
-		width:50%;
-
-	}
-	#right-container img{
-		max-width:100%;
-	}
-	input.location{
-		width:100%;
-	}
-	label{
-		vertical-align: top;
-	}
-	#popup-description{
-		width:100%;
-		max-width:100%;
-	}
-
-	</style>
+	<link href="../css/main.css" rel="stylesheet" type="text/css">
+	<title>City Issue Tracker</title>
 </head>
 <body>
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -158,85 +100,7 @@
 </body>
 <footer>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="../otherjs/fakeDataGenerator.js"></script>
-	<script>
-	
-
-
-	var issues = {};
-	var user = {"name":"Steve","id":1,"isAdmin":true};
-
-	var g = new Generator();
-
-	for(var i = 0; i < 10; i++){
-		var issue = g.next();
-		issue.id = i;
-		issues[i] = issue;
-		listRenderIssue(issue);
-	}
-
-	function listRenderIssue(issue){
-		var $el = $("<li class='issue' issue-id='"+ issue.id +"'></li>");
-		$el.append('<span class="glyphicon glyphicon-map-marker"></span>');
-		$el.append('<span class="issue-title">'+issue.service_name+'</span>');
-		$el.append('<span class="issue-description"> - '+issue.description +'</span>');
-		if(user.isAdmin){
-			$el.append('<span class="close glyphicon glyphicon-trash"></span>');
-			if(issue.status == "close"){
-				$el.append('<span class="close glyphicon glyphicon-ok"></span>');
-			}
-		}
-		$("#issue-list").append($el);
-	}
-
-	$(".close-button").click(function(){
-		$("#issue-popup").hide();
-	});
-
-	$("#add-new-issue").click(function(){
-		clearIssuePopup();
-		$("#issue-popup").show();
-	});
-
-	function clearIssuePopup(){
-		$("#popup-issue-title").val("");
-		$("#popup-location").val("");
-		$("#popup-description").val("");
-		$("#popup-image").empty()
-	}
-
-	function saveIssue(){
-
-	}
-
-	$(".issue").click(function(){
-		var issue = issues[$(this).attr("issue-id")];
-		$("#popup-issue-title").val(issue.service_name);
-		$("#popup-location").val(issue.address);
-		$("#popup-description").val(issue.description);
-		$("#popup-image").html("<img src='" + issue.media_url + "'/>");
-		$("#issue-popup").show();
-	});
-
-	$("#search-box").keypress(function(e){
-		$("#issue-list-div .panel-heading").text("Results");
-		var searchString = $("#search-box").val().toLowerCase();
-		if(searchString == ""){
-			$(".issue").show();
-			$("#issue-list-div .panel-heading").text("Recent Issues");
-		}
-		console.log("searchString",searchString);
-		$(".issue").each(function(){
-			var title = $(this).children(".issue-title").text().toLowerCase();
-			if(title.indexOf(searchString) == -1){
-				$(this).hide();
-			}
-			else{
-				$(this).show();
-			}
-		});
-	});
-	
-	</script>
+	<script src="../js/fakeDataGenerator.js"></script>
+	<script src="../js/main.js"></script>
 </footer>
 </html>
