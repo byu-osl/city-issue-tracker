@@ -69,11 +69,11 @@ Generator = (function Generator_Namespace(){
                 "lat": addr.lat,
                 "long": addr.long,
                 "address": addr.street
-            }
+            },
             "open":open,
             "approved":approved,
             "priority":"medium",
-            "image_url":this.randomImage(service_name.replace(/ /g, "-"))
+            "image_url":this.randomImage("test"),
             "created_at":dates[0],
             "updated_at":dates[1],
         }
@@ -93,8 +93,9 @@ var Users = (function UserGenerator(){
     Users.prototype.names = ["Gretchen","Hillary","Philbert","Whinney","Philemon","Georgetta","April",
                               "Bertha","Sam","Steve","Alex", "Derek", "Xander", "Reynold", "Thelonious", "Spartacus"]
     Users.prototype.next = function nextUser(isAdmin){
-        if (isAdmin != undefined):
+        if (isAdmin != undefined){
             isAdmin = Math.random() > 0.1;
+        }
         name = getRand(this.names);
         return {
             id:start++,
