@@ -1,16 +1,16 @@
-.indiv{
-  display:inline;
-  float:left;
-  width:50%;
+#top-block{
+  padding: 20px 0;
 }
-input#search-box{
-  position:relative;
-  height:32px;
-  top:3px
+
+#search-block{
+  display: inline-block;
+  max-width: 400px;
 }
-#issue-list-div{
-  margin:25px;
+
+#add-new-issue{
+  vertical-align: top;
 }
+
 li{
   display:block;
   margin-bottom:3px;
@@ -26,7 +26,7 @@ li{
 }
 .issue{
   border-bottom: 1px solid #ddd;
-  padding: 4px;
+  padding: 13px;
   cursor: pointer;
 }
 .issue-private{
@@ -35,11 +35,8 @@ li{
 ul#issue-list{
   padding: 0px;
 }
-#add-new-issue{
-  top: 4px
-}
 .issue-location{
-  width:50%;
+  /*width:50%;*/
 
 }
 #right-container img{
@@ -54,4 +51,8 @@ label{
 #popup-description{
   width:100%;
   max-width:100%;
+}
+
+.description-input{
+  margin: 0 15px !important;
 }
