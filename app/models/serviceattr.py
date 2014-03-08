@@ -36,14 +36,14 @@ class ServiceAttribute(db.Model):
 	values (ServiceAttributeValue): An array of ServiceAttributeValues
 	service (Service): The parent of this service
 	"""
-	id = db.Column(db.Integer, primary_key=True)
+	serviceAttrId = db.Column(db.Integer, primary_key=True)
 	variable = db.Column(db.Boolean)
 	required = db.Column(db.Boolean)
 	datatype = db.Column(db.Enum(DATATYPE_STR, DATATYPE_NUM, DATATYPE_DT, DATATYPE_TXT, DATATYPE_SVL, DATATYPE_MVL))
 	datatype_description = db.Column(db.String(255))#TODO: What is a good example of this?
 	description = db.Column(db.Text)#TODO: Should there be a limit on the description?
 	order = db.Column(db.Integer)
-	service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
+	serviceId = db.Column(db.Integer, db.ForeignKey('service.serviceId'))
 	values = db.relationship('ServiceAttributeValue', backref='attribute', lazy='joined')
 
 	def get_datatype_list(): #TODO: Maybe not needed

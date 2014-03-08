@@ -2,6 +2,7 @@ from app import db
 from keywordservicemapper import keywordMapping
 from sqlalchemy.orm import validates
 
+#TODO: DO Enum for type_list
 #TODO: Maybe this should be moved to somewhere else. Maybe a defs.py ???
 type_list = ['realtime', 'batch', 'blackbox']
 
@@ -19,10 +20,10 @@ class Service(db.Model):
 	attributes (ServiceAttributes): An array of ServiceAttribute models
 	keywords (Keyword): An array of keywords models
 	"""
-	id = db.Column(db.Integer, primary_key=True)
-	service_name = db.Column(db.String(255))#TODO: Make unique
+	serviceId = db.Column(db.Integer, primary_key=True)
+	serviceName = db.Column(db.String(255))#TODO: Make unique
 	description = db.Column(db.Text)
-	meta_data = db.Column(db.Boolean)
+	metaData = db.Column(db.Boolean)
 	type = db.Column(db.String(10))#Note: I think the maxium number of character ever needed is 8 but just making it a round 10
 	attributes = db.relationship('ServiceAttribute', backref="service", lazy="joined")
 	keywords = db.relationship("Keyword", secondary=keywordMapping, backref="services")
