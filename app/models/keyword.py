@@ -13,7 +13,7 @@ class Keyword(db.Model):
 	This can provide synonyms of the service_name and group.'
 
 	Attributes
-	id (int): The primary key for this object
+	keywordId (int): The primary key for this object
 	keyword (string): A string that represents the keyword
 
 	"""
