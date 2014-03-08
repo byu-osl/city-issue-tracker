@@ -10,3 +10,7 @@ run.py
 
 # Project files
 *.sublime-*
+
+
+# sqlite db
+*.db

@@ -13,11 +13,11 @@ class Keyword(db.Model):
 	This can provide synonyms of the service_name and group.'
 
 	Attributes
-	id (int): The primary key for this object
+	keywordId (int): The primary key for this object
 	keyword (string): A string that represents the keyword
 
 	"""
-	id = db.Column(db.Integer, primary_key=True)
+	keywordId = db.Column(db.Integer, primary_key=True)
 	keyword = db.Column(db.String(255), unique=True)#I think that should be long enough TODO: Make unique
 
 
