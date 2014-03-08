@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+	.indiv{
+		display:inline;
+		float:left;
+		width:50%;
+	}
+	input#search-box{
+		position:relative;
+		height:32px;
+		top:3px
+	}
+	#add-new-user{
+		top: 4px
+	}
+	li{
+		display:block;
+		margin-bottom:3px;
+	}
+	#user-list-div{
+		margin-top: 7px;
+	}
+	.close-button{
+		float:right;
+	}
+	#right-container img{
+		max-width:100%;
+	}
+	input.location{
+		width:100%;
+	}
+	label{
+		vertical-align: top;
+		padding-right: 4px;
+	}
+	#popup-description{
+		width:100%;
+		max-width:100%;
+	}
+	.user{		
+		border-bottom: 1px solid #ddd;
+		padding: 4px;
+		cursor: pointer;
+	}
+	ul{
+		padding:0;
+	}
+	#user-popup{
+		position:fixed;
+		margin-left:100px;
+		width:50%;
+		z-index:1000;
+	}
+	th{
+		font-weight:normal;
+	}
+	#user-table{
+		width:100%;
+	}
+	#user-table, #user-table th, #user-table td{
+		border: solid 1px #ddd;
+		padding: 3px;
+		margin: 3px;
+	}
+
+	</style>
+</head>
+<body>
+	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">City Issue Tracker</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="main" style="margin-top:60px;margin-left:10px">
+		<div class="row-offcanvas">
+			<div id="left-container" class="indiv">
+				<div id="search" class="glyphicon glyphicon-search btn-group">
+					<input type="text" id="search-box" placeholder=" Search">
+				</div>
+				<div id="add-new-user" class="btn-group">
+					<button type="button" class="btn btn-default">
+						Add new user
+					</button>
+				</div>
+				<div id="user-list-div" class="panel panel-default">
+					<div class="panel-heading">Users</div>
+					<table id="user-table">
+						<thead>
+							<tr>
+								<th>User Name</th>
+								<th>Email</th>
+								<th>Adminstrator Access</th>
+								<th>ID</th>
+							</tr>
+						</thead>
+						<tbody id="user-table-body">
+
+						</tbody>	
+					</table>
+				</div>
+			</div>	
+		</div>
+	</div>
+	<div id="user-popup" class="panel panel-default" style="display:none">
+		<div class="panel-heading">
+			<span id="user-popup-title">Edit User</span>
+			<span class="close-button"><button class="close">x</button></span>
+		</div>
+		<div class="panel-body">
+			<div>
+				<label>Name:</label><input type="text" id="popup-user-name"/>
+				<div class="user-email-div">
+					<label> Email:</label>
+					<input id="popup-email" type="text"/>
+				</div>
+				<div id="edit-priority-div">
+					<label>Administrator</label>
+					<input id="popup-administrator" type="checkbox"/>
+				</div>
+				<div>
+					<button id="reset-password">Reset Password</button>
+				</div>			
+			</div>
+		</div>
+		<div class="panel-footer">
+			<button id="popup-cancel">Cancel</button>
+			<button id="save">Save</button>
+		</div>
+	</div>
+
+	
+</body>
+<footer>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="../otherjs/fakeDataGenerator.js"></script>
+	<script src="Users.js"></script>
+</footer>
+</html>
