@@ -1,0 +1,58 @@
+#top-block{
+  padding: 20px 0;
+}
+
+#search-block{
+  display: inline-block;
+  max-width: 400px;
+}
+
+#add-new-issue{
+  vertical-align: top;
+}
+
+li{
+  display:block;
+  margin-bottom:3px;
+}
+#issue-popup{
+  position:fixed;
+  margin-left:100px;
+  width:50%;
+  z-index:1000;
+}
+.close-button{
+  float:right;
+}
+.issue{
+  border-bottom: 1px solid #ddd;
+  padding: 13px;
+  cursor: pointer;
+}
+.issue-private{
+  background: #aaa;
+}
+ul#issue-list{
+  padding: 0px;
+}
+.issue-location{
+  /*width:50%;*/
+
+}
+#right-container img{
+  max-width:100%;
+}
+input.location{
+  width:100%;
+}
+label{
+  vertical-align: top;
+}
+#popup-description{
+  width:100%;
+  max-width:100%;
+}
+
+.description-input{
+  margin: 0 15px !important;
+}

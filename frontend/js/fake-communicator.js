@@ -19,7 +19,7 @@ FakeCommunicator = (function communicator_namespace() {
 
     function getList(gen, num){
         var l = [];
-        for (var x = 0; x < num; num++){
+        for (var x = 0; x < num; x++){
             l.push(gen.next());
         }
         return l;
@@ -59,7 +59,10 @@ FakeCommunicator = (function communicator_namespace() {
 
     function FakeCommunicator(fakeGenerator, fakeUserGenerator) {
         this.issues = getObject(fakeGenerator, 20);
-        this.users = getList(fakeUserGenerator, 20);
+        this.users = [
+            fakeUserGenerator.next(true,"Phil"),
+            fakeUserGenerator.next(false,"Bob")
+        ].concat(getList(fakeUserGenerator, 18));
         this.user = undefined;
     }
 
@@ -127,7 +130,7 @@ FakeCommunicator = (function communicator_namespace() {
     
     FakeCommunicator.prototype.signIn = function(credentials) {
         var self = this;
-        var user = getUserByName.call(self,account.email)[0];
+        var user = getUserByName.call(self,credentials.email)[0];
         return new Promise(function(resolve, reject){
             if (self.user){
                 reject(Error("You're already logged in."));
@@ -222,7 +225,7 @@ FakeCommunicator = (function communicator_namespace() {
         var user = this.user;
         return new Promise(function(resolve, reject){
             if (user){
-                resolve(return "http://lorempixel.com/600/600/sports/");
+                resolve("http://lorempixel.com/600/600/sports/");
             } else {
                 reject(Error("You must be logged in."));
             }
