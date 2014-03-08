@@ -222,7 +222,7 @@ FakeCommunicator = (function communicator_namespace() {
         var user = this.user;
         return new Promise(function(resolve, reject){
             if (user){
-                resolve(return "http://lorempixel.com/600/600/sports/");
+                resolve("http://lorempixel.com/600/600/sports/");
             } else {
                 reject(Error("You must be logged in."));
             }

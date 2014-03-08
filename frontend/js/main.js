@@ -2,6 +2,8 @@ var issues = {};
 var user = {"name":"Steve","id":1,"isAdmin":true};
 
 var g = new Generator();
+// var u = new Users();
+// var c = new FakeCommunicator(new Generator(), new Users());
 
 for(var i = 0; i < 10; i++){
   var issue = g.next();

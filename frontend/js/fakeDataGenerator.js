@@ -105,5 +105,6 @@ var Users = (function UserGenerator(){
             password:name.toLowerCase()
         }
     }
+    return Users;
 }())
 
