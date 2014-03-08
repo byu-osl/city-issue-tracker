@@ -59,7 +59,10 @@ FakeCommunicator = (function communicator_namespace() {
 
     function FakeCommunicator(fakeGenerator, fakeUserGenerator) {
         this.issues = getObject(fakeGenerator, 20);
-        this.users = getList(fakeUserGenerator, 20);
+        this.users = [
+            fakeUserGenerator.next(true,"Phil"),
+            fakeUserGenerator.next(false,"Bob")
+        ].concat(getList(fakeUserGenerator, 18));
         this.user = undefined;
     }
 

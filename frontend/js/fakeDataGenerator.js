@@ -92,11 +92,11 @@ var Users = (function UserGenerator(){
     }
     Users.prototype.names = ["Gretchen","Hillary","Philbert","Whinney","Philemon","Georgetta","April",
                               "Bertha","Sam","Steve","Alex", "Derek", "Xander", "Reynold", "Thelonious", "Spartacus"]
-    Users.prototype.next = function nextUser(isAdmin){
-        if (isAdmin != undefined){
+    Users.prototype.next = function nextUser(isAdmin, name){
+        if (isAdmin == undefined)
             isAdmin = Math.random() > 0.1;
-        }
-        name = getRand(this.names);
+        if (name == undefined)
+            name = getRand(this.names);
         return {
             id:start++,
             name:name,
