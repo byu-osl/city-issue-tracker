@@ -1,13 +1,13 @@
-// This script presumes qunit.js
-
+// This script presumes mocha, chai, mocha-as-promised and chai-as-promised
 
 (function generator_tests(){
-    
+
+    var should = chai.should()
 
     function generateAndCheck(users, admin, name){
-        var u = users.next(admin, name)
-        u.should.have.property("name", name)
-        u.should.have.property("admin", admin)
+        u = users.next(admin,name);
+        u.should.have.property("name").that.equals(name);
+        u.should.have.property("admin").that.equals(admin);
     }
 
     describe('User', function(){
@@ -18,20 +18,40 @@
             generateAndCheck(users, true, "Hanna")
         })
       })
-    })
-    /*
-    function signin(){
-        var comm = new FakeCommunicator(new Generator(), new Users())
-        comm.signIn({email:"Phil@haha.jk",password:"phil"}).then(function(result){
-            ok(comm.user, "Login successful")
-        }, function(){
-            ok(comm.user, "Login unsuccessful")
-        })
-        return comm
-    }
+    });
     
-    test("Fake Communicator - User Login", function(){
-        signin()
-    });*/
+    
+    
+    describe('Fake-Communicator', function(){
+      describe('#signIn()', function(){
+        users = new Users();
+        it('should sign you in', function(){
+            var comm = new FakeCommunicator(new Generator(), new Users())
+            var userPromise = comm.signIn({email:"Phil@haha.jk",password:"phil"})
+            return userPromise
+        })
+      })
+    });
+    
+    describe('Fake-Communicator', function(){
+      describe('#signIn()', function(){
+        users = new Users();
+        it('should sign you in', function(){
+            var comm = new FakeCommunicator(new Generator(), new Users())
+            var userPromise = comm.signIn({email:"Phil@haha.jk",password:"phil"})
+            return userPromise
+        })
+      });
+      
+      describe('#signout()', function(){
+        users = new Users();
+        it('should sign you in', function(){
+            var comm = new FakeCommunicator(new Generator(), new Users())
+            var userPromise = comm.signIn({email:"Phil@haha.jk",password:"phil"})
+            return userPromise.then(function(){comm.signOut()})
+        })
+      });
+    });
+    
     
 }());
