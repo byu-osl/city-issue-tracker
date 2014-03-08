@@ -1,13 +1,22 @@
 from app import db
 from sqlalchemy.orm import validates
 
+
+DATATYPE_STR = "string"
+DATATYPE_NUM = "number"
+DATATYPE_DT = "datetime"
+DATATYPE_TXT = "text"
+DATATYPE_SVL = "singlevaluelist"
+DATATYPE_MVL = "multivaluelist"
+
+
 datatype_list = [
-	"string",
-	"number",
-	"datetime",
-	"text",
-	"singlevaluelist",
-	"multivaluelist"
+	DATATYPE_STR,
+	DATATYPE_NUM,
+	DATATYPE_DT,
+	DATATYPE_TXT,
+	DATATYPE_SVL,
+	DATATYPE_MVL
 ]
 
 class ServiceAttribute(db.Model):
@@ -30,7 +39,7 @@ class ServiceAttribute(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	variable = db.Column(db.Boolean)
 	required = db.Column(db.Boolean)
-	datatype = db.Column(db.String(20))#Note: I think the longest we need is 15 but just making it a round 20
+	datatype = db.Column(db.Enum(DATATYPE_STR, DATATYPE_NUM, DATATYPE_DT, DATATYPE_TXT, DATATYPE_SVL, DATATYPE_MVL))
 	datatype_description = db.Column(db.String(255))#TODO: What is a good example of this?
 	description = db.Column(db.Text)#TODO: Should there be a limit on the description?
 	order = db.Column(db.Integer)
@@ -42,14 +51,6 @@ class ServiceAttribute(db.Model):
 
 		"""
 		return datatype_list
-
-	@validates('datatype')
-	def validate_datatype(self, key, type):
-		"""
-		A validator that makes sure that the `datatype` attribute is valid
-		"""
-		assert type in datatype_list
-		return type
 
 	@validates('order')
 	def validate_order(self, key, order):
