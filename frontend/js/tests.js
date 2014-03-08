@@ -1,20 +1,25 @@
 // This script presumes qunit.js
 
+
 (function generator_tests(){
-    function genDU(users, admin, name){
+    
+
+    function generateAndCheck(users, admin, name){
         var u = users.next(admin, name)
-        equal(u.name, name)
-        equal(u.admin, admin)
+        u.should.have.property("name", name)
+        u.should.have.property("admin", admin)
     }
-    
-    
-    test( "Generating Users", function() {
-        var users = new Users();
-        
-        genDU(users, false, "George")
-        genDU(users, true, "Hanna")
-    });
-    
+
+    describe('User', function(){
+      describe('#next()', function(){
+        users = new Users();
+        it('should generate users according to parameters', function(){
+            generateAndCheck(users, false, "George")
+            generateAndCheck(users, true, "Hanna")
+        })
+      })
+    })
+    /*
     function signin(){
         var comm = new FakeCommunicator(new Generator(), new Users())
         comm.signIn({email:"Phil@haha.jk",password:"phil"}).then(function(result){
@@ -27,6 +32,6 @@
     
     test("Fake Communicator - User Login", function(){
         signin()
-    });
+    });*/
     
 }());

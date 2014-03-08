@@ -98,7 +98,7 @@ var Users = (function UserGenerator(){
         if (name == undefined)
             name = getRand(this.names);
         return {
-            id:start++,
+            id:this.start++,
             name:name,
             admin:isAdmin,
             email:name+"@haha.jk",
