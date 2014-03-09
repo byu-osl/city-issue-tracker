@@ -8,25 +8,12 @@
 
 FakeCommunicator = (function communicator_namespace() {
   
-    // Utility Functions
-    function getObject(gen,num){
-        var items = {};
-        getList(gen, num).map(function(item){
-            items[item.id] = item;
-        });
-        return items;
-    }
-
     function getList(gen, num){
         var l = [];
         for (var x = 0; x < num; x++){
             l.push(gen.next());
         }
         return l;
-    }
-
-    function asList(obj){
-        return Object.prototype.keys.call(obj).map(function(key){return obj.key;});
     }
 
     function dupShallow(obj){
@@ -45,20 +32,20 @@ FakeCommunicator = (function communicator_namespace() {
         })
     }
     
-    function asArrayResponse(obj, name){
+    function asArrayResponse(arr, name){
         deets = {
-            "total_results": number,
-            "total_returned": number,
-            "offset": number
-        }
-        deets[name] = obj
-        return deets
+            "total_results": arr.length,
+            "total_returned": arr.length,
+            "offset": 0
+        };
+        deets[name] = arr;
+        return deets;
     }
     
     // The actual class
 
     function FakeCommunicator(fakeGenerator, fakeUserGenerator) {
-        this.issues = getObject(fakeGenerator, 20);
+        this.issues = getList(fakeGenerator, 20);
         this.users = [
             fakeUserGenerator.next(true,"Phil"),
             fakeUserGenerator.next(false,"Bob")
@@ -135,6 +122,7 @@ FakeCommunicator = (function communicator_namespace() {
             if (self.user){
                 reject(Error("You're already logged in."));
             } else if (user && (user.password == credentials.password)){
+                self.user = user;
                 resolve("Success!");
             } else {
                 reject(Error("Incorrect email/password combination"));
@@ -143,7 +131,7 @@ FakeCommunicator = (function communicator_namespace() {
     };
   
     FakeCommunicator.prototype.signOut = function() {
-        var self;
+        var self = this;
         return new Promise(function(resolve, reject){
             if (self.user){
                 self.user = undefined;
@@ -163,18 +151,20 @@ FakeCommunicator = (function communicator_namespace() {
 
     // issue creation & view    
     FakeCommunicator.prototype.createIssue = function(details) {
-        details = dupShallow(details);
+        var newIssue = dupShallow(details);
         var issues = this.issues
         var user = this.user;
         return new Promise(function(resolve, reject){
             if (user){
-                details.id = issues.length;
-                details.public = false;
-                details.owner = user.email;
-                details.created_at = Date.now();
-                details.updated_at = details.created_at;
-                issues.push(details);  
-                resolve(details.id);
+                newIssue.id = issues.length;
+                newIssue.approved = false;
+                newIssue.open = false;
+                newIssue.owner = user.email;
+                newIssue.created_at = Date.now();
+                newIssue.updated_at = newIssue.created_at;
+                
+                issues.push(newIssue);  
+                resolve(newIssue.id);
             } else {
                 reject(Error("Must be logged into to submit a report."))
             }
@@ -183,16 +173,15 @@ FakeCommunicator = (function communicator_namespace() {
     
     FakeCommunicator.prototype.getIssue = function(id) {
         var user = this.user;
-        var issue = dupShallow(self.issues[id])
+        var issue = dupShallow(this.issues[id])
         return new Promise(function(resolve, reject){
             if (issue && user && user.admin){
                 resolve(issue)
-            } else if (issue && issue.public) {
-                delete issue.public;
+            } else if (issue && issue.approved) {
                 delete issue.owner;
                 resolve(issue);
             } else {
-                reject(Error("No issues with that ID could be found"));
+                reject(Error("No issues with that ID could be found: " + id));
             }
         });
     };
@@ -203,18 +192,20 @@ FakeCommunicator = (function communicator_namespace() {
         var admin = self.user && self.user.admin
         return new Promise(function(resolve, reject){
             if (admin){
-                resolve(asArrayResponse(issues));
+                resolve(asArrayResponse(issues,"issues"));
             } else {
+                console.log(issues, issues.filter(function(issue){
+                        return issue.approved;
+                    }))
                 resolve(asArrayResponse(
                     issues
                     .filter(function(issue){
-                        return issues.public;
+                        return issue.approved;
                     })
                     .map(function(issue){
                         delete issue.owner;
-                        delete issue.public;
                         return issue;
-                    })
+                    }), "issues"
                 ));
             }
         });
@@ -256,6 +247,7 @@ FakeCommunicator = (function communicator_namespace() {
     // ADMIN only
     FakeCommunicator.prototype.updateIssue = function(id, details) {
         var issue = this.issues[id];
+        var admin = this.user && this.user.admin
         return new Promise(function(resolve, reject){
             if (admin){
                 if (issue){
@@ -265,7 +257,7 @@ FakeCommunicator = (function communicator_namespace() {
                     issue.update_at = Date.now();
                     resolve("Success!");
                 } else {
-                    reject("No issue with that id found.")
+                    reject("No issue with that id found: " + id)
                 }
             } else {
                 reject("You are not an admin.")
