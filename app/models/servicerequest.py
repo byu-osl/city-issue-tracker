@@ -31,7 +31,7 @@ class ServiceRequest(db.Model):
 	subscribers (User): A backref that is created in User
 	"""
 
-	# TODO: Do we need to do __tablename__?
+	__tablename__ = "serviceRequest"
 	serviceRequestId = db.Column(db.Integer, primary_key=True)
 	status = db.Column(db.Enum("open", "closed"))
 	statusNotes = db.Column(db.Text)
