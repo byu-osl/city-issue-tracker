@@ -105,7 +105,12 @@
 			</div>
 		</div>
 		<div class="panel-footer">
-			<button id="add-attachment">Attach Image</button>
+			<form id="upload-image-form" class="form image-input" action="/issues/images" >
+				<label for="uploadImage">
+					<button class="upload-button">Attach Image</button>
+					<input type="file" name="uploadImage">
+				</label>
+			</form>
 			<button id="publish">Make Public</button>
 			<button id="save">Save</button>
 		</div>
