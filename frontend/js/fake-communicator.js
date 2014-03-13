@@ -32,6 +32,12 @@ FakeCommunicator = (function communicator_namespace() {
         })
     }
     
+    function getUsersByEmail(email){
+		return this.users.filter(function(user){
+			return user.email==email;
+		});
+	}
+    
     function asArrayResponse(arr, name){
         deets = {
             "total_results": arr.length,
@@ -74,8 +80,35 @@ FakeCommunicator = (function communicator_namespace() {
             } else {
                 // the id started at 0
                 account.id = this.users.length;
-                this.users.push(account);
+                self.users.push(account);
                 resolve("Success");
+            }
+        });
+    };
+    
+    FakeCommunicator.prototype.getCurrentAccount = function() {
+        var user = self.user;
+        return new Promise(function(resolve, reject){
+            if (user){
+				var user = dup_shallow(user);
+				delete user.password;
+                resolve(user);
+            }else{
+                reject(Error("Error - you are not logged in"));
+            }
+        });
+    };
+    
+    FakeCommunicator.prototype.getAccount = function(id) {
+        var users = self.users;
+        var user = self.user;
+        return new Promise(function(resolve, reject){
+            if (users[id].email = user.email ){
+				var user = dup_shallow(user);
+				delete user.password;
+                resolve(user);
+            }else{
+                reject(Error("Error - you are not that user"));
             }
         });
     };
@@ -171,9 +204,11 @@ FakeCommunicator = (function communicator_namespace() {
         });
     };
     
+    // anyone as long as the issue is approved (or unapproved if admin)
     FakeCommunicator.prototype.getIssue = function(id) {
         var user = this.user;
         var issue = dupShallow(this.issues[id])
+        console.log("issue",issue)
         return new Promise(function(resolve, reject){
             if (issue && user && user.admin){
                 resolve(issue)
@@ -222,28 +257,7 @@ FakeCommunicator = (function communicator_namespace() {
             }
         });
     };  
-    
-    //Adds a note (admin only)
-    FakeCommunicator.prototype.addNote = function(id, note) {
-        var issue = this.issues[id];
-        var admin = this.user && this.user.admin
-        return new Promise(function(resolve, reject){
-            if (admin){
-                if (issue){
-                    issue.notes.push({
-                        data:Date.now(),
-                        note:note
-                    });
-                    resolve("Success!");
-                } else {
-                    reject("No issue with that id found.")
-                }
-            } else {
-                reject("You are not an admin.")
-            }
-        });
-    };
-    
+
     // ADMIN only
     FakeCommunicator.prototype.updateIssue = function(id, details) {
         var issue = this.issues[id];

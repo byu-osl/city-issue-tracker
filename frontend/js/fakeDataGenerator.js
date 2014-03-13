@@ -54,12 +54,12 @@ Generator = (function Generator_Namespace(){
         return "http://lorempixel.com/600/600/sports/"+text
     }
 
-    Generator.prototype.next = function genSeq(){
+    Generator.prototype.next = function genSeq(approved, open){
         var dates = this.dates();
         var addr = this.randAddr();
         var id = this.end++;
-        var open = Math.random() > 0.5;
-        var approved = open || Math.random() > 0.5;
+        var open = open || Math.random() > 0.5;
+        var approved = approved || open || Math.random() > 0.5;
         return {
             "id":this.end++,
             "owner":Math.floor(Math.random() *10),

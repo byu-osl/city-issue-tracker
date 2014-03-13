@@ -1,25 +1,45 @@
 // This script presumes mocha, chai, mocha-as-promised and chai-as-promised
-(function generator_tests() {
+(function generator_tests(comm) {
+	
+	// There are 3 states: not logged in, logged in admin, logged in user.
+	// There are 4 issue states: not created, unapproved, approved, closed.
+	
+	// Setting up for the tests:
+	//    Add a user
+	//    Add in issues:
+	//    	Not created
+	//		Unapproved
+	// 		Approved
+	// 		Closed
+	//
+	
+	// Testing:
+	//  Test all logged out behavior (easy - view issues , sign in, create account - they should work)
+	//  Test user capabilities (sign in, sign out, adding an issue, update account, view account, add photo)
+	//  Test admin capabilities (approve issues, update any account, add note, view any account)
+	//  Things not mentioned in a level or above should fail
+	
+	
 
     var should = chai.should()
+    
+    var admin ={
+		email:"Phil@haha.jk",
+		password:"phil"
+	}
+	
+	var normal ={
+		email:"Bob@haha.jk",
+		password:"bob"
+	}
 
-        function generateAndCheck(users, admin, name) {
-            u = users.next(admin, name);
-            u.should.have.property("name")
-                .that.equals(name);
-            u.should.have.property("admin")
-                .that.equals(admin);
-        }
-
-    describe('User', function () {
-        describe('#next()', function () {
-            users = new Users();
-            it('should generate users according to parameters', function () {
-                generateAndCheck(users, false, "George")
-                generateAndCheck(users, true, "Hanna")
-            })
-        })
-    });
+	function generateAndCheck(users, admin, name) {
+		u = users.next(admin, name);
+		u.should.have.property("name")
+			.that.equals(name);
+		u.should.have.property("admin")
+			.that.equals(admin);
+	}
     
     function login(comm, email, pass){
         return comm.signIn({email:email, password:pass})
@@ -27,11 +47,11 @@
     }
     
     function login_admin(comm){
-        return login(comm, "Phil@haha.jk", "phil")
+        return login(comm, admin.email, admin.password)
     }
     
     function login_normal(comm){
-        return login(comm, "Phil@haha.jk", "phil")
+        return login(comm, normal.email, normal.password )
     }
     
     function eventualPropertyValue(obj, propName, val){
@@ -59,23 +79,92 @@
         );
         return Promise.all(conditions)
     }
+    
+    describe('User', function () {
+        describe('#next()', function () {
+            users = new Users();
+            it('should generate users according to parameters', function () {
+                generateAndCheck(users, false, "George")
+                generateAndCheck(users, true, "Hanna")
+            })
+        })
+    });
 
     describe('Fake-Communicator', function () {
-        describe('LOGGED OUT BEHAVIOR', function () {
+        describe('Sign in/out', function () {
+			var userPromise;
             describe('#signIn()', function () {
                 it('should sign you in', function () {
-                    var comm = new FakeCommunicator(new Generator(), new Users())
-                    var userPromise = comm.signIn({
+                    userPromise = comm.signIn({
                         email: "Phil@haha.jk",
                         password: "phil"
                     });
-                    return userPromise
+                    return userPromise;
+                })
+            });
+            describe('#signOut()', function () {
+				it('should sign you out', function () {
+					return userPromise.then(function(){return comm.signOut();})
+				})
+			})
+        }) 
+        
+        describe('Signed out behavior', function () {
+            describe('#createAccount()', function () {
+                it("should create an account", function () {
+					var registerResponse = comm.createAccount({
+							email:"asdfqwer_asdfqwerNNNN@asdfJAJAJA.net",
+							password:"I_am_a_test",
+							name:"Mr. Test"						
+						})
+					return registerResponse;
+                })
+            });
+            describe('#getCurrentAccount()', function () {
+                it("should not work - you're not logged in.", function () {
+					var accountsResponse = comm.getAccount();
+					return accountsResponse.should.eventually.be.rejected;
+                })
+            });
+            describe('#getAccount()', function () {
+                it("should not work - you're not logged in.", function () {
+					var accountsResponse = comm.getAccount(0);
+					return accountsResponse.should.eventually.be.rejected;
+                })
+            });
+            describe('#getAccounts()', function () {
+                it("should not work - you're not logged in.", function () {
+					var accountsResponse = comm.getAccounts();
+					return accountsResponse.should.eventually.be.rejected;
+                })
+            });
+            describe('#updateAccount()', function () {
+                it("should not work - you're not logged in.", function () {
+					var registerResponse = comm.updateAccount(0,{
+							password:"asdasdfasdf"					
+						})
+					return registerResponse.should.eventually.be.rejected;
                 })
             });
             
-            describe('#issues()', function () {
+            
+            
+			describe('#createIssue()', function () {
+                it('should fail to create an issue (not logged in)', function () {
+                     var oracleIssue = new Generator().next();
+                     var responsePromise = comm.createIssue(oracleIssue);
+                     return responsePromise.should.eventually.be.rejected;
+                })
+            });
+            
+			describe('#getIssue()', function () {
+                it('should get an approved issue', function () {
+                     return comm.getIssue(0);
+                })
+            });
+            
+			describe('#getIssues() [ Still needs work - needs to check to see if all issues are approved ]', function () {
                 it('should get approved issues for you', function () {
-                    var comm = new FakeCommunicator(new Generator(), new Users())
                     var issuesResponse = comm.getIssues()
                     var issuesArr = issuesResponse.should.eventually.have.property("issues")
                     var issue0 = issuesArr.should.eventually.have.property(0)
@@ -88,18 +177,31 @@
                     ])
                 })
             });
+            
+			describe('#updateIssue()', function () {
+                it("should not update the issue - you're not logged in.", function () {
+                    var issuesResponse = comm.updateIssue(0,{open:false});
+                    return issuesResponse.should.eventually.be.rejected;
+                })
+            });
+            
+			describe('#submitPhoto()', function () {
+                it("should not update the issue - you're not logged in.", function () {
+                    var submissionResponse = comm.submitPhoto("asdfasdfasdf");
+                    return submissionResponse.should.eventually.be.rejected;
+                })
+            });            
         })
         
         describe('THE ISSUES CYCLE', function () {
-            var comm = new FakeCommunicator(new Generator(), new Users())
             var issueID
             var oracleIssue = new Generator().next();
             
-            describe('$submit & check', function () {
-                it('sign in as bob (normal user)', function () {
-                    return login(comm,"Bob@haha.jk","bob")
+            describe('$  submit & check', function () {
+                it('sign in as normal user', function () {
+                    return login(comm,normal.email, normal.password)
                 });
-                it('submit the issues [as bob]',function(){
+                it('submit the issues [as normal user]',function(){
                     oracleIssue.open = false;
                     oracleIssue.approved = true;
                     var response = comm.createIssue(oracleIssue);
@@ -108,17 +210,17 @@
                         issueID = id;
                     })
                 })
-                it('check the issue [as bob] and fail (right?)',function(){
+                it('check the issue [as normal user] and fail (right?)',function(){
                     oracleIssue.open = false;
                     oracleIssue.approved = false;
-                    return checkIssue(comm.getIssue(issueID),issueID, oracleIssue);
+                    return checkIssue(comm.getIssue(issueID),issueID, oracleIssue).should.be.rejected;
                 })
-                it('logout [bob]',function(){
+                it('logout [normal user]',function(){
                     return comm.signOut();
                 })
             });
             
-            describe('$mark approved; check as admin', function () {
+            describe('$  mark approved; check as admin', function () {
                 it('sign in as phil', function () {
                     return login_admin(comm)
                 });
@@ -131,29 +233,19 @@
                 it('check the issue and succeed (approved)',function(){
                     return checkIssue(comm.getIssue(issueID),issueID, oracleIssue, true, true);
                 });
-                it('logout [phil]',function(){
+                it('logout [admin]',function(){
                     return comm.signOut();
                 })
             });
             
-            describe('$check as anyone', function (){ 
-                it('check the issue [as bob] and fail (right?)',function(){
+            describe('$  check as anyone [post approval]', function (){ 
+                it('check the issue [not logged in] and succeed',function(){
                     return checkIssue(comm.getIssue(issueID),issueID, oracleIssue,true,true);
                 })
             })
-        });
-        
-        
-
-        describe('#signout()', function () {
-            it('should sign you in', function () {
-                var comm = new FakeCommunicator(new Generator(), new Users())
-                return login(comm, "Phil@haha.jk","phil").then(function(){return comm.signOut();})
-            })
-        });
-        
+        });        
 
     });
 
 
-}());
+}(new FakeCommunicator(new Generator(), new Users())));
