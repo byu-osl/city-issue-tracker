@@ -14,4 +14,3 @@ class Agency(db.Model):
 	agencyId = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.Text)
 	serviceRequests = db.relationship("ServiceRequest", backref = "agency")
-

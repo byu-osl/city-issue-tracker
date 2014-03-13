@@ -1,6 +1,6 @@
-sudo apt-get install python python-virtualenv python-pip
+sudo apt-get install python python-virtualenv python-pip // or whatever package manager you use for your distro
 cd ~
-mkdir virtualenvs
+mkdir virtualenvs // if this dir already exists, don't create it
 cd virtualenvs
 mkdir city-issue-tracker
 virtualenv city-issue-tracker
