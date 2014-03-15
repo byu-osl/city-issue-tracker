@@ -1,4 +1,4 @@
-city-issue-tracker
+City Issue Tracker
 ==================
 
 An issue tracker for cities
