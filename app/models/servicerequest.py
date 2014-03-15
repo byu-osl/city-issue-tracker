@@ -53,5 +53,8 @@ class ServiceRequest(db.Model):
 
 	@validates("status")
 	def validate_type(self, key, status):
+		"""
+		Validates that the status is in a list of valid statuses
+		"""
 		assert status in status_list
 		return status
