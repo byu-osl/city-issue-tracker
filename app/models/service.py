@@ -1,4 +1,6 @@
 from app import db
+from flask import jsonify
+import json
 from keywordservicemapper import keywordMapping
 from sqlalchemy.orm import validates
 
@@ -24,6 +26,7 @@ class Service(db.Model):
 	attributes (ServiceAttributes): An array of ServiceAttribute models
 	keywords (Keyword): An array of keywords models
 	"""
+	__tablename__ = "service"
 	serviceId = db.Column(db.Integer, primary_key=True)
 	serviceName = db.Column(db.String(255), unique=True)#TODO: Make unique
 	description = db.Column(db.Text)
@@ -31,6 +34,23 @@ class Service(db.Model):
 	type = db.Column(db.Enum(TYPE_REALTIME, TYPE_BATCH, TYPE_BLACKBOX))
 	attributes = db.relationship('ServiceAttribute', backref="service", lazy="joined")
 	keywords = db.relationship("Keyword", secondary=keywordMapping, backref="services")
+
+	def __repr__(self):
+		return self.toJSON(self.toDict);
+
+	def toDict(self):
+		return {
+			"serviceId": self.serviceId,
+			"serviceName": self.serviceName,
+			"description": self.description,
+			"metadata": self.metaData,
+			"type": self.type,
+			"keywords": ["ok","kk"]
+		}
+
+	def toJSON(self):
+		return jsonify(self.toDict())
+
 
 	def prep_for_send(self):
 		"""
@@ -48,5 +68,6 @@ class Service(db.Model):
 		#TODO:Check that it is valid
 		assert type in type_list;
 		return type;
+
 
 

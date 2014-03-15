@@ -10,6 +10,7 @@ class ServiceAttributeValue(db.Model):
 	name (string): The name of the key
 	
 	"""
+	__tablename__ = "serviceAttributeValue"
 	serviceAttrValId = db.Column(db.Integer, primary_key=True)
 	#TODO: should the key be the same as the ID?
 	serviceAttrId = db.Column(db.Integer, db.ForeignKey('service_attribute.serviceAttrId'))

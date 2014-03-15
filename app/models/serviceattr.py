@@ -36,6 +36,7 @@ class ServiceAttribute(db.Model):
 	values (ServiceAttributeValue): An array of ServiceAttributeValues
 	service (Service): The parent of this service
 	"""
+	__tablename__ = "serviceAttribute"
 	serviceAttrId = db.Column(db.Integer, primary_key=True)
 	variable = db.Column(db.Boolean)
 	required = db.Column(db.Boolean)

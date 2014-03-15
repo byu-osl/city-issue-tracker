@@ -2,7 +2,7 @@ from app import db
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/relationships.html
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/extensions/associationproxy.html
 
-keywordMapping = db.Table('keyword_mapping', db.metadata, 
+keywordMapping = db.Table('keywordMapping', db.metadata, 
 	db.Column('service_id', db.Integer, db.ForeignKey('service.serviceId')),
 	db.Column('keyword_id', db.Integer, db.ForeignKey('keyword.keywordId'))
 )

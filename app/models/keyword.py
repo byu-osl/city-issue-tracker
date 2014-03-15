@@ -17,6 +17,7 @@ class Keyword(db.Model):
 	keyword (string): A string that represents the keyword
 
 	"""
+	__tablename__ = "keyword"
 	keywordId = db.Column(db.Integer, primary_key=True)
 	keyword = db.Column(db.String(255), unique=True)#I think that should be long enough TODO: Make unique
 

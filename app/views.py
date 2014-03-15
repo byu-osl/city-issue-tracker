@@ -1,7 +1,10 @@
+import json
 from app import app, db
 from flask import render_template, request, jsonify
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping
+
+
 
 #############
 # Main Page #
@@ -51,6 +54,58 @@ def getOwnAccount():
 @app.route('/users', methods=['GET'])
 def getAllUsers():
 	return "---"
+###################
+# Service Section #
+###################
+
+#TODO: Implement
+@app.route('/services', methods=['GET'])
+def getServices():
+	s1 = Service()
+	s1.title = "Title",
+	s1.description = "Description"
+	s1.type = "batch"
+	s1.metaData = True
+
+	s2 = Service()
+	s2.title = "Title",
+	s2.description = "Description"
+	s2.type = "batch"
+	s2.metaData = True
+
+	s3 = Service()
+	s3.title = "Title",
+	s3.description = "Description"
+	s3.type = "batch"
+	s3.metaData = True
+
+	return json.dumps([s3.toDict(), s2.toDict(), s1.toDict()]);
+
+
+#TODO: Implement
+@app.route('/services/<int:serviceId>', methods=['GET'])
+def getService(serviceId):
+	s = Service()
+	s.title = "Title",
+	s.description = "Description"
+	s.type = "batch"
+	s.metaData = True
+	return s.toJSON()
+
+#TODO: Implement
+@app.route('/services/<int:serviceId>/attr', methods=['GET'])
+def getServiceAttr(serviceId):
+	sa1 = ServiceAttribute()
+
+
+	sa2 = ServiceAttribute()
+
+
+	sa3 = ServiceAttribute()
+
+	return "---"
+
+
 
 ##################
 # Issues Section #
