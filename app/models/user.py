@@ -1,3 +1,6 @@
+import re
+
+from flask import jsonify
 from app import db
 from subscriptions import subscriptions
 from sqlalchemy.orm import validates
@@ -20,6 +23,7 @@ class User(db.Model):
 
 	"""
 
+	__tablename__ = "User"
 	userId = db.Column(db.Integer, primary_key = True)
 	email = db.Column(db.String(255)) #This needs to be unique
 	firstName = db.Column(db.String(255))
@@ -30,10 +34,30 @@ class User(db.Model):
 	role = db.Column(db.Enum('user', 'employee', 'admin'))
 	lastLogin = db.Column(db.TIMESTAMP)
 	joined = db.Column(db.Date)
-	subscriptions = db.relationship("ServiceRequest", secondary=subscriptions, backref=db.backref('subscribers', lazy='dynamic'))
+	subscriptionList = db.relationship("ServiceRequest", secondary=subscriptions, backref=db.backref('subscribers', lazy='dynamic'))
+
+	def toDict(self):
+		return {"userId" : self.userId,
+				"email" : self.email,
+				"firstName" : self.firstName,
+				"lastName" : self.lastName,
+				"phone" : self.phone,
+				"passwordHash" : self.passwordHash,
+				"passwordSalt" : self.passwordSalt,
+				"role" : self.role,
+				"lastLogin" : self.lastLogin,
+				"joined" : self.joined,
+				"subscriptionList" : map(lambda x : return x.serviceRequestId, self.subscriptionList)}
+
+	def toJSON(self):
+		return jsonify(self.toDict())	
 
 	@validates('email')
-	def validate_type(self, email):
-		#TODO: Check using regEx that this is a valid email
-		assert email;
-		return email;
+	def validateEmail(self, email):
+		validator = re.compile("([\w]+[\.|\_|\-|\+]?)+@(([\w]+[\-]?)+[\.]?)+.[\w]{2,4}")
+
+		if validator.match(email).group():
+			return True
+		else:
+			return False
+		
