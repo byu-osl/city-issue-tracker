@@ -5,7 +5,6 @@ from fakeData import service_list, service_def, get_service_reqs, get_service_re
 from models import Service, ServiceAttribute, Keyword, KeywordMapping
 
 
-
 #############
 # Main Page #
 #############
@@ -146,14 +145,20 @@ def viewImage(photo_id):
 ##############
 
 #TODO: Implement
-@app.route('/api/services', methods=['GET'])
-def json_view_services():
-	return jsonify(service_list)
+@app.route('/api/services.<form>', methods=['GET'])
+def json_view_services(form):
+	s = Service()
+	s.title = "Title",
+	s.description = "Description"
+	s.type = "batch"
+	s.metaData = True
+	return s.toFormat(form)
 
 #TODO: Implement
-@app.route('/api/issue/<int:issue_id>', methods = ['GET'])
-def json_view_issue(issue_id):
-	return jsonify(get_service_req)
+@app.route('/api/issue/<int:issue_id>.<format>', methods = ['GET'])
+def json_view_issue(issue_id, format):
+	return format
+#	return jsonify(get_service_req)
 
 #TODO: Implement
 @app.route('/api/issues', methods = ['GET'])

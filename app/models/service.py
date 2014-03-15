@@ -1,6 +1,7 @@
 from app import db
 from flask import jsonify
 import json
+import xmltodict
 from keywordservicemapper import keywordMapping
 from sqlalchemy.orm import validates
 
@@ -51,6 +52,18 @@ class Service(db.Model):
 	def toJSON(self):
 		return jsonify(self.toDict())
 
+	def toXML(self):
+		print(self.toDict())
+		return xmltodict.unparse({"Test": None})
+
+	def toFormat(self, format):
+		if(format == "json"):
+			return self.toJSON()
+		elif(format == "xml"):
+			return self.toXML()
+		else:
+			#TODO: Should not get here
+			assert False
 
 	def prep_for_send(self):
 		"""
