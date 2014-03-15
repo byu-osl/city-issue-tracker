@@ -47,7 +47,7 @@ class User(db.Model):
 				"role" : self.role,
 				"lastLogin" : self.lastLogin,
 				"joined" : self.joined,
-				"subscriptionList" : map(lambda x : return x.serviceRequestId, self.subscriptionList)}
+				"subscriptionList" : map(lambda x : x.serviceRequestId, self.subscriptionList)}
 
 	def toJSON(self):
 		return jsonify(self.toDict())	
