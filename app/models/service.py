@@ -37,7 +37,7 @@ class Service(db.Model):
 	keywords = db.relationship("Keyword", secondary=keywordMapping, backref="services")
 
 	def __repr__(self):
-		return self.toJSON(self.toDict);
+		return self.toJSON();
 
 	def toDict(self):
 		return {
@@ -53,8 +53,7 @@ class Service(db.Model):
 		return jsonify(self.toDict())
 
 	def toXML(self):
-		print(self.toDict())
-		return xmltodict.unparse({"Test": None})
+		return xmltodict.unparse({"service": self.toDict()})
 
 	def toFormat(self, format):
 		if(format == "json"):
