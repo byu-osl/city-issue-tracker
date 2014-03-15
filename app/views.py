@@ -3,24 +3,72 @@ from flask import render_template, request, jsonify
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping
 
-service_example_1 = Service()
-
 @app.route('/hello_world')
 def hello_world():
 	return render_template('hello_world.html')
 
+#TODO: Make sure the html is being served up correctly
 @app.route('/index')
 @app.route('/')
 def home():
 	return render_template('index.html')
 
+#TODO: How to do this securely
+@app.route('/users/sign_in', methods=['POST'])
+def signIn():
+	return "---"
+
+#TODO: Implement
+@app.route('/users/sign_out', methods=['POST'])
+def signOut():
+	return "---"
+
+#TODO: Implement
+@app.route('/users', methods=['POST'])
+def newUsers():
+	return "---"
+
+
+#TODO: Implements
+@app.route('/users/<int:user_id>')
+def getUser(user_id):
+	return "---"
+
+#TODO: Implements
+@app.route('/users', methods=['GET'])
+def getAllUsers():
+	return "---"
+
+#TODO: 
+@app.route('/issues/<int:issue_id>', methods=['GET'])
+def getIssue():
+	return "---"
+
+#TODO: 
+@app.route('/issues/<int:issue_id>', methods=['POST'])
+def updateIssue():
+	return "---"
+
+
+
+
+
+#TODO: 
+@app.route('/issues', methods=['GET'])
+def newIssue():
+	return "---"
+
+
+
+
+
+
+
+
 @app.route('/api/services', methods=['GET'])
 def json_view_services():
 	return jsonify(service_list)
 
-@app.route('/api/services/<int:service_id>', methods = ['GET'])
-def json_view_service(service_id):
-	return jsonify(service_list[0])
 
 @app.route('/api/issue/<int:issue_id>', methods = ['GET'])
 def json_view_issue(issue_id):
