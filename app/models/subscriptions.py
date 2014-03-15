@@ -3,7 +3,7 @@ from app import db
 #http://docs.sqlalchemy.org/en/rel_0_9/orm/extensions/associationproxy.html
 
 subscriptions = db.Table('subscriptions',
-	db.Column('serviceRequestId', db.Integer, db.ForeignKey('service_request.serviceRequestId')),
+	db.Column('serviceRequestId', db.Integer, db.ForeignKey('serviceRequest.serviceRequestId')),
 	db.Column('userId', db.Integer, db.ForeignKey('user.userId'))
 )
 

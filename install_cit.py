@@ -21,7 +21,7 @@ parser = argparse.ArgumentParser(description="Setup, Install and create run scri
 #Add an argument that will do a global install
 parser.add_argument('--system_wide', action='store_const', const=system, default=local, help="Enable system wide install")
 
-args = parser.parse_args();
+args = parser.parse_args()
 
 print(args)
 
@@ -35,7 +35,7 @@ if args.system_wide == local:
 	call(['curl', '-0', 'https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.tar.gz', '-o', pyenv_folder+'.tar.gz'], stdout=subprocess.PIPE)
 
 	# untar it
-	call(['tar','xvfz', pyenv_folder+'.tar.gz']);
+	call(['tar','xvfz', pyenv_folder+'.tar.gz'])
 
 	# delete tar file
 	call(['rm',pyenv_folder+'.tar.gz'])
@@ -50,7 +50,7 @@ if args.system_wide == local:
 	os.chdir('..')
 
 	#Setup the python path to use
-	path = './virtualenv-1.9/CIT/bin/';
+	path = './virtualenv-1.9/CIT/bin/'
 
 print(path+'pip')
 

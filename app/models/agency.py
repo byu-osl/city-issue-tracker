@@ -10,7 +10,7 @@ class Agency(db.Model):
 	name (string): A human readable string of the agency's name
 	"""
 
+	__tablename__ = "agency"
 	agencyId = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.Text)
 	serviceRequests = db.relationship("ServiceRequest", backref = "agency")
-

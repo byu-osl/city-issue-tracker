@@ -56,3 +56,33 @@ label{
 .description-input{
   margin: 0 15px !important;
 }
+
+.image-input{
+  display: inline;
+}
+
+.image-input input{
+  margin: 10px 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  border: solid transparent;
+  border-width: 0 0 100px 200px;
+  opacity: 0.0;
+  filter: alpha(opacity=0);
+  -o-transform: translate(250px, -50px) scale(1);
+  -moz-transform: translate(-300px, 0) scale(4);
+  direction: ltr;
+  cursor: pointer;
+}
+
+.image-input label{
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  overflow: visible;
+  overflow: hidden;
+  font-weight: normal;
+  margin-bottom: 0;
+}

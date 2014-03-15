@@ -1,8 +1,6 @@
 from app import db
 from sqlalchemy.orm import validates
-
-#TODO: Maybe this should be moved to somewhere else like defs.py
-status_list = ["open", "closed"]
+from defs import status_list
 
 class ServiceRequest(db.Model):
 	"""
@@ -31,7 +29,7 @@ class ServiceRequest(db.Model):
 	subscribers (User): A backref that is created in User
 	"""
 
-	# TODO: Do we need to do __tablename__?
+	__tablename__ = "serviceRequest"
 	serviceRequestId = db.Column(db.Integer, primary_key=True)
 	status = db.Column(db.Enum("open", "closed"))
 	statusNotes = db.Column(db.Text)
@@ -55,5 +53,8 @@ class ServiceRequest(db.Model):
 
 	@validates("status")
 	def validate_type(self, key, status):
+		"""
+		Validates that the status is in a list of valid statuses
+		"""
 		assert status in status_list
 		return status
