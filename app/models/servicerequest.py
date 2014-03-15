@@ -1,8 +1,6 @@
 from app import db
 from sqlalchemy.orm import validates
-
-#TODO: Maybe this should be moved to somewhere else like defs.py
-status_list = ["open", "closed"]
+from defs import status_list
 
 class ServiceRequest(db.Model):
 	"""
