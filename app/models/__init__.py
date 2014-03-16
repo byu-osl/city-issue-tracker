@@ -7,6 +7,9 @@ import servicerequest
 import agency
 import user
 import subscriptions
+import citmodel
+
+CITModel = citmodel.CITModel
 
 Service = service.Service
 ServiceAttribute = serviceattr.ServiceAttribute

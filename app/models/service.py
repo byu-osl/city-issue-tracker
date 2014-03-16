@@ -4,7 +4,7 @@ import json
 import xmltodict
 from keywordservicemapper import keywordMapping
 from sqlalchemy.orm import validates
-
+from citmodel import CITModel
 
 TYPE_REALTIME = "realtime"
 TYPE_BATCH = "batch"
@@ -13,7 +13,7 @@ TYPE_BLACKBOX = "blacbox"
 #TODO: Maybe this should be moved to somewhere else. Maybe a defs.py ???
 type_list = [TYPE_REALTIME, TYPE_BATCH, TYPE_BLACKBOX]
 
-class Service(db.Model):
+class Service(CITModel):
 	"""
 	A Model to deal with Service types and information about them
 
@@ -28,6 +28,9 @@ class Service(db.Model):
 	keywords (Keyword): An array of keywords models
 	"""
 	__tablename__ = "service"
+	_open311Name = "service"
+	_open311ListName = "services"
+
 	serviceId = db.Column(db.Integer, primary_key=True)
 	serviceName = db.Column(db.String(255), unique=True)#TODO: Make unique
 	description = db.Column(db.Text)
@@ -48,29 +51,6 @@ class Service(db.Model):
 			"type": self.type,
 			"keywords": ["ok","kk"]
 		}
-
-	def toJSON(self):
-		return jsonify(self.toDict())
-
-	def toXML(self):
-		return xmltodict.unparse({"service": self.toDict()})
-
-	def toFormat(self, format):
-		if(format == "json"):
-			return self.toJSON()
-		elif(format == "xml"):
-			return self.toXML()
-		else:
-			#TODO: Should not get here
-			assert False
-
-	def prep_for_send(self):
-		"""
-		Returns a simple data structure that can be turned into JSON or XML
-		NOTE: I am doing this because `metadata` is reserved so I used `meta_data`
-		The Open311 spec says it should be `metadata` so I have to translate it
-		"""
-		return {}
 
 	@validates('type')
 	def validate_type(self, key, type):

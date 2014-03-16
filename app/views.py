@@ -1,6 +1,6 @@
 import json
 from app import app, db
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, Response
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping
 
@@ -147,15 +147,28 @@ def viewImage(photo_id):
 #TODO: Implement
 @app.route('/api/services.<form>', methods=['GET'])
 def json_view_services(form):
-	s = Service()
-	s.title = "Title",
-	s.description = "Description"
-	s.type = "batch"
-	s.metaData = True
-	return s.toFormat(form)
+	s1 = Service()
+	s1.title = "Title",
+	s1.description = "Description"
+	s1.type = "batch"
+	s1.metaData = True
+
+	s2 = Service()
+	s2.title = "Title",
+	s2.description = "Description"
+	s2.type = "batch"
+	s2.metaData = True
+
+	s3 = Service()
+	s3.title = "Title",
+	s3.description = "Description"
+	s3.type = "batch"
+	s3.metaData = True
+
+	return Service.composeFormatList(form, [s1, s2, s3])
 
 #TODO: Implement
-@app.route('/api/issue/<int:issue_id>.<format>', methods = ['GET'])
+@app.route('/api/issue/<int:issue_id>.<form>', methods = ['GET'])
 def json_view_issue(issue_id, format):
 	return format
 #	return jsonify(get_service_req)
