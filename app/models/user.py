@@ -56,8 +56,11 @@ class User(db.Model):
 	def validateEmail(self, key, email):
 		validator = re.compile("([\w]+[\.|\_|\-|\+]?)+@(([\w]+[\-]?)+[\.]?)+.[\w]{2,4}")
 
+		if validator.match(email) is None:
+			return ''
+
 		if validator.match(email).group():
-			return True
+			return email
 		else:
-			return False
+			return ''
 	
