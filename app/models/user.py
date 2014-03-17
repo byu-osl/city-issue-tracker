@@ -53,11 +53,11 @@ class User(db.Model):
 		return jsonify(self.toDict())	
 
 	@validates('email')
-	def validateEmail(self, email):
+	def validateEmail(self, key, email):
 		validator = re.compile("([\w]+[\.|\_|\-|\+]?)+@(([\w]+[\-]?)+[\.]?)+.[\w]{2,4}")
 
 		if validator.match(email).group():
 			return True
 		else:
 			return False
-		
+	

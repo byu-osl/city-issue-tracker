@@ -1,7 +1,6 @@
 from app import db
 from flask import jsonify
 import json
-import xmltodict
 from keywordservicemapper import keywordMapping
 from sqlalchemy.orm import validates
 from citmodel import CITModel
