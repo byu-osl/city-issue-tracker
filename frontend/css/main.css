@@ -86,3 +86,14 @@ label{
   font-weight: normal;
   margin-bottom: 0;
 }
+
+#right-container{
+	display:inline;
+	float:left;
+	width: 49%;
+	border: solid 1px black;
+}
+#map-canvas{
+	width: 100%;
+	height: 100%;
+}
