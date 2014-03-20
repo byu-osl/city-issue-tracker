@@ -3,6 +3,8 @@ var geocoder;
 //Bounds used when geocoding to bias towards returning locations in Cedar City
 //This means it should return locations in Cedar City, even if Cedar City is not explicitly specified
 var bounds;
+var markers = {};
+var infoWindow = new google.maps.InfoWindow({});
 function initialize() {
 	geocoder = new google.maps.Geocoder();
 	var sw = new google.maps.LatLng(37.616517535818396, -113.1707775592804);
@@ -14,13 +16,22 @@ function initialize() {
 		center: new google.maps.LatLng(37.67747689999999, -113.06189310000002),
 	};
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	//If markers were created before the map was, add them now
+	for (var id in markers) {
+		markers[id].setMap(map);
+	}
+	
 	google.maps.event.addListener(map, 'click', function(event) {
-		var marker = new google.maps.Marker({
-			map: map,
+		infoWindow.close();
+		infoWindow = new google.maps.InfoWindow({
+			content: "<div><p>Would you like to create a new issue here?</p>" +
+					"<button style='width: 40px; margin: 5px 15px;' onclick='createIssue(event.latLng.lat(), event.latLng.lng());infoWindow.close();'>Yes</button>" +
+					"<button style='width: 40px; margin: 5px 15px;' onclick='infoWindow.close();'>No</button></div>",
 			position: event.latLng
 		});
-		console.log(event.latLng.lat());
-		console.log(event.latLng.lng());
+		infoWindow.open(map);
+		console.log("Latitude:", event.latLng.lat());
+		console.log("Longitude:", event.latLng.lng());
 	});
 }
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -43,10 +54,6 @@ function geocodeAddress(address, callback) {
 	geocoder.geocode( { 'address': address, 'bounds': bounds}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			var location = results[0].geometry.location;
-			var marker = new google.maps.Marker({
-				map: map,
-				position: location
-			});
 			if (typeof callback == 'function') {
 				callback(location);
 			}
@@ -59,18 +66,59 @@ function geocodeAddress(address, callback) {
 /**
  * Reverse geocodes the given latitude and longitude to a human readable address.
  * @param location google.maps.LatLng to get the address for
- * @param callback function to call with the address passed as a parameter
+ * @param callback function to call with the address returned from the reverse geocoding
  */
 function reverseGeocode(location, callback) {
 	geocoder.geocode({'location': location}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
-			marker = new google.maps.Marker({
-				position: latlng,
-				map: map
-			});
 			callback(results[0].formatted_address);
 		} else {
 			callback("Reserve geocode was not successful for the following reason: " + status);
 		}
 	});
 }
+
+function addIssueToMap(issue) {
+	if (issue.location.address) {
+		//Has address but missing latitude or longitude. Use geocoding
+		if (!issue.location.lat || !issue.location.long) {
+			geocodeAddress(issue.location.address, function(latLng) {
+				issue.location.lat = latLng.lat();
+				issue.location.long = latLng.lng();
+				createMarker(issue);
+			});
+		} else {//Has all location information
+			createMarker(issue);
+		}
+	//Missing address but has latitude and longitude.  Use reverse geocoding
+	} else if (issue.location.lat && issue.location.long) {
+		reverseGeocode(new google.maps.LatLng(issue.location.lat, issue.location.long), function(address) {
+			issue.location.address = address;
+			createMarker(issue);
+		});
+	} else {//Missing a valid address.  Cannot add to map
+		return {error: true, message: "missing valid address and latitude/longitude"};
+	}
+	return {error: false, message: "issue added to map successfully"};
+}
+
+function createMarker(issue) {
+	var latLng = new google.maps.LatLng(issue.location.lat, issue.location.long);
+	var infowindow = new google.maps.InfoWindow({
+		content: "<div><h1>" + issue.title + "</h1><p>" + issue.description + 
+				"</p><a onclick='openIssue(" + issue.id + ")'>Go to issue</a></div>"
+	});
+
+	var marker = new google.maps.Marker({
+		position: latLng,
+		map: map,
+		title: issue.title
+	});
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map, marker);
+	});
+	
+	//Keep track of the markers so that they can be removed from the map if necessary
+	markers[issue.id] = marker;
+}
+

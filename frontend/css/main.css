@@ -39,9 +39,6 @@ ul#issue-list{
   /*width:50%;*/
 
 }
-#right-container img{
-  max-width:100%;
-}
 input.location{
   width:100%;
 }
@@ -88,8 +85,9 @@ label{
 }
 
 #right-container{
-	display:inline;
-	float:left;
+	position: fixed;
+	display: inline;
+	float: left;
 	width: 49%;
 	border: solid 1px black;
 }

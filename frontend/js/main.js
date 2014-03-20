@@ -9,13 +9,22 @@ for(var i = 0; i < 10; i++){
   var issue = g.next();
   issue.id = i;
   issues[i] = issue;
+  console.log(issue);
+  if (issue.location.address) {
+	  console.log(true);
+  }
+  if (issue.location.latitude) {
+	  console.log('error');
+  } else {
+	  console.log('correct');
+  }
   listRenderIssue(issue);
 }
 
 function listRenderIssue(issue){
   var $el = $("<li class='issue' issue-id='"+ issue.id +"'></li>");
   $el.append('<span class="glyphicon glyphicon-map-marker"></span>');
-  $el.append('<span class="issue-title">'+issue.service_name+'</span>');
+  $el.append('<span class="issue-title">'+issue.title+'</span>');
   $el.append('<span class="issue-description"> - '+issue.description +'</span>');
   if(user.isAdmin){
     $el.append('<span class="close glyphicon glyphicon-trash"></span>');
@@ -24,6 +33,7 @@ function listRenderIssue(issue){
     }
   }
   $("#issue-list").append($el);
+  addIssueToMap(issue);
 }
 
 $(".close-button").click(function(){
