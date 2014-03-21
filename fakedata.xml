@@ -1,0 +1,51 @@
+<data>
+    <!--USERS-->
+    <user>
+        <email>primusjones@example.com</email>
+        <firstName>Primus</firstName>
+        <lastName>Jones</lastName>
+        <phone>1234567890</phone>
+        <passwordHash>f97c5d29941bfb1b2fdab0874906ab82</passwordHash>
+        <passwordSalt>9d7443329f992e0f</passwordSalt>
+        <role>user</role>
+        <lastLogin>datetime.date(2014, 3, 21)</lastLogin>
+        <joined>datetime.date(2014, 1, 1)</joined>
+        <subscriptionList>
+            <subscription>1</subscription>
+            <subscription>2</subscription>
+            <subscription>3</subscription>
+        </subscriptionList>
+    </user>
+    <user>
+        <email>secundussmith@example.com</email>
+        <firstName>Secundus</firstName>
+        <lastName>Smith</lastName>
+        <phone>0987654321</phone>
+        <passwordHash>b8a9f715dbb64fd5c56e7783c6820a61</passwordHash>
+        <passwordSalt>5cdf2dd3bdc59e05</passwordSalt>
+        <role>admin</role>
+        <lastLogin>datetime.date(2014, 3, 20)</lastLogin>
+        <joined>datetime.date(2014, 1, 8)</joined>
+        <subscriptionList>
+            <subscription>1</subscription>
+            <subscription>2</subscription>
+            <subscription>4</subscription>
+        </subscriptionList>
+    </user>
+    <user>
+        <email>tertiusbrown@example.com</email>
+        <firstName>Tertius</firstName>
+        <lastName>Brown</lastName>
+        <phone>1029384756</phone>
+        <passwordHash>35d6d33467aae9a2e3dccb4b6b027878</passwordHash>
+        <passwordSalt>4cceda142145a166</passwordSalt>
+        <role>employee</role>
+        <lastLogin>datetime.date(2014, 2, 28)</lastLogin>
+        <joined>datetime.date(2013, 6, 20)</joined>
+        <subscriptionList>
+            <subscription>1</subscription>
+            <subscription>3</subscription>
+            <subscription>5</subscription>
+        </subscriptionList>
+    </user>
+</data>
