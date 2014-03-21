@@ -15,10 +15,15 @@ class MyTest(unittest.TestCase):
     
     def setUp(self):
         db.create_all()
+        populate_db()
 
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    def populate_db(self):
+        #TODO create a JSON or XML file to parse
+        pass
         
 class SubTest_Services(MyTest):
     
@@ -190,5 +195,24 @@ class SubTestKeyword(MyTest):
         db.session.commit()
         assert keyword in db.session
         assert keyword1 in db.session
+
+class SubTestUsersAndSubscriptions(MyTest):
+
+    def test_1(self):
+        print '\ntest_One'
+        sr = models.Subscriptions(
+            )
+        user = models.User(
+            userId=1,
+            firstName='Cameron',
+            lastName='Jones',
+            phone='7192007970',
+            email='cejones90@msn.com',
+            passwordHash='60744474c3277428a8be861186e1e368',
+            passwordSalt='s0mRIdlKvI',
+            role='user',
+            lastLogin=date.today(),
+            joined=date.today(),
+            subscriptionList=[sr])
 if __name__ == '__main__':
     unittest.main()
