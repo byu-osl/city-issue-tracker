@@ -116,7 +116,7 @@ class SubTestUser(MyTest):
             role='user',
             lastLogin=date.today(),
             joined=date.today(),
-            subscriptions=[sr])
+            subscriptionList=[sr])
         sr.accountId = user.userId
         db.session.add(user)
         db.session.commit()
@@ -164,8 +164,31 @@ class SubTestAgency(MyTest):
     
     def test_Agency(self):
         print '\ntest_Agency'
+        agency = models.Agency(
+            name='Name1'
+            )
+        db.session.add(agency)
+        sr = models.ServiceRequest()
+        sr1 = models.ServiceRequest()
+        db.session.add(sr)
+        db.session.add(sr1)
+        db.session.commit()
+        assert agency in db.session
+        assert sr.serviceRequestId is not None
+        assert sr1.serviceRequestId is not None
         
-        pass
+class SubTestKeyword(MyTest):
 
+    def test_Keyword(self):
+        print '\ntest_Keyword'
+        keyword = models.Keyword(
+            keyword='Trash')
+        keyword1 = models.Keyword(
+            keyword='Repair')
+        db.session.add(keyword)
+        db.session.add(keyword1)
+        db.session.commit()
+        assert keyword in db.session
+        assert keyword1 in db.session
 if __name__ == '__main__':
     unittest.main()
