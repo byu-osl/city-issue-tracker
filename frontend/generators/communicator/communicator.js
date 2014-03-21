@@ -5,112 +5,101 @@ Communicatior = function communicator_namespace() {
 
   
   //Sign into an account. Should set a session cookie.
-  Communicator.prototype.signIn = function(callback, data) {
-    $.ajax({
+  Communicator.prototype.signIn = function(data) {
+    return $.ajax({
       url: "/users/sign_in",
-      type: "POST",
       data: data,
-      success: callback
+      type: "POST"
     });
   };
   
   //Sign out of an account. Removes the session cookie.
-  Communicator.prototype.signOut = function(callback) {
-    $.ajax({
+  Communicator.prototype.signOut = function() {
+    return $.ajax({
       url: "/users/sign_out",
-      type: "POST",
       data: {},
-      success: callback
+      type: "POST"
     });
   };
   
   //Create a new account
-  Communicator.prototype.createAccount = function(callback, data) {
-    $.ajax({
+  Communicator.prototype.createAccount = function(data) {
+    return $.ajax({
       url: "/users",
-      type: "POST",
       data: data,
-      success: callback
+      type: "POST"
     });
   };
   
   //Update account details. Account user and administrators only.
-  Communicator.prototype.updateAccount = function(callback, id, data) {
-    $.ajax({
+  Communicator.prototype.updateAccount = function(id, data) {
+    return $.ajax({
       url: "/users/"+id,
-      type: "POST",
       data: data,
-      success: callback
+      type: "POST"
     });
   };
   
   //View account details. Account user and administrators only.
-  Communicator.prototype.getAccount = function(callback, id) {
-    $.ajax({
+  Communicator.prototype.getAccount = function(id) {
+    return $.ajax({
       url: "/users/"+id,
-      type: "GET",
       
-      success: callback
+      type: "GET"
     });
   };
   
   //Get a list of all accounts.
-  Communicator.prototype.getAccounts = function(callback) {
-    $.ajax({
+  Communicator.prototype.getAccounts = function() {
+    return $.ajax({
       url: "/users",
-      type: "GET",
       
-      success: callback
+      type: "GET"
     });
   };
   
   //View a particular issue.
-  Communicator.prototype.getIssue = function(callback, id) {
-    $.ajax({
+  Communicator.prototype.getIssue = function(id) {
+    return $.ajax({
       url: "/issues/"+id,
-      type: "GET",
       
-      success: callback
+      type: "GET"
     });
   };
   
   //Create a new issue. Shouldn't be visible until approved.
-  Communicator.prototype.createIssue = function(callback, data) {
-    $.ajax({
+  Communicator.prototype.createIssue = function(data) {
+    return $.ajax({
       url: "/issues",
-      type: "POST",
       data: data,
-      success: callback
+      type: "POST"
     });
   };
   
   //Updates an issue (admin only)
-  Communicator.prototype.updateIssue = function(callback, id, data) {
-    $.ajax({
+  Communicator.prototype.updateIssue = function(id, data) {
+    return $.ajax({
       url: "/issues/"+id,
-      type: "POST",
       data: data,
-      success: callback
+      type: "POST"
     });
   };
   
   //retreives a list of issues
-  Communicator.prototype.getIssues = function(callback, orderBy, offset, max, query, reversed, includeClosed) {
-    $.ajax({
+  Communicator.prototype.getIssues = function(orderBy, offset, max, query, reversed, includeClosed) {
+    return $.ajax({
       url: "/issues?orderBy="+encodeURIComponent(orderBy)+"&offset="+encodeURIComponent(offset)+"&max="+encodeURIComponent(max)+"&query="+encodeURIComponent(query)+"&reversed="+encodeURIComponent(reversed)+"&includeClosed="+encodeURIComponent(includeClosed),
-      type: "GET",
       
-      success: callback
+      type: "GET"
     });
   };
   
   //Submits a form with an image and returns the image URL
-  Communicator.prototype.uploadImage = function(callback, form) {
-    $.ajax({
+  Communicator.prototype.submitPhoto = function(form) {
+    return $.ajax({
       url: "/issues/upload_image",
-      type: "POST",
       data: {},
-      success: callback
+      type: "POST"
     });
   };
 

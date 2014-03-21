@@ -4,7 +4,7 @@ require 'hashie'
 class JsMethod
   def initialize(method_hash)
     @hash = Hashie::Mash.new(method_hash)
-    @hash.args.unshift("callback")
+    # @hash.args.unshift("callback")
   end
 
   def encode_uri arg
@@ -14,7 +14,6 @@ class JsMethod
   def url_string
     base_url = "\"#{@hash.path}\"".gsub(/:([a-z]+)"/, '"+\1')
     if @hash.request == "GET"
-      @hash.args.delete "callback"
       @hash.args.delete "id"
       if @hash.args.size > 0
         base_url = base_url[0..-2]+"?"+@hash.args.map{|a| encode_uri(a)}.join("+\"&")
@@ -42,11 +41,10 @@ class JsMethod
 
       //#{@hash.description}
       Communicator.prototype.#{@hash.name} = function(#{@hash.args.join(", ")}) {
-        $.ajax({
+        return $.ajax({
           url: #{url_string},
-          type: "#{@hash.request}",
           #{"data: #{form_data}," if @hash.request == "POST"}
-          success: callback
+          type: "#{@hash.request}"
         });
       };
     jsRep

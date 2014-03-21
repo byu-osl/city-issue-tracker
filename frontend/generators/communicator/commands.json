@@ -70,7 +70,7 @@
     "request": "GET"
   },
   {
-    "name": "uploadImage",
+    "name": "submitPhoto",
     "description": "Submits a form with an image and returns the image URL",
     "args": ["form"],
     "path": "/issues/upload_image",
