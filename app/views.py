@@ -112,32 +112,50 @@ def getServiceAttr(serviceId):
 
 #TODO: Implement
 @app.route('/issues/<int:issue_id>', methods=['GET'])
-def getIssue():
+def getIssue(issue_id):
+	"""
+	Return the issue with id = issue_id
+	"""
 	return "---"
 
 #TODO: Implement
 @app.route('/issues', methods=['POST'])
 def createIssue():
+	"""
+	Create an issue
+	"""
 	return "---"
 
 #TODO: Implement
 @app.route('/issues/<int:issue_id>', methods=['POST'])
-def updateIssue():
+def updateIssue(issue_id):
+	"""
+	Update the given issue
+	"""
 	return "---"
 
 #TODO: Implement
 @app.route('/issues', methods=['GET'])
 def viewAllIssues():
+	"""
+	Return all the issues
+	"""
 	return "---"
 
 #TODO: Implement
 @app.route('/issues/images', methods=['POST'])
 def uploadImage():
+	"""
+	Upload an image
+	"""
 	return "---"
 
 #TODO: Implement
 @app.route('/issues/images/<int:photo_id>', methods=['GET'])
 def viewImage(photo_id):
+	"""
+	Return the photo with id = photo_id
+	"""
 	return "---"
 
 ##############

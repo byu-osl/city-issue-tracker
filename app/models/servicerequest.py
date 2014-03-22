@@ -1,6 +1,7 @@
 from app import db
 from sqlalchemy.orm import validates
 from defs import status_list
+from citmodel import CITModel
 
 class ServiceRequest(CITModel):
 	"""
