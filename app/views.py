@@ -2,7 +2,7 @@ import json
 from app import app, db
 from flask import render_template, request, jsonify, Response
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
-from models import Service, ServiceAttribute, Keyword, KeywordMapping
+from models import Service, ServiceAttribute, Keyword, KeywordMapping, ServiceRequest
 
 
 #############
@@ -132,7 +132,32 @@ def getIssue(issue_id):
 	"""
 	Return the issue with id = issue_id
 	"""
-	return "---"
+
+	serviceRequest = ServiceRequest.query.get(issue_id)
+
+	return
+	{
+		"id" : serviceRequest.serviceRequestId,
+		"owner" : serviceRequest.accountId,
+		"title" : serviceRequest.description, #TODO: title? what is that?
+		"description" : serviceRequest.description,
+		"location" : 
+		{
+			"lat" : serviceRequest.lat,
+			"long" : serviceRequest.longitude,
+			"address" : serviceRequest.address
+		},
+		"open" : (serviceRequest.status == "open"),
+		"approved" : True, #TODO: we don't currently have this
+		"priority" : "Medium", #TODO: we don't currently have this
+		"image_url" : serviceRequest.mediaUrl,
+		"notes" : 
+		[
+			{"created_at" : 1200, "note" : "Test note"}
+		], #TODO: we don't currently have this, kind of...
+		"created_at" : 1200, #TODO: we don't currently have this
+		"updated_at" : 1200 #TODO: we don't currently have this
+	}
 
 #TODO: Implement
 @app.route('/issues', methods=['POST'])
@@ -175,9 +200,9 @@ def viewImage(photo_id):
 	return "---"
 
 
-##############
+######################
 # Open311 API Routes #
-##############
+######################
 
 #TODO: Implement
 @app.route('/open311/api/services.<form>', methods=['GET'])
