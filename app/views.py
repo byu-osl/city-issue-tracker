@@ -69,6 +69,21 @@ def genServices():
 	db.session.commit()
 	return s.toJSON()
 
+#Create a new service
+@app.route('/services', methods=['POST'])
+def newService():
+
+	if not request.json:
+		abort(400)
+
+	s = Service()
+	s.fromDict(request.json)
+
+	db.session.add(s)
+	db.session.commit()
+
+	return s.toJSON()
+
 #TODO: Implement
 @app.route('/services', methods=['GET'])
 def getServices():
@@ -91,17 +106,24 @@ def postService(serviceId):
 	if not request.json:
 		abort(400)
 
-
 	s = Service.query.get(serviceId)
-
-	print(request.json)
-#	print(json.loads(request.json))
 
 	s.fromDict(request.json);
 
 	db.session.commit()
 
 	return s.toJSON()
+
+@app.route('/services/<int:serviceId>', methods=['DELETE'])
+def deleteService(serviceId):
+
+	s = Service.query.get(serviceId)
+
+	db.session.delete(s)
+	db.session.commit()
+
+	#TODO: Some other way of marking success
+	return "---"
 
 
 

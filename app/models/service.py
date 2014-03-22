@@ -35,8 +35,16 @@ class Service(CITModel):
 	description = db.Column(db.Text)
 	metaData = db.Column(db.Boolean)
 	type = db.Column(db.Enum(TYPE_REALTIME, TYPE_BATCH, TYPE_BLACKBOX))
-	attributes = db.relationship('ServiceAttribute', backref="service", lazy="joined")
+	attributes = db.relationship("ServiceAttribute", backref="service", lazy="joined")
 	keywords = db.relationship("Keyword", secondary=keywordMapping, backref="services")
+
+
+	def __init__(self, serviceName = "Service", description = "Please enter a short description", metaData = False, type = "realtime" ):
+		self.serviceName = serviceName
+		self.description = description
+		self.metaData = metaData
+		self.type = type
+
 
 	def __repr__(self):
 		return self.toJSON();
