@@ -4,8 +4,9 @@ from flask import jsonify
 from app import db
 from subscriptions import subscriptions
 from sqlalchemy.orm import validates
+from citmodel.py import CITModel
 
-class User(db.Model):
+class User(CITModel):
 	"""
 	A Model to define Users and their information
 
@@ -48,9 +49,6 @@ class User(db.Model):
 				"lastLogin" : self.lastLogin,
 				"joined" : self.joined,
 				"subscriptionList" : map(lambda x : x.serviceRequestId, self.subscriptionList)}
-
-	def toJSON(self):
-		return jsonify(self.toDict())	
 
 	@validates('email')
 	def validateEmail(self, key, email):
