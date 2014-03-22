@@ -4,7 +4,7 @@ from flask import jsonify
 from app import db
 from subscriptions import subscriptions
 from sqlalchemy.orm import validates
-from citmodel.py import CITModel
+from citmodel import CITModel
 
 class User(CITModel):
 	"""
