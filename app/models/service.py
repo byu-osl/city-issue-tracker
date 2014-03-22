@@ -43,13 +43,21 @@ class Service(CITModel):
 
 	def toDict(self):
 		return {
-			"serviceId": self.serviceId,
-			"serviceName": self.serviceName,
+			"service_id": self.serviceId,
+			"service_name": self.serviceName,
 			"description": self.description,
 			"metadata": self.metaData,
 			"type": self.type,
-			"keywords": ["ok","kk"]
 		}
+
+	def fromDict(self, d):
+		self.serviceId = d.get("service_id", self.serviceId)
+		self.serviceName = d.get("service_name", self.serviceName)
+		self.description = d.get("description", self.description)
+		self.metaData = d.get("metadata", self.metaData)
+		self.type = d.get("type", self.type)
+		return True
+
 
 	@validates('type')
 	def validate_type(self, key, type):

@@ -37,12 +37,26 @@ class CITModel(db.Model):
 		"""
 		raise NotImplementedError
 
+	def fromDict(self):
+		"""
+		This converts a dictionary back into an objects format
+		This is an abstract method
+		"""
+		raise NotImplementedError
+
 
 	def toJSON(self):
 		"""
 		A simple function that converts this object into json
 		"""
 		return jsonify(self.toDict())
+
+	def fromJSON(self, jsonStr):
+		"""
+		A simple function that converts a json string to being placed into the model
+		"""
+		return self.fromDict(json.loads(jsonStr))
+
 
 	def toXML(self):
 		"""
