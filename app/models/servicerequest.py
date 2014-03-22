@@ -17,7 +17,7 @@ class ServiceRequest(CITModel):
 	updatedDatetime (timestamp): This is when the request was last updated
 	expectedDatetime (timestamp): This is when the request is expected to be completed
 	address (string): Human readable address or description of location
-	addressId (int): The internal address ID used by a jurisdictions master address repository or other addressing system
+	addressId (int): The internal address ID used by a jurisdions master address repository or other addressing system
 	zipcode (int): The postal code for the location of the service request
 	lat (float): Latitude
 	longitude (float): Longitude
@@ -33,9 +33,9 @@ class ServiceRequest(CITModel):
 	__tablename__ = "serviceRequest"
 	serviceRequestId = db.Column(db.Integer, primary_key=True)
 	status = db.Column(db.Enum("open", "closed"))
+	# TODO: If we're going to do stuff with service notices this should have a table created and so on
 	statusNotes = db.Column(db.Text)
 	description = db.Column(db.Text)
-	# TODO: If we're going to do stuff with service notices this should have a table created and so on
 	serviceNotice = db.Column(db.Text)
 	requestedDatetime = db.Column(db.TIMESTAMP)
 	updatedDatetime = db.Column(db.TIMESTAMP)
@@ -57,5 +57,58 @@ class ServiceRequest(CITModel):
 		"""
 		Validates that the status is in a list of valid statuses
 		"""
+
 		assert status in status_list
 		return status
+
+	def toDict(self):
+		"""
+		This converts the model to a dionary
+		"""
+		
+		return
+		{
+			"service_request_id" : self.serviceRequestId,
+			"status" : self.status,
+			"status_notes" : self.statusNotes,
+			"description" : self.description,
+			"service_notice" : self.serviceNotice,
+			"requested_datetime" : self.requestedDatetime,
+			"updated_datetime" : self.updatedDatetime,
+			"expected_datetime" : self.expectedDatetime,
+			"address" : self.address,
+			"address_id" : self.addressId,
+			"zipcode" : self.zipcode,
+			"lat" : self.lat,
+			"longitude" : self.longitude,
+			"media_url" : self.mediaUrl,
+			"device_id" : self.deviceId,
+			"agency_responsible" : self.agencyResponsible,
+			"service_code" : self.serviceCode,
+			"account_id" : self.accountId
+		}
+
+	def fromDict(self, d):
+		"""
+		This converts the dictionary to a model
+		"""
+
+		self.serviceRequestId = d.get("service_request_id", self.serviceRequestId)
+		self.status = d.get("status", self.status)
+		self.statusNotes = d.get("status_notes", self.statusNotes)
+		self.description = d.get("description", self.description)
+		self.serviceNotice = d.get("service_notice", self.serviceNotice)
+		self.requestedDatetime = d.get("requested_datetime", self.requestedDatetime)
+		self.updatedDatetime = d.get("updated_datetime", self.updatedDatetime)
+		self.expectedDatetime = d.get("expected_datetime", self.expectedDatetime)
+		self.address = d.get("address", self.address)
+		self.addressId = d.get("address_id", self.addressId)
+		self.zipcode = d.get("zipcode", self.zipcode)
+		self.lat = d.get("lat", self.lat)
+		self.longitude = d.get("longitude", self.longitude)
+		self.mediaUrl = d.get("media_url", self.mediaUrl)
+		self.deviceId = d.get("device_id", self.deviceId)
+		self.agencyResponsible = d.get("agency_responsible", self.agencyResponsible)
+		self.serviceCode = d.get("service_code", self.serviceCode)
+		self.accountId = d.get("account_id", self.accountId)
+		return True

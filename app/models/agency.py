@@ -15,3 +15,26 @@ class Agency(CITModel):
 	agencyId = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.Text)
 	serviceRequests = db.relationship("ServiceRequest", backref = "agency")
+
+
+	def toDict(self):
+		"""
+		This converts the model to a dionary
+		"""
+		
+		return
+		{
+			"agency_id" : self.agencyId,
+			"name" : self.name,
+			"service_requests" : self.serviceRequests
+		}
+
+	def fromDict(self, d):
+		"""
+		This converts the dictionary to a model
+		"""
+
+		self.agencyId = d.get("agency_id", self.agencyId)
+		self.name = d.get("name", self.name)
+		self.serviceRequests = d.get("service_requests", self.serviceRequests)
+		return True
