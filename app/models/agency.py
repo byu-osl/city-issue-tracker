@@ -1,7 +1,7 @@
 from app import db
 
 # TODO: Do we even need this class?
-class Agency(db.Model):
+class Agency(CITModel):
 	"""
 	A class for storing an agency
 

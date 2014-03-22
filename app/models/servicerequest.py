@@ -2,7 +2,7 @@ from app import db
 from sqlalchemy.orm import validates
 from defs import status_list
 
-class ServiceRequest(db.Model):
+class ServiceRequest(CITModel):
 	"""
 	A class for storing a service request
 
