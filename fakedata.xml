@@ -13,7 +13,6 @@
         <subscriptionList>
             <subscription>1</subscription>
             <subscription>2</subscription>
-            <subscription>3</subscription>
         </subscriptionList>
     </user>
     <user>
@@ -29,7 +28,7 @@
         <subscriptionList>
             <subscription>1</subscription>
             <subscription>2</subscription>
-            <subscription>4</subscription>
+            <subscription>3</subscription>
         </subscriptionList>
     </user>
     <user>
@@ -43,9 +42,20 @@
         <lastLogin>datetime.date(2014, 2, 28)</lastLogin>
         <joined>datetime.date(2013, 6, 20)</joined>
         <subscriptionList>
-            <subscription>1</subscription>
             <subscription>3</subscription>
-            <subscription>5</subscription>
         </subscriptionList>
     </user>
+    <!--AGENCIES-->
+    <agency>
+        <agencyId>Parks and Rec</agencyId>
+        <agencyId>Infrastructure</agencyId>
+    </agency>
+    <!--KEYWORDS-->
+    <keyword>
+        <word>trash</word>
+        <word>repair</word>
+        <word>light</word>            
+    </keyword>
+    <!--SERVICES-->
+    
 </data>
