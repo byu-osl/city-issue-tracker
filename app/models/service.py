@@ -1,4 +1,4 @@
-from app import db
+from app import db, ValidationError
 from flask import jsonify
 import json
 from keywordservicemapper import keywordMapping
@@ -73,7 +73,8 @@ class Service(CITModel):
 		Validates that the typebeing set
 		"""
 		#TODO:Check that it is valid
-		assert type in type_list;
+		if not type in type_list:
+			raise ValidationError("'"+type+"' is not a valid type")
 		return type;
 
 
