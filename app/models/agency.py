@@ -1,7 +1,6 @@
 from app import db
 from citmodel import CITModel
 
-# TODO: Do we even need this class?
 class Agency(CITModel):
 	"""
 	A class for storing an agency

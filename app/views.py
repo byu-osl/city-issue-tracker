@@ -148,7 +148,6 @@ def getServiceAttr(serviceId):
 # Issues Section #
 ##################
 
-#TODO: Implement
 @app.route('/issues/<int:issue_id>', methods=['GET'])
 def getIssue(issue_id):
 	"""
@@ -156,12 +155,17 @@ def getIssue(issue_id):
 	"""
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
+	notes = serviceRequest.statusNotes
+	notesArray = []
+
+	for i in range(len(notes)):
+		notesArray.append(notes[i].toJSON())
 
 	return
 	{
 		"id" : serviceRequest.serviceRequestId,
 		"owner" : serviceRequest.accountId,
-		"title" : serviceRequest.description, #TODO: title? what is that?
+		"title" : serviceRequest.title,
 		"description" : serviceRequest.description,
 		"location" : 
 		{
@@ -170,15 +174,12 @@ def getIssue(issue_id):
 			"address" : serviceRequest.address
 		},
 		"open" : (serviceRequest.status == "open"),
-		"approved" : True, #TODO: we don't currently have this
-		"priority" : "Medium", #TODO: we don't currently have this
+		"approved" : serviceRequest.approved,
+		"priority" : serviceRequest.priority,
 		"image_url" : serviceRequest.mediaUrl,
-		"notes" : 
-		[
-			{"created_at" : 1200, "note" : "Test note"}
-		], #TODO: we don't currently have this, kind of...
-		"created_at" : 1200, #TODO: we don't currently have this
-		"updated_at" : 1200 #TODO: we don't currently have this
+		"notes" : notesArray,
+		"created_at" : serviceRequest.requestedDatetime,
+		"updated_at" : serviceRequest.updatedDatetime
 	}
 
 #TODO: Implement
@@ -187,7 +188,31 @@ def createIssue():
 	"""
 	Create an issue
 	"""
-	return "---"
+
+	requestJson = request.get_json()
+
+	if not requestJson:
+		abort(400)
+
+	serviceRequest = ServiceRequest()
+	serviceRequest.serviceRequestId = requestJson["id"]
+	serviceRequest.accountId = requestJson["owner"]
+	serviceRequest.title = requestJson["title"]
+	serviceRequest.description = requestJson["description"]
+	serviceRequest.lat = requestJson["location"]["lat"]
+	serviceRequest.longitude = requestJson["location"]["long"]
+	serviceRequest.address = requestJson["location"]["address"]
+	serviceRequest.status = requestJson["open"] ? "open" : "closed"
+	serviceRequest.approved = requestJson["approved"]
+	serviceRequest.priority = requestJson["priority"]
+	serviceRequest.mediaUrl = requestJson["image_url"]
+	serviceRequest.requestedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
+	serviceRequest.updatedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
+	serviceRequest.fromDict(requestJson)
+	db.session.add(serviceRequest)
+	db.session.commit()
+
+	return serviceRequest.toJSON()
 
 #TODO: Implement
 @app.route('/issues/<int:issue_id>', methods=['POST'])
@@ -195,7 +220,28 @@ def updateIssue(issue_id):
 	"""
 	Update the given issue
 	"""
-	return "---"
+
+	requestJson = request.get_json()
+
+	if not requestJson:
+		abort(400)
+
+	serviceRequest = ServiceRequest.query.get(issue_id)
+	serviceRequest.accountId = requestJson["owner"]
+	serviceRequest.title = requestJson["title"]
+	serviceRequest.description = requestJson["description"]
+	serviceRequest.lat = requestJson["location"]["lat"]
+	serviceRequest.longitude = requestJson["location"]["long"]
+	serviceRequest.address = requestJson["location"]["address"]
+	serviceRequest.status = requestJson["open"] ? "open" : "closed"
+	serviceRequest.approved = requestJson["approved"]
+	serviceRequest.priority = requestJson["priority"]
+	serviceRequest.mediaUrl = requestJson["image_url"]
+	serviceRequest.updatedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
+	serviceRequest.fromDict(requestJson);
+	db.session.commit()
+
+	return s.toJSON()
 
 #TODO: Implement
 @app.route('/issues', methods=['GET'])
@@ -203,7 +249,79 @@ def viewAllIssues():
 	"""
 	Return all the issues
 	"""
-	return "---"
+
+	requestJson = request.get_json()
+
+	if not requestJson:
+		abort(400)
+
+	orderBy = requestJson["orderBy"]
+	offset = int(requestJson["offset"])
+	max = int(requestJson["max"])
+	query = requestJson["query"]
+	reversed = bool(requestJson["reversed"])
+	includeClosed = bool(requestJson["includeClosed"])
+
+	query = ServiceRequest.query.filter(ServiceRequest.title.contains(query) or ServiceRequest.description.contains(query)).filter(includeClosed ? True : ServiceRequest.status == "open")
+
+	if orderBy == "created_at":
+		allIssues = query.order_by(ServiceRequest.createdAt).all()
+	elif orderBy == "priority":
+		allIssues = query.order_by(ServiceRequest.priority).all()
+	elif orderBy == "open":
+		allIssues = query.order_by(ServiceRequest.status).all()
+
+	requestArray = []
+
+	for i in range(len(allIssues)):
+		if len(requestArray) < max:
+			try:
+				if reversed:
+					serviceRequest = allIssues[-(i + offset)]
+				else:
+					serviceRequest = allIssues[i + offset]
+
+				notes = serviceRequest.statusNotes
+				notesArray = []
+
+				for i in range(len(notes)):
+					notesArray.append(notes[i].toJSON())
+
+				requestArray.append
+				(
+					{
+						"id" : serviceRequest.serviceRequestId,
+						"owner" : serviceRequest.accountId,
+						"title" : serviceRequest.title,
+						"description" : serviceRequest.description,
+						"location" : 
+						{
+							"lat" : serviceRequest.lat,
+							"long" : serviceRequest.longitude,
+							"address" : serviceRequest.address
+						},
+						"open" : (serviceRequest.status == "open"),
+						"approved" : serviceRequest.approved,
+						"priority" : serviceRequest.priority,
+						"image_url" : serviceRequest.mediaUrl,
+						"notes" : notesArray,
+						"created_at" : serviceRequest.requestedDatetime,
+						"updated_at" : serviceRequest.updatedDatetime
+					}
+				)
+			except:
+				break
+		else:
+			break
+
+	return
+	{
+		"total_results": len(allIssues),
+		"total_returned": len(requestArray),
+		"offset": offset,
+		"issues": requestArray
+	}
+
 
 #TODO: Implement
 @app.route('/issues/images', methods=['POST'])
