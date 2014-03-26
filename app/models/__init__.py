@@ -8,6 +8,7 @@ import agency
 import user
 import subscriptions
 import citmodel
+import note
 
 CITModel = citmodel.CITModel
 
@@ -17,6 +18,7 @@ ServiceAttributeValue = serviceattrval.ServiceAttributeValue
 ServiceRequest = servicerequest.ServiceRequest
 Agency = agency.Agency
 User = user.User
+Note = note.Note
 
 Keyword = keyword.Keyword
 keywordMapping = keywordservicemapper.keywordMapping

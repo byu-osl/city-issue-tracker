@@ -11,6 +11,7 @@ class Note(CITModel):
 	requestId (int): A foreign key pointing to serviceRequest.serviceRequestId
 	"""
 
+	__tablename__ = "note"
 	noteId = db.Column(db.Integer, primary_key=True)
 	createdAt = db.Column(db.TIMESTAMP)
 	note = db.Column(db.Text)
