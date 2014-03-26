@@ -185,7 +185,13 @@ def getIssue(issue_id):
 	notesArray = []
 
 	for i in range(len(notes)):
-		notesArray.append(notes[i].toJSON())
+		notesArray.append
+		(
+			{
+				"created_at" : notes[i].createdAt,
+				"note" : notes[i].note
+			}
+		)
 
 	return
 	{
@@ -221,7 +227,6 @@ def createIssue():
 		abort(400)
 
 	serviceRequest = ServiceRequest()
-	serviceRequest.serviceRequestId = requestJson["id"]
 	serviceRequest.accountId = requestJson["owner"]
 	serviceRequest.title = requestJson["title"]
 	serviceRequest.description = requestJson["description"]
@@ -238,7 +243,7 @@ def createIssue():
 	db.session.add(serviceRequest)
 	db.session.commit()
 
-	return serviceRequest.toJSON()
+	return True
 
 #TODO: Implement
 @app.route('/issues/<int:issue_id>', methods=['POST'])
@@ -267,7 +272,7 @@ def updateIssue(issue_id):
 	serviceRequest.fromDict(requestJson);
 	db.session.commit()
 
-	return s.toJSON()
+	return True
 
 #TODO: Implement
 @app.route('/issues', methods=['GET'])
@@ -311,7 +316,13 @@ def viewAllIssues():
 				notesArray = []
 
 				for i in range(len(notes)):
-					notesArray.append(notes[i].toJSON())
+					notesArray.append
+					(
+						{
+							"created_at" : notes[i].createdAt,
+							"note" : notes[i].note
+						}
+					)
 
 				requestArray.append
 				(
