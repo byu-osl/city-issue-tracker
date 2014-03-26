@@ -322,7 +322,6 @@ def viewAllIssues():
 		"issues": requestArray
 	}
 
-
 #TODO: Implement
 @app.route('/issues/images', methods=['POST'])
 def uploadImage():
