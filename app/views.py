@@ -3,7 +3,8 @@ from app import app, db
 from flask import render_template, request, jsonify, Response
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping, ServiceRequest
-
+from os import urandom
+from passlib.hash import sha512_crypt
 
 #############
 # Main Page #
@@ -32,6 +33,37 @@ def signOut():
 #TODO: Implement
 @app.route('/users', methods=['POST'])
 def createUser():
+	hash_iterations
+
+	if not request.json:
+		abort(400)
+
+	req_json = request.get_json()
+	userId = req_json['id']
+	email = req_json['email']
+	firstName = req_json['name']
+	lastName = req_json['name']
+	password = req_json['password']
+
+	passwordSalt = urandom(16)	# Generate a Cryptographically Secure Salt of length 16 bytes
+
+	passwordHash = sha512_crypt.encrypt(password, rounds = 10000, salt = passwordSalt)
+	
+
+	
+
+
+	admin = req_json['admin']
+
+	new_user = User(req_json['id'], )
+
+	# userId, email, firstName, lastName, phone = "(555) 555-5555", passwordHash, passwordSalt, role = 'user', 
+
+	new_user = User()
+	new_user.fromDict(request.json)
+
+
+
 	return "---"
 
 #TODO: Implement

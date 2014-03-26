@@ -5,6 +5,7 @@ from app import db
 from subscriptions import subscriptions
 from sqlalchemy.orm import validates
 from citmodel import CITModel
+from time import gmtime, localtime, strftime
 
 class User(CITModel):
 	"""
@@ -20,13 +21,16 @@ class User(CITModel):
 	role (string): The type of user, ie 'user', 'employee', or 'admin'
 	lastLogin (date): The last time the user logged in
 	joined (data): The date the user registered
-	subscriptions: A DB relationship tying the Service Requests to the User ID.
+	subscriptionList: A DB relationship tying the Service Requests to the User ID.
 
 	"""
 
 	__tablename__ = "user"
+	_open311Name = "user"
+	_open311ListName = "users"
+
 	userId = db.Column(db.Integer, primary_key = True)
-	email = db.Column(db.String(255)) #This needs to be unique
+	email = db.Column(db.String(255), unique = True) #This needs to be unique
 	firstName = db.Column(db.String(255))
 	lastName = db.Column(db.String(255))
 	phone = db.Column(db.String(10))
@@ -37,18 +41,51 @@ class User(CITModel):
 	joined = db.Column(db.Date)
 	subscriptionList = db.relationship("ServiceRequest", secondary=subscriptions, backref=db.backref('subscribers', lazy='dynamic'))
 
+	def __init__(self, userId, email, firstName, lastName, phone = "(555) 555-5555", passwordHash, passwordSalt, role = 'user', lastLogin = localtime().strftime("%Y-%m-%d %H:%M:%S"), joined = localtime().strftime("%Y-%m-%d"), subscriptionList = []):
+		self.userId = userId
+		self.email = email
+		self.firstName = firstName
+		self.lastName = lastName
+		self.phone = phone
+		self.passwordHash = passwordHash
+		self.passwordSalt = passwordSalt
+		self.role = role
+		self.lastLogin = lastLogin
+		self.joined = joined
+		self.subscriptionList = subscriptionList
+
+
 	def toDict(self):
-		return {"userId" : self.userId,
+		return {"user_id" : self.userId,
 				"email" : self.email,
-				"firstName" : self.firstName,
-				"lastName" : self.lastName,
+				"first_name" : self.firstName,
+				"last_name" : self.lastName,
 				"phone" : self.phone,
-				"passwordHash" : self.passwordHash,
-				"passwordSalt" : self.passwordSalt,
+				"password_hash" : self.passwordHash,
+				"password_salt" : self.passwordSalt,
 				"role" : self.role,
-				"lastLogin" : self.lastLogin,
+				"last_login" : self.lastLogin,
 				"joined" : self.joined,
-				"subscriptionList" : map(lambda x : x.serviceRequestId, self.subscriptionList)}
+				"subscription_list" : map(lambda x : x.serviceRequestId, self.subscriptionList)}
+
+
+	def fromDict(self, d):
+		"""
+		This converts the dictionary to a user model
+		"""
+		self.userId = d.get("user_id", self.userId)
+		self.email = d.get("email", self.email)
+		self.firstName = d.get("first_name", self.firstName)
+		self.lastName = d.get("last_name", self.lastName)
+		self.phone = d.get("phone", self.phone)
+		self.passwordHash = d.get("password_hash", self.passwordHash)
+		self.passwordSalt = d.get("password_salt", self.passwordSalt)
+		self.role = d.get("role", self.role)
+		self.lastLogin = d.get("last_login", self.lastLogin)
+		self.joined = d.get("joined", self.joined)
+		self.subscriptionList = d.get("subscription_list", self.subscriptionList)
+		return True
+
 
 	@validates('email')
 	def validateEmail(self, key, email):

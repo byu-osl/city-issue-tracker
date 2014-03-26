@@ -3,3 +3,4 @@ sqlalchemy
 flask-sqlalchemy
 xmltodict
 Flask-Testing
+passlib
