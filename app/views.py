@@ -202,7 +202,7 @@ def createIssue():
 	serviceRequest.lat = requestJson["location"]["lat"]
 	serviceRequest.longitude = requestJson["location"]["long"]
 	serviceRequest.address = requestJson["location"]["address"]
-	serviceRequest.status = requestJson["open"] ? "open" : "closed"
+	serviceRequest.status = "open" if requestJson["open"] else "closed"
 	serviceRequest.approved = requestJson["approved"]
 	serviceRequest.priority = requestJson["priority"]
 	serviceRequest.mediaUrl = requestJson["image_url"]
@@ -233,7 +233,7 @@ def updateIssue(issue_id):
 	serviceRequest.lat = requestJson["location"]["lat"]
 	serviceRequest.longitude = requestJson["location"]["long"]
 	serviceRequest.address = requestJson["location"]["address"]
-	serviceRequest.status = requestJson["open"] ? "open" : "closed"
+	serviceRequest.status = "open" if requestJson["open"] else "closed"
 	serviceRequest.approved = requestJson["approved"]
 	serviceRequest.priority = requestJson["priority"]
 	serviceRequest.mediaUrl = requestJson["image_url"]
@@ -262,7 +262,7 @@ def viewAllIssues():
 	reversed = bool(requestJson["reversed"])
 	includeClosed = bool(requestJson["includeClosed"])
 
-	query = ServiceRequest.query.filter(ServiceRequest.title.contains(query) or ServiceRequest.description.contains(query)).filter(includeClosed ? True : ServiceRequest.status == "open")
+	query = ServiceRequest.query.filter(ServiceRequest.title.contains(query) or ServiceRequest.description.contains(query)).filter(True if includeClosed else ServiceRequest.status == "open")
 
 	if orderBy == "created_at":
 		allIssues = query.order_by(ServiceRequest.createdAt).all()
