@@ -41,19 +41,6 @@ class User(CITModel):
 	joined = db.Column(db.Date)
 	subscriptionList = db.relationship("ServiceRequest", secondary=subscriptions, backref=db.backref('subscribers', lazy='dynamic'))
 
-	def __init__(self, userId, email, firstName, lastName, phone = "(555) 555-5555", passwordHash, passwordSalt, role = 'user', lastLogin = localtime().strftime("%Y-%m-%d %H:%M:%S"), joined = localtime().strftime("%Y-%m-%d"), subscriptionList = []):
-		self.userId = userId
-		self.email = email
-		self.firstName = firstName
-		self.lastName = lastName
-		self.phone = phone
-		self.passwordHash = passwordHash
-		self.passwordSalt = passwordSalt
-		self.role = role
-		self.lastLogin = lastLogin
-		self.joined = joined
-		self.subscriptionList = subscriptionList
-
 
 	def toDict(self):
 		return {"user_id" : self.userId,
