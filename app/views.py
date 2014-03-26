@@ -174,6 +174,7 @@ def getServiceAttr(serviceId):
 # Issues Section #
 ##################
 
+#TODO: Test and deal with user authorization
 @app.route('/issues/<int:issue_id>', methods=['GET'])
 def getIssue(issue_id):
 	"""
@@ -214,7 +215,7 @@ def getIssue(issue_id):
 		"updated_at" : serviceRequest.updatedDatetime
 	}
 
-#TODO: Implement
+#TODO: Test and deal with user authorization
 @app.route('/issues', methods=['POST'])
 def createIssue():
 	"""
@@ -245,7 +246,7 @@ def createIssue():
 
 	return True
 
-#TODO: Implement
+#TODO: Test and deal with user authorization
 @app.route('/issues/<int:issue_id>', methods=['POST'])
 def updateIssue(issue_id):
 	"""
@@ -274,7 +275,7 @@ def updateIssue(issue_id):
 
 	return True
 
-#TODO: Implement
+#TODO: Test and deal with user authorization
 @app.route('/issues', methods=['GET'])
 def viewAllIssues():
 	"""
