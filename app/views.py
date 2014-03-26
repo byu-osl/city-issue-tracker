@@ -121,10 +121,9 @@ def getAllUsers():
 	userArray = []
 
 	for user in allUsers:
-		admin
+		admin = True if user.role == 'admin' else False
 		userArray.append
 		(
-			admin = True if user.role == 'admin' else False
 			{
 				"id" : user.userId,
 				"admin" : admin,
