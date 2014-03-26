@@ -5,7 +5,6 @@ from app import db
 from subscriptions import subscriptions
 from sqlalchemy.orm import validates
 from citmodel import CITModel
-from time import gmtime, localtime, strftime
 
 class User(CITModel):
 	"""
@@ -58,7 +57,7 @@ class User(CITModel):
 
 	def fromDict(self, d):
 		"""
-		This converts the dictionary to a user model
+		This converts a dictionary to a user model
 		"""
 		self.userId = d.get("user_id", self.userId)
 		self.email = d.get("email", self.email)

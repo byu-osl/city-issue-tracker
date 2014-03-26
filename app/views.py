@@ -5,6 +5,7 @@ from fakeData import service_list, service_def, get_service_reqs, get_service_re
 from models import Service, ServiceAttribute, Keyword, KeywordMapping, ServiceRequest, User
 from os import urandom
 from passlib.hash import sha512_crypt
+from time import localtime, strftime
 
 #############
 # Main Page #
@@ -37,38 +38,69 @@ def createUser():
 	if not request.json:
 		abort(400)
 
-	reqJSON = request.get_json()
+	requestJson = request.get_json()
 
 	user = User()
-	user.email = reqJSON['email']
-	user.firstName = reqJSON['name']
-	user.lastName = reqJSON['name']
+	user.email = requestJson['email']
+	user.firstName = requestJson['name']
+	user.lastName = requestJson['name']
 	user.phone = "(555) 555-5555"
-	user.role = 'admin' if reqJSON['admin'] else user.role = 'user'
+	user.role = 'admin' if requestJson['admin'] else 'user'
 	'''
 	Generate a Cryptographically Secure Salt of length 16 bytes then generate the password
 	hash using the password and salt and hashing 10,000 times.
 	'''
-	password = reqJSON['password']
+	password = requestJson['password']
 	user.passwordSalt = urandom(16)
 	user.passwordHash = sha512_crypt.encrypt(password, rounds = 10000, salt = user.passwordSalt)
 	user.lastLogin = localtime().strftime("%Y-%m-%d %H:%M:%S")
 	user.joined = localtime().strftime("%Y-%m-%d")
 	user.subscriptionList = []
+	user = user.fromDict(requestJson)
+	db.session.add(user)
+	db.session.commit()
 
-
-
-	return "---"
+	return user.toJSON()
 
 #TODO: Implement
 @app.route('/users/<int:user_id>', methods=['GET'])
 def getUser(user_id):
-	return "---"
+	user = User.query.get(user_id)
+	admin = True if user.role == 'admin' else False
+
+	return
+	{
+		"id": user.userId,
+		"admin": admin,
+		"name": user.firstName + " " + user.lastName,
+		"email": user.email,
+	}
+
 
 #TODO: Implement
 @app.route('/users/<int:user_id>', methods=['POST'])
 def updateUser(user_id):
-	return "---"
+
+	if not request.json:
+		abort(400)
+
+	requestJson = request.get_json()
+
+	user = User.query.get(user_id)
+
+	user.email = requestJson['email']
+	user.firstName = requestJson['name']
+	user.lastName = requestJson['name']
+	user.role = 'admin' if requestJson['admin'] else 'user'
+	if requestJson['password']:
+		password = requestJson['password']
+		user.passwordSalt = urandom(16)
+		user.passwordHash = sha512_crypt.encrypt(password, rounds = 10000, salt = user.passwordSalt)
+	user = user.fromDict(requestJson)
+	db.session.add(user)
+	db.session.commit()
+
+	return user.toJSON()
 
 #TODO: Implement
 @app.route('/users/signed_in_user')
@@ -78,7 +110,38 @@ def getOwnAccount():
 #TODO: Implement
 @app.route('/users', methods=['GET'])
 def getAllUsers():
-	return "---"
+	'''
+	NOTE: Need to clarify with front end team how they want this, as they are not passing any parameters,
+	but the Data Structure they have outlined for a User Array includes info for pagination which would
+	need to be passed in here. For now, I am just assuming that they want all of the users back in one
+	big list.
+	'''
+	allUsers = User.query.all()
+
+	userArray = []
+
+	for user in allUsers:
+		admin
+		userArray.append
+		(
+			admin = True if user.role == 'admin' else False
+			{
+				"id" : user.userId,
+				"admin" : admin,
+				"name" : user.firstName + " " + user.lastName,
+				"email" : user.email
+			}
+		)
+
+	return
+	{
+		"total_results": len(allUsers),
+		"total_returned": len(allusers),
+		"offset": 0,
+		"users": userArray
+	}
+
+
 ###################
 # Service Section #
 ###################
