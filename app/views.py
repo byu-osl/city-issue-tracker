@@ -17,6 +17,10 @@ from time import localtime, strftime
 def home():
 	return render_template('index.html')
 
+@app.route('/users.html')
+def showUsers():
+	return render_template('users.html')
+
 ################
 # User Section #
 ################
