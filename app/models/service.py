@@ -58,6 +58,9 @@ class Service(CITModel):
 			"type": self.type,
 		}
 
+	def toCitDict(self):
+		return self.toDict()
+
 	def fromDict(self, d):
 		self.serviceId = d.get("service_id", self.serviceId)
 		self.serviceName = d.get("service_name", self.serviceName)
