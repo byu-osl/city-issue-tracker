@@ -1,4 +1,4 @@
-from app import db
+from app import db, ValidationError
 from sqlalchemy.orm import validates
 from defs import status_list, priority_list
 from citmodel import CITModel
@@ -62,7 +62,8 @@ class ServiceRequest(CITModel):
 		Validates that the status is in a list of valid statuses
 		"""
 
-		assert status in status_list
+		if not status in status_list:
+			raise ValidationError("'"+status+"' is not a valid status")
 		return status
 
 	@validates("priority")
@@ -71,7 +72,8 @@ class ServiceRequest(CITModel):
 		Validates that the status is in a list of valid statuses
 		"""
 
-		assert priority in priority_list
+		if not priority in priority_list:
+			raise ValidationError("'"+priority+"' is not a valid priority")
 		return priority
 
 	def toDict(self):
