@@ -1,5 +1,5 @@
 import json
-from flask import render_template, request, jsonify, Response, abort
+from flask import render_template, request, jsonify, Response
 from app import app, db, ValidationError, genError
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping, ServiceRequest, User, Note
@@ -7,6 +7,7 @@ from os import urandom
 from passlib.hash import sha512_crypt
 from time import localtime, strftime
 
+JSON_ERR_MSG = "Invalid JSON or No JSON"
 
 
 #############
@@ -42,7 +43,7 @@ def signOut():
 def createUser():
 	
 	if not request.json:
-		abort(400)
+		return genError(400, JSON_ERR_MSG)
 
 	requestJson = request.get_json()
 
@@ -88,7 +89,7 @@ def getUser(user_id):
 def updateUser(user_id):
 
 	if not request.json:
-		abort(400)
+		return genError(400, JSON_ERR_MSG)
 
 	requestJson = request.get_json()
 
@@ -168,7 +169,7 @@ def genServices():
 def newService():
 
 	if not request.json:
-		abort(400)
+		return genError(400, JSON_ERR_MSG)
 
 	s = Service()
 	s.fromDict(request.json)
@@ -204,7 +205,7 @@ def getService(serviceId):
 def postService(serviceId):
 
 	if not request.json:
-		abort(400)
+		return genError(400, JSON_ERR_MSG)
 
 	s = Service.query.get(serviceId)
 
@@ -214,7 +215,7 @@ def postService(serviceId):
 	try:
 		s.fromDict(request.json)
 	except ValidationError as e:
-		return genError(400, e.str)
+		return genError(400, e.errorMsg)
 
 
 	db.session.commit()
@@ -304,7 +305,7 @@ def createIssue():
 	requestJson = request.get_json()
 
 	if not requestJson:
-		abort(400)
+		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest()
 	serviceRequest.accountId = requestJson["owner"]
@@ -335,7 +336,7 @@ def updateIssue(issue_id):
 	requestJson = request.get_json()
 
 	if not requestJson:
-		abort(400)
+		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
 	serviceRequest.accountId = requestJson["owner"]
@@ -364,7 +365,7 @@ def viewAllIssues():
 	requestJson = request.get_json()
 
 	if not requestJson:
-		abort(400)
+		return genError(400, JSON_ERR_MSG)
 
 	orderBy = requestJson["orderBy"]
 	offset = int(requestJson["offset"])
