@@ -1,4 +1,4 @@
-from app import db
+from app import db, ValidationError
 from sqlalchemy.orm import validates
 
 
@@ -51,12 +51,25 @@ class ServiceAttribute(db.Model):
 		"""
 
 		"""
-		return datatype_list
+		return datatype_list #TODO: To camelCase
+
+	#TODO: Add validates for the datatype_list
+	@validates('datatype')
+	def validate_datatype(self, key, datatype):
+		"""
+		A validator that asserts that the datatype is valid
+		"""
+		if not datatype in datatype_list:
+			raise ValidationError("'"+datatype+"' is not a valid datatype")
+
+		return datatype
+
 
 	@validates('order')
 	def validate_order(self, key, order):
 		"""
 		A validator that asserts order is above 0 (starts at 1)
 		"""
-		assert order > 0
+		if not order > 0:
+			raise ValidationError("The order must start above 0")
 		return order
