@@ -1,11 +1,13 @@
 import json
-from app import app, db
 from flask import render_template, request, jsonify, Response, abort
+from app import app, db, ValidationError, genError
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping, ServiceRequest, User, Note
 from os import urandom
 from passlib.hash import sha512_crypt
 from time import localtime, strftime
+
+
 
 #############
 # Main Page #
@@ -174,19 +176,25 @@ def newService():
 	db.session.add(s)
 	db.session.commit()
 
-	return s.toJSON()
+	jsonResp = s.toJSON()
+	jsonResp.status_code = 201
 
-#TODO: Implement
+	return jsonResp
+
+#Get a list of all services
 @app.route('/services', methods=['GET'])
 def getServices():
 	l = Service.query.all()
 
 	return Service.composeFormatList("json", l)
 
-#TODO: Implement
+#Get a specific service
 @app.route('/services/<int:serviceId>', methods=['GET'])
 def getService(serviceId):
 	s = Service.query.get(serviceId)
+
+	if s == None:
+		return genError(404, "Service ID was not found");
 
 	return s.toJSON()
 
@@ -200,7 +208,14 @@ def postService(serviceId):
 
 	s = Service.query.get(serviceId)
 
-	s.fromDict(request.json);
+	if s == None:
+		return genError(404, "Service ID was not found");
+
+	try:
+		s.fromDict(request.json)
+	except ValidationError as e:
+		return genError(400, e.str)
+
 
 	db.session.commit()
 
@@ -216,8 +231,6 @@ def deleteService(serviceId):
 
 	#TODO: Some other way of marking success
 	return "---"
-
-
 
 
 
@@ -450,25 +463,9 @@ def viewImage(photo_id):
 #TODO: Implement
 @app.route('/open311/api/services.<form>', methods=['GET'])
 def json_view_services(form):
-	s1 = Service()
-	s1.title = "Title",
-	s1.description = "Description"
-	s1.type = "batch"
-	s1.metaData = True
+	l = Service.query.all()
 
-	s2 = Service()
-	s2.title = "Title",
-	s2.description = "Description"
-	s2.type = "batch"
-	s2.metaData = True
-
-	s3 = Service()
-	s3.title = "Title",
-	s3.description = "Description"
-	s3.type = "batch"
-	s3.metaData = True
-
-	return Service.composeFormatList(form, [s1, s2, s3])
+	return Service.composeFormatList(form, l)
 
 @app.route('/open311/api/services/<int:serviceCode>.<form>')
 def apiViewService(serviceCode, form):
