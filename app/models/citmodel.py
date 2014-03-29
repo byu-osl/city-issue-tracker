@@ -16,6 +16,9 @@ class CITModel(db.Model):
 	Methods to overwrite:
 	1. toDict: This function should convert the model attributes into a dictionary
 	2. fromDict: Not created yet
+	3. toCitDict: This function converts the Model to a format for the CIT frontend
+	4. fromCitDict: This function takes the format from the CIT frontend and converts back to a model
+
 
 	Attibutes to overwrite:
 	1. _open311Name: The name of the class (Used when generating xml)
@@ -44,6 +47,19 @@ class CITModel(db.Model):
 		"""
 		raise NotImplementedError
 
+	def toCitDict(self):
+		"""
+		This converts the model to a dictionary.
+		This is an abstract method
+		"""
+		raise NotImplementedError
+
+	def fromCitDict(self):
+		"""
+		This converts the model to a dictionary.
+		This is an abstract method
+		"""
+		raise NotImplementedError
 
 	def toJSON(self):
 		"""
@@ -56,6 +72,18 @@ class CITModel(db.Model):
 		A simple function that converts a json string to being placed into the model
 		"""
 		return self.fromDict(json.loads(jsonStr))
+
+	def toCitJSON(self):
+		"""
+		A simple function that converts this object into json
+		"""
+		return jsonify(self.toCitDict())
+
+	def fromCitJSON(self, jsonStr):
+		"""
+		A simple function that converts a json string to being placed into the model
+		"""
+		return self.fromCitDict(json.loads(jsonStr))
 
 
 	def toXML(self):
@@ -105,7 +133,16 @@ class CITModel(db.Model):
 		"""
 		Creates a JSON list
 		"""
+		#TODO: 
 		return json.dumps(map(lambda x: x.toDict(), list));
+
+	@classmethod
+	def composeCitJSONList(cls, list):
+		"""
+		Creates a CIT JSON list
+		"""
+		#TODO: 
+		return json.dumps(map(lambda x: x.toCitDict(), list));
 
 	@classmethod
 	def composeXMLList(cls, list):
@@ -113,6 +150,3 @@ class CITModel(db.Model):
 		Creates a XML list
 		"""
 		return xmltodict.unparse({cls._open311ListName: {cls._open311Name:  map(lambda x:  x.toDict(), list)}});
-
-
-
