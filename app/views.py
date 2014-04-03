@@ -9,6 +9,7 @@ from time import localtime, strftime
 
 JSON_ERR_MSG = "Invalid JSON or No JSON"
 
+db.create_all()
 
 #############
 # Main Page #
@@ -197,7 +198,7 @@ def getService(serviceId):
 	if s == None:
 		return genError(404, "Service ID was not found");
 
-	return s.toJSON()
+	return s.toCitJSON();
 
 #TODO: Implement
 #Updates a service
@@ -262,38 +263,11 @@ def getIssue(issue_id):
 	"""
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
-	notes = serviceRequest.statusNotes
-	notesArray = []
 
-	for i in range(len(notes)):
-		notesArray.append
-		(
-			{
-				"created_at" : notes[i].createdAt,
-				"note" : notes[i].note
-			}
-		)
+	if serviceRequest == None:
+		return genError(404, "Issue ID was not found");
 
-	return
-	{
-		"id" : serviceRequest.serviceRequestId,
-		"owner" : serviceRequest.accountId,
-		"title" : serviceRequest.title,
-		"description" : serviceRequest.description,
-		"location" : 
-		{
-			"lat" : serviceRequest.lat,
-			"long" : serviceRequest.longitude,
-			"address" : serviceRequest.address
-		},
-		"open" : (serviceRequest.status == "open"),
-		"approved" : serviceRequest.approved,
-		"priority" : serviceRequest.priority,
-		"image_url" : serviceRequest.mediaUrl,
-		"notes" : notesArray,
-		"created_at" : serviceRequest.requestedDatetime,
-		"updated_at" : serviceRequest.updatedDatetime
-	}
+	return serviceRequest.toCitJSON()
 
 #TODO: Test and deal with user authorization
 @app.route('/issues', methods=['POST'])
@@ -308,23 +282,28 @@ def createIssue():
 		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest()
-	serviceRequest.accountId = requestJson["owner"]
-	serviceRequest.title = requestJson["title"]
-	serviceRequest.description = requestJson["description"]
+	#serviceRequest.accountId = requestJson["owner"]
+	#serviceRequest.title = requestJson["title"]
+	#serviceRequest.description = requestJson["description"]
 	serviceRequest.lat = requestJson["location"]["lat"]
 	serviceRequest.longitude = requestJson["location"]["long"]
 	serviceRequest.address = requestJson["location"]["address"]
-	serviceRequest.status = "open" if requestJson["open"] else "closed"
-	serviceRequest.approved = requestJson["approved"]
-	serviceRequest.priority = requestJson["priority"]
-	serviceRequest.mediaUrl = requestJson["image_url"]
-	serviceRequest.requestedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
-	serviceRequest.updatedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
-	serviceRequest.fromDict(requestJson)
+	#serviceRequest.status = "open" if requestJson["open"] else "closed"
+	#serviceRequest.approved = requestJson["approved"]
+	#serviceRequest.priority = requestJson["priority"]
+	#serviceRequest.mediaUrl = requestJson["image_url"]
+	#serviceRequest.requestedDatetime = strftime("%Y-%m-%d %H:%M:%S", localtime())
+	#serviceRequest.updatedDatetime = strftime("%Y-%m-%d %H:%M:%S", localtime())
+
+	try:
+		serviceRequest.fromCitDict(requestJson);
+	except ValidationError as e:
+		return genError(400, e.errorMsg)
+
 	db.session.add(serviceRequest)
 	db.session.commit()
 
-	return True
+	return serviceRequest.toCitJSON()
 
 #TODO: Test and deal with user authorization
 @app.route('/issues/<int:issue_id>', methods=['POST'])
@@ -339,21 +318,26 @@ def updateIssue(issue_id):
 		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
-	serviceRequest.accountId = requestJson["owner"]
-	serviceRequest.title = requestJson["title"]
-	serviceRequest.description = requestJson["description"]
+	#serviceRequest.accountId = requestJson["owner"]
+	#serviceRequest.title = requestJson["title"]
+	#serviceRequest.description = requestJson["description"]
 	serviceRequest.lat = requestJson["location"]["lat"]
 	serviceRequest.longitude = requestJson["location"]["long"]
 	serviceRequest.address = requestJson["location"]["address"]
-	serviceRequest.status = "open" if requestJson["open"] else "closed"
-	serviceRequest.approved = requestJson["approved"]
-	serviceRequest.priority = requestJson["priority"]
-	serviceRequest.mediaUrl = requestJson["image_url"]
-	serviceRequest.updatedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
-	serviceRequest.fromDict(requestJson);
+	#serviceRequest.status = "open" if requestJson["open"] else "closed"
+	#serviceRequest.approved = requestJson["approved"]
+	#serviceRequest.priority = requestJson["priority"]
+	#serviceRequest.mediaUrl = requestJson["image_url"]
+	#serviceRequest.updatedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
+
+	try:
+		serviceRequest.fromCitDict(requestJson);
+	except ValidationError as e:
+		return genError(400, e.errorMsg)
+
 	db.session.commit()
 
-	return True
+	return serviceRequest.toCitDict()
 
 #TODO: Test and deal with user authorization
 @app.route('/issues', methods=['GET'])
