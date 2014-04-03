@@ -1,4 +1,8 @@
+var comm = new FakeCommunicator(new Generator(), new Users());
 
+function renderUsers(usersResponse){
+    usersResponse.users.foreach(listRenderUser);
+}
 
 function listRenderUser(user){
 	var tr = $("<tr class='user'></tr>");
@@ -27,3 +31,5 @@ $("tr.user").click(function(){
 	}
 	$("#user-popup").show();
 });
+
+comm.getUsers().then(renderUsers);

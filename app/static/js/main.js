@@ -1,24 +1,10 @@
 var issues = {};
 var user = {"name":"Steve","id":1,"isAdmin":true};
 
-var g = new Generator();
-// var u = new Users();
-// var c = new FakeCommunicator(new Generator(), new Users());
+var comm = new FakeCommunicator(new Generator(), new Users());
 
-for(var i = 0; i < 10; i++){
-	var issue = g.next();
-	issue.id = i;
-	issues[i] = issue;
-	console.log(issue);
-	if (issue.location.address) {
-		console.log(true);
-	}
-	if (issue.location.latitude) {
-		console.log('error');
-	} else {
-		console.log('correct');
-	}
-	listRenderIssue(issue);
+function renderIssues(issuesResponse){
+    issuesResponse.issues.forEach(listRenderIssue);
 }
 
 function listRenderIssue(issue){
@@ -83,3 +69,5 @@ $("#search-box").keypress(function(e){
 		}
 	});
 });
+
+comm.getIssues().then(renderIssues)

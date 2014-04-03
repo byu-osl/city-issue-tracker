@@ -16,7 +16,7 @@ Generator = (function Generator_Namespace(){
     }
     
     function Generator(start){
-        this.start = withDefault(start, Math.random())
+        this.start = withDefault(start,0)
         this.end = this.start;
     }
 
@@ -63,8 +63,8 @@ Generator = (function Generator_Namespace(){
         return {
             "id":this.end++,
             "owner":Math.floor(Math.random() *10),
-            "title":"title - " + id,
-            "description":"description of issue $ " + id,
+            "title":"Title of issue:" + id,
+            "description":"description of issue #" + id,
             "location":{
                 "lat": addr.lat,
                 "long": addr.long,
