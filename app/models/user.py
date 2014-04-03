@@ -40,6 +40,12 @@ class User(CITModel):
 	joined = db.Column(db.Date)
 	subscriptionList = db.relationship("ServiceRequest", secondary=subscriptions, backref=db.backref('subscribers', lazy='dynamic'))
 
+	def __init__(self):
+		self.email = ""
+		self.firstname = ""
+		self.lastname = ""
+		self.phone = "(555) 555-5555"
+		self.role = "user"
 
 	def toDict(self):
 		return {"user_id" : self.userId,

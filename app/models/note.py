@@ -19,7 +19,7 @@ class Note(CITModel):
 
 	def toDict(self):
 		"""
-		This converts the model to a dionary
+		This converts the model to a dictionary
 		"""
 
 		return
@@ -28,6 +28,16 @@ class Note(CITModel):
 			"created_at" : self.createdAt,
 			"note" : self.note,
 			"request_id" : self.requestId
+		}
+
+	def toCitDict(self):
+		"""
+		This converts the model to a dictionary for the CIT front-end
+		"""
+		return
+		{
+			"created_at" : self.createdAt,
+			"note" : self.note
 		}
 
 	def fromDict(self, d):

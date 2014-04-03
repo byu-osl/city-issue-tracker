@@ -56,6 +56,22 @@ class ServiceRequest(CITModel):
 	serviceCode = db.Column(db.Integer, db.ForeignKey("service.serviceId"))
 	accountId = db.Column(db.Integer, db.ForeignKey("user.userId"))
 
+	def __init__(self):
+		"""
+		Setups default values
+		"""
+		self.accountId = 0
+		self.title = "A basic issue"
+		self.description = "A basic issue description"
+		self.lat = 1
+		self.longitude = 1
+		self.address = "Unknown"
+		self.status = "open"
+		self.approved = 0
+		self.priority = "low"
+		self.mediaUrl = None;
+
+
 	@validates("status")
 	def validate_status(self, key, status):
 		"""
@@ -106,6 +122,34 @@ class ServiceRequest(CITModel):
 			"account_id" : self.accountId
 		}
 
+	def toCitDict(self):
+		"""
+		This converts a model to a dictionary for the CIT front-end
+		"""
+
+		#TODO: Fill out notes
+		notesArray = map(lambda x: x.toCitDict(), self.statusNotes)
+
+		return {
+			"id" : self.serviceRequestId,
+			"owner" : self.accountId,
+			"title" : self.title,
+			"description" : self.description,
+			"location" :
+			{
+				"lat" : self.lat,
+				"long" : self.longitude,
+				"address" : self.address
+			},
+			"open" : (self.status == "open"),
+			"approved" : self.approved,
+			"priority" : self.priority,
+			"image_url" : self.mediaUrl,
+			"notes" : notesArray,
+			"created_at" : self.requestedDatetime,
+			"updated_at" : self.updatedDatetime
+		}
+
 	def fromDict(self, d):
 		"""
 		This converts the dictionary to a model
@@ -133,3 +177,33 @@ class ServiceRequest(CITModel):
 		self.serviceCode = d.get("service_code", self.serviceCode)
 		self.accountId = d.get("account_id", self.accountId)
 		return True
+
+	def fromCitDict(self, d):
+		"""
+		This converts the dictionary to a model
+		"""
+
+		self.serviceRequestId = d.get("service_request_id", self.serviceRequestId)
+		self.status = d.get("status", self.status)
+		self.statusNotes = d.get("status_notes", self.statusNotes)
+		self.title = d.get("title", self.title)
+		self.description = d.get("description", self.description)
+		self.serviceNotice = d.get("service_notice", self.serviceNotice)
+		self.requestedDatetime = d.get("requested_datetime", self.requestedDatetime)
+		self.updatedDatetime = d.get("updated_datetime", self.updatedDatetime)
+		self.expectedDatetime = d.get("expected_datetime", self.expectedDatetime)
+		self.address = d.get("address", self.address)
+		self.addressId = d.get("address_id", self.addressId)
+		self.zipcode = d.get("zipcode", self.zipcode)
+		#TODO: This has to be changed
+		self.lat = d.get("lat", self.lat)
+		self.longitude = d.get("long", self.longitude)
+		self.mediaUrl = d.get("media_url", self.mediaUrl)
+		self.deviceId = d.get("device_id", self.deviceId)
+		self.approved = d.get("approved", self.approved)
+		self.priority = d.get("priority", self.priority)
+		self.agencyResponsible = d.get("agency_responsible", self.agencyResponsible)
+		self.serviceCode = d.get("service_code", self.serviceCode)
+		self.accountId = d.get("account_id", self.accountId)
+		return True
+
