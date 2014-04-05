@@ -1,4 +1,5 @@
 function renderIssues(issuesResponse){
+	$("#issue-list").html("")
     issuesResponse.issues.forEach(listRenderIssue);
 }
 
@@ -17,7 +18,7 @@ function listRenderIssue(issue){
 	addIssueToMap(issue);
 }
 
-$(".close-button").click(function(){
+$("#issue-close-button").click(function(){
 	$("#issue-popup").hide();
 });
 
@@ -65,4 +66,10 @@ $("#search-box").keypress(function(e){
 	});
 });
 
-comm.getIssues().then(renderIssues)
+function fetchIssues(){
+	comm.getIssues().then(renderIssues)
+}
+
+fetchIssues()
+
+onLogin.push(fetchIssues)

@@ -56,6 +56,7 @@ FakeCommunicator = (function communicator_namespace() {
             fakeUserGenerator.next(true,"Phil"),
             fakeUserGenerator.next(false,"Bob")
         ].concat(getList(fakeUserGenerator, 18));
+        console.log(this.users);
         this.user = undefined;
     }
 
@@ -156,7 +157,7 @@ FakeCommunicator = (function communicator_namespace() {
                 reject(Error("You're already logged in."));
             } else if (user && (user.password == credentials.password)){
                 self.user = user;
-                resolve("Success!");
+                resolve(dupShallow(user));
             } else {
                 reject(Error("Incorrect email/password combination"));
             }
