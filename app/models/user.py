@@ -44,21 +44,35 @@ class User(CITModel):
 		self.email = ""
 		self.firstname = ""
 		self.lastname = ""
-		self.phone = "(555) 555-5555"
+		self.phone = None
 		self.role = "user"
 
+
 	def toDict(self):
-		return {"user_id" : self.userId,
-				"email" : self.email,
-				"first_name" : self.firstName,
-				"last_name" : self.lastName,
-				"phone" : self.phone,
-				"password_hash" : self.passwordHash,
-				"password_salt" : self.passwordSalt,
-				"role" : self.role,
-				"last_login" : self.lastLogin,
-				"joined" : self.joined,
-				"subscription_list" : map(lambda x : x.serviceRequestId, self.subscriptionList)}
+		return {
+			"user_id" : self.userId,
+			"email" : self.email,
+			"first_name" : self.firstName,
+			"last_name" : self.lastName,
+			"phone" : self.phone,
+			"password_hash" : self.passwordHash,
+			"password_salt" : self.passwordSalt,
+			"role" : self.role,
+			"last_login" : self.lastLogin,
+			"joined" : self.joined,
+			"subscription_list" : map(lambda x : x.serviceRequestId, self.subscriptionList)
+		}
+
+
+	def toCITDict(self):
+		admin = True if user.role == 'admin' else False
+		return {
+			"user_id" : self.userId,
+			"admin" : admin,
+			"firstname" : self.firstName,
+			"lastname" : self.lastName,
+			"email" : self.email
+		}
 
 
 	def fromDict(self, d):

@@ -6,7 +6,7 @@ from models import Service, ServiceAttribute, Keyword, KeywordMapping, ServiceRe
 from werkzeug.utils import secure_filename
 from os import urandom
 from passlib.hash import sha512_crypt
-from time import localtime, strftime
+from datetime import datetime
 
 JSON_ERR_MSG = "Invalid JSON or No JSON"
 
@@ -51,6 +51,9 @@ def signOut():
 #TODO: Implement
 @app.route('/users', methods=['POST'])
 def createUser():
+	'''
+	Create a User
+	'''
 	
 	if not request.json:
 		return genError(400, JSON_ERR_MSG)
@@ -59,19 +62,19 @@ def createUser():
 
 	user = User()
 	user.email = requestJson['email']
-	user.firstName = requestJson['name']
-	user.lastName = requestJson['name']
-	user.phone = "(555) 555-5555"
+	user.firstName = requestJson['firstname']
+	user.lastName = requestJson['lastname']
+	user.phone = None
 	user.role = 'admin' if requestJson['admin'] else 'user'
-	'''
-	Generate a Cryptographically Secure Salt of length 16 bytes then generate the password
-	hash using the password and salt and hashing 10,000 times.
-	'''
+
+	# Generate a Cryptographically Secure Salt of length 16 bytes then generate the password
+	# hash using the password and salt and hashing 10,000 times.
 	password = requestJson['password']
 	user.passwordSalt = urandom(16)
 	user.passwordHash = sha512_crypt.encrypt(password, rounds = 10000, salt = user.passwordSalt)
-	user.lastLogin = localtime().strftime("%Y-%m-%d %H:%M:%S")
-	user.joined = localtime().strftime("%Y-%m-%d")
+	user.lastLogin = None
+	user.joined = datetime.today()
+
 	user.subscriptionList = []
 	user = user.fromDict(requestJson)
 	db.session.add(user)
@@ -82,16 +85,16 @@ def createUser():
 #TODO: Implement
 @app.route('/users/<int:user_id>', methods=['GET'])
 def getUser(user_id):
+	'''
+	Retrieve a User's information
+	'''
 	user = User.query.get(user_id)
-	admin = True if user.role == 'admin' else False
 
-	return
-	{
-		"id": user.userId,
-		"admin": admin,
-		"name": user.firstName + " " + user.lastName,
-		"email": user.email,
-	}
+	if user == None:
+		return genError(404, "User ID was not found");
+
+	return user.toCitJSON();
+
 
 
 #TODO: Implement
@@ -128,34 +131,23 @@ def getOwnAccount():
 @app.route('/users', methods=['GET'])
 def getAllUsers():
 	'''
-	NOTE: Need to clarify with front end team how they want this, as they are not passing any parameters,
-	but the Data Structure they have outlined for a User Array includes info for pagination which would
-	need to be passed in here. For now, I am just assuming that they want all of the users back in one
-	big list.
+	Return all users. Pagination is not implemented yet, so offset will always be 0, and total_results and total_returned will always be the same.
 	'''
 	allUsers = User.query.all()
-
 	userArray = []
 
 	for user in allUsers:
-		admin = True if user.role == 'admin' else False
-		userArray.append
-		(
-			{
-				"id" : user.userId,
-				"admin" : admin,
-				"name" : user.firstName + " " + user.lastName,
-				"email" : user.email
-			}
-		)
+		userArray.append(user.toCITDict())
 
-	return
-	{
-		"total_results": len(allUsers),
-		"total_returned": len(allusers),
-		"offset": 0,
-		"users": userArray
-	}
+	return jsonify
+	(
+		{
+			"total_results": len(allUsers),
+			"total_returned": len(allusers),
+			"offset": 0,
+			"users": userArray
+		}
+	)
 
 
 ###################
