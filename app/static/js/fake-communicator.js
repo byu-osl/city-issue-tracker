@@ -225,9 +225,10 @@ FakeCommunicator = (function communicator_namespace() {
     //retreives a list of issues
     FakeCommunicator.prototype.getIssues = function(orderBy, offset, max, query, reversed, includeClosed) {
         var issues = this.issues.map(dupShallow);
-        var admin = self.user && self.user.admin
+        var admin = this.user && this.user.admin;
         return new Promise(function(resolve, reject){
             if (admin){
+                console.log("here");
                 resolve(asArrayResponse(issues,"issues"));
             } else {
                 console.log(issues, issues.filter(function(issue){

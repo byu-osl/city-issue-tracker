@@ -61,7 +61,7 @@ Generator = (function Generator_Namespace(){
         var open = open || Math.random() > 0.5;
         var approved = approved || open || Math.random() > 0.5;
         return {
-            "id":this.end++,
+            "id":id,
             "owner":Math.floor(Math.random() *10),
             "title":"Title of issue:" + id,
             "description":"description of issue #" + id,
