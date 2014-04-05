@@ -1,8 +1,3 @@
-var issues = {};
-var user = {"name":"Steve","id":1,"isAdmin":true};
-
-var comm = new FakeCommunicator(new Generator(), new Users());
-
 function renderIssues(issuesResponse){
     issuesResponse.issues.forEach(listRenderIssue);
 }
@@ -12,9 +7,9 @@ function listRenderIssue(issue){
 	$el.append('<span class="glyphicon glyphicon-map-marker"></span>');
 	$el.append('<span class="issue-title">'+issue.title+'</span>');
 	$el.append('<span class="issue-description"> - '+issue.description +'</span>');
-	if(user.isAdmin){
+	if(comm.user.admin){
 		$el.append('<span class="close glyphicon glyphicon-trash"></span>');
-		if(issue.status == "close"){
+		if(!issue.open){
 			$el.append('<span class="close glyphicon glyphicon-ok"></span>');
 		}
 	}
