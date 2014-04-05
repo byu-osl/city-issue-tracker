@@ -80,7 +80,7 @@ def createUser():
 	db.session.add(user)
 	db.session.commit()
 
-	return user.toJSON()
+	return user.toCitJSON()
 
 #TODO: Implement
 @app.route('/users/<int:user_id>', methods=['GET'])
@@ -120,7 +120,7 @@ def updateUser(user_id):
 	db.session.add(user)
 	db.session.commit()
 
-	return user.toJSON()
+	return user.toCITJSON()
 
 #TODO: Implement
 @app.route('/users/signed_in_user')
