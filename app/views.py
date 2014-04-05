@@ -3,13 +3,22 @@ from flask import render_template, request, jsonify, Response
 from app import app, db, ValidationError, genError
 from fakeData import service_list, service_def, get_service_reqs, get_service_req, user_data
 from models import Service, ServiceAttribute, Keyword, KeywordMapping, ServiceRequest, User, Note
+from werkzeug.utils import secure_filename
 from os import urandom
 from passlib.hash import sha512_crypt
 from time import localtime, strftime
 
 JSON_ERR_MSG = "Invalid JSON or No JSON"
 
-db.create_all()
+#db.create_all()
+
+############
+# Helper functions
+###########
+
+def allowed_file(filename):
+	return '.' in filename and \
+		filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 #############
 # Main Page #
@@ -153,18 +162,6 @@ def getAllUsers():
 # Service Section #
 ###################
 
-@app.route('/gen/service', methods=['GET'])
-def genServices():
-	s = Service()
-	s.title = "Title"
-	s.description = "Description"
-	s.type = "batch"
-	s.metaData = False
-
-	db.session.add(s)
-	db.session.commit()
-	return s.toJSON()
-
 #Create a new service
 @app.route('/services', methods=['POST'])
 def newService():
@@ -200,11 +197,11 @@ def getService(serviceId):
 
 	return s.toCitJSON();
 
-#TODO: Implement
 #Updates a service
 @app.route('/services/<int:serviceId>', methods=['POST'])
 def postService(serviceId):
 
+	#TODO: Check if json will error out
 	if not request.json:
 		return genError(400, JSON_ERR_MSG)
 
@@ -217,7 +214,6 @@ def postService(serviceId):
 		s.fromDict(request.json)
 	except ValidationError as e:
 		return genError(400, e.errorMsg)
-
 
 	db.session.commit()
 
@@ -430,6 +426,14 @@ def uploadImage():
 	"""
 	Upload an image
 	"""
+	#This code is from flask website mostly
+	file = request.files['file']
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			#TODO: Have someway of using a hash for the file name
+			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			return redirect(url_for('uploaded_file', filename=filename))
+
 	return "---"
 
 #TODO: Implement
