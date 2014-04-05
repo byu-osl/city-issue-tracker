@@ -400,6 +400,27 @@ def viewImage(photo_id):
 	"""
 	return "---"
 
+##################
+# Notes Section  #
+##################
+
+@app.route('/notes', methods=["POST"])
+def createNote():
+	return "---"
+
+@app.route('/notes', methods=["GET"])
+def getNotes():
+	return "---"
+
+@app.route('/notes/<int:noteId>', methods=["GET"])
+def getNote(noteId):
+	return "---"
+
+@app.route('/notes/<int:noteId>', methods=["POST"])
+def updateNote(noteId):
+	return "---"
+
+
 
 ######################
 # Open311 API Routes #
