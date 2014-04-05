@@ -10,7 +10,7 @@ from time import localtime, strftime
 
 JSON_ERR_MSG = "Invalid JSON or No JSON"
 
-#db.create_all()
+db.create_all()
 
 ############
 # Helper functions
@@ -278,16 +278,9 @@ def createIssue():
 		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest()
-	#serviceRequest.accountId = requestJson["owner"]
-	#serviceRequest.title = requestJson["title"]
-	#serviceRequest.description = requestJson["description"]
 	serviceRequest.lat = requestJson["location"]["lat"]
 	serviceRequest.longitude = requestJson["location"]["long"]
 	serviceRequest.address = requestJson["location"]["address"]
-	#serviceRequest.status = "open" if requestJson["open"] else "closed"
-	#serviceRequest.approved = requestJson["approved"]
-	#serviceRequest.priority = requestJson["priority"]
-	#serviceRequest.mediaUrl = requestJson["image_url"]
 	#serviceRequest.requestedDatetime = strftime("%Y-%m-%d %H:%M:%S", localtime())
 	#serviceRequest.updatedDatetime = strftime("%Y-%m-%d %H:%M:%S", localtime())
 
@@ -314,16 +307,9 @@ def updateIssue(issue_id):
 		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
-	#serviceRequest.accountId = requestJson["owner"]
-	#serviceRequest.title = requestJson["title"]
-	#serviceRequest.description = requestJson["description"]
 	serviceRequest.lat = requestJson["location"]["lat"]
 	serviceRequest.longitude = requestJson["location"]["long"]
 	serviceRequest.address = requestJson["location"]["address"]
-	#serviceRequest.status = "open" if requestJson["open"] else "closed"
-	#serviceRequest.approved = requestJson["approved"]
-	#serviceRequest.priority = requestJson["priority"]
-	#serviceRequest.mediaUrl = requestJson["image_url"]
 	#serviceRequest.updatedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
 
 	try:
@@ -344,20 +330,26 @@ def viewAllIssues():
 
 	requestJson = request.get_json()
 
+	#If there is no json that is ok since we have defaults
 	if not requestJson:
-		return genError(400, JSON_ERR_MSG)
+		requestJson = {}
 
-	orderBy = requestJson["orderBy"]
-	offset = int(requestJson["offset"])
-	max = int(requestJson["max"])
-	query = requestJson["query"]
-	reversed = bool(requestJson["reversed"])
-	includeClosed = bool(requestJson["includeClosed"])
 
-	query = ServiceRequest.query.filter(ServiceRequest.title.contains(query) or ServiceRequest.description.contains(query)).filter(True if includeClosed else ServiceRequest.status == "open")
+	#TODO: Have defaults
+	orderBy = requestJson.get("orderBy", "created_at")
+	offset = int(requestJson.get("offset", 0))
+	max = int(requestJson.get("max", 50))
+	query = requestJson.get("query", "")
+	reversed = bool(requestJson.get("reversed", False))
+	includeClosed = bool(requestJson.get("includeClosed", False))
+
+	if not query == "":
+		query = ServiceRequest.query.filter(ServiceRequest.title.contains(query) or ServiceRequest.description.contains(query)).filter(True if includeClosed else ServiceRequest.status == "open")
+	else:
+		query = ServiceRequest.query.filter(True if includeClosed else ServiceRequest.status == "open")
 
 	if orderBy == "created_at":
-		allIssues = query.order_by(ServiceRequest.createdAt).all()
+		allIssues = query.order_by(ServiceRequest.requestedDatetime).all()
 	elif orderBy == "priority":
 		allIssues = query.order_by(ServiceRequest.priority).all()
 	elif orderBy == "open":
@@ -385,40 +377,21 @@ def viewAllIssues():
 						}
 					)
 
-				requestArray.append
-				(
-					{
-						"id" : serviceRequest.serviceRequestId,
-						"owner" : serviceRequest.accountId,
-						"title" : serviceRequest.title,
-						"description" : serviceRequest.description,
-						"location" : 
-						{
-							"lat" : serviceRequest.lat,
-							"long" : serviceRequest.longitude,
-							"address" : serviceRequest.address
-						},
-						"open" : (serviceRequest.status == "open"),
-						"approved" : serviceRequest.approved,
-						"priority" : serviceRequest.priority,
-						"image_url" : serviceRequest.mediaUrl,
-						"notes" : notesArray,
-						"created_at" : serviceRequest.requestedDatetime,
-						"updated_at" : serviceRequest.updatedDatetime
-					}
-				)
+				s = serviceRequest.toCitDict()
+				s["notes"] = notesArray
+
+				requestArray.append(s)
 			except:
 				break
 		else:
 			break
 
-	return
-	{
+	return jsonify({
 		"total_results": len(allIssues),
 		"total_returned": len(requestArray),
 		"offset": offset,
 		"issues": requestArray
-	}
+	})
 
 #TODO: Implement
 @app.route('/issues/images', methods=['POST'])
@@ -428,11 +401,11 @@ def uploadImage():
 	"""
 	#This code is from flask website mostly
 	file = request.files['file']
-		if file and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
-			#TODO: Have someway of using a hash for the file name
-			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			return redirect(url_for('uploaded_file', filename=filename))
+	if file and allowed_file(file.filename):
+		filename = secure_filename(file.filename)
+		#TODO: Have someway of using a hash for the file name
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		return redirect(url_for('uploaded_file', filename=filename))
 
 	return "---"
 
