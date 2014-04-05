@@ -64,8 +64,8 @@ class ServiceRequest(CITModel):
 		self.accountId = 0
 		self.title = "A basic issue"
 		self.description = "A basic issue description"
-		self.lat = 1
-		self.longitude = 1
+		self.lat = 0
+		self.longitude = 0
 		self.address = "Unknown"
 		self.status = "open"
 		self.approved = 0
@@ -177,6 +177,7 @@ class ServiceRequest(CITModel):
 		self.agencyResponsible = d.get("agency_responsible", self.agencyResponsible)
 		self.serviceCode = d.get("service_code", self.serviceCode)
 		self.accountId = d.get("account_id", self.accountId)
+
 		return True
 
 	def fromCitDict(self, d):
@@ -197,8 +198,10 @@ class ServiceRequest(CITModel):
 		self.addressId = d.get("address_id", self.addressId)
 		self.zipcode = d.get("zipcode", self.zipcode)
 		#TODO: This has to be changed
-		self.lat = d.get("lat", self.lat)
-		self.longitude = d.get("long", self.longitude)
+		self.lat = d.get("location", {}).get("lat", self.lat)
+		self.longitude = d.get("location", {}).get("long", self.longitude)
+		self.address = d.get("location", {}).get("address", self.address)
+
 		self.mediaUrl = d.get("media_url", self.mediaUrl)
 		self.deviceId = d.get("device_id", self.deviceId)
 		self.approved = d.get("approved", self.approved)
