@@ -1,5 +1,3 @@
-var comm = new FakeCommunicator(new Generator(), new Users());
-
 function renderUsers(usersResponse){
     usersResponse.users.foreach(listRenderUser);
 }
