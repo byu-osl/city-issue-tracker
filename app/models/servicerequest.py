@@ -2,6 +2,7 @@ from app import db, ValidationError
 from sqlalchemy.orm import validates
 from defs import status_list, priority_list
 from citmodel import CITModel
+import datetime
 
 class ServiceRequest(CITModel):
 	"""
@@ -40,9 +41,9 @@ class ServiceRequest(CITModel):
 	title = db.Column(db.Text)
 	description = db.Column(db.Text)
 	serviceNotice = db.Column(db.Text)
-	requestedDatetime = db.Column(db.TIMESTAMP)
-	updatedDatetime = db.Column(db.TIMESTAMP)
-	expectedDatetime = db.Column(db.TIMESTAMP)
+	requestedDatetime = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)#TODO: Default
+	updatedDatetime = db.Column(db.TIMESTAMP)# TODO: Default
+	expectedDatetime = db.Column(db.TIMESTAMP) #TODO: Default
 	address = db.Column(db.Text)
 	addressId = db.Column(db.Integer)
 	zipcode = db.Column(db.Integer)
