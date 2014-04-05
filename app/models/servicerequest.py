@@ -209,5 +209,7 @@ class ServiceRequest(CITModel):
 		self.agencyResponsible = d.get("agency_responsible", self.agencyResponsible)
 		self.serviceCode = d.get("service_code", self.serviceCode)
 		self.accountId = d.get("account_id", self.accountId)
+		self.updatedDatetime = datetime.datetime.utcnow();
+
 		return True
 

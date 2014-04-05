@@ -270,11 +270,6 @@ def createIssue():
 		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest()
-	serviceRequest.lat = requestJson["location"]["lat"]
-	serviceRequest.longitude = requestJson["location"]["long"]
-	serviceRequest.address = requestJson["location"]["address"]
-	#serviceRequest.requestedDatetime = strftime("%Y-%m-%d %H:%M:%S", localtime())
-	#serviceRequest.updatedDatetime = strftime("%Y-%m-%d %H:%M:%S", localtime())
 
 	try:
 		serviceRequest.fromCitDict(requestJson);
@@ -299,10 +294,6 @@ def updateIssue(issue_id):
 		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
-	serviceRequest.lat = requestJson["location"]["lat"]
-	serviceRequest.longitude = requestJson["location"]["long"]
-	serviceRequest.address = requestJson["location"]["address"]
-	#serviceRequest.updatedDatetime = localtime().strftime("%Y-%m-%d %H:%M:%S")
 
 	try:
 		serviceRequest.fromCitDict(requestJson);
@@ -311,7 +302,7 @@ def updateIssue(issue_id):
 
 	db.session.commit()
 
-	return serviceRequest.toCitDict()
+	return serviceRequest.toCitJSON()
 
 #TODO: Test and deal with user authorization
 @app.route('/issues', methods=['GET'])
