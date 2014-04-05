@@ -47,7 +47,7 @@ $(".issue").click(function(){
 	$("#issue-popup").show();
 });
 
-$("#search-box").keypress(function(e){
+$("#search-box").keyup(function(e){
 	$("#issue-list-div .panel-heading").text("Results");
 	var searchString = $("#search-box").val().toLowerCase();
 	if(searchString == ""){
