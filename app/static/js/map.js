@@ -7,13 +7,13 @@ var markers = {};
 var infoWindow = new google.maps.InfoWindow({});
 function initialize() {
 	geocoder = new google.maps.Geocoder();
-	var sw = new google.maps.LatLng(37.616517535818396, -113.1707775592804);
-	var ne = new google.maps.LatLng(37.7494418243111, -113.00580024719238);
+	var sw = new google.maps.LatLng(40.392528, -111.773320);
+	var ne = new google.maps.LatLng(40.431935, -111.737357);
 	bounds = new google.maps.LatLngBounds(sw, ne);
 	
 	var mapOptions = {
 		zoom: 14,
-		center: new google.maps.LatLng(37.67747689999999, -113.06189310000002),
+		center: new google.maps.LatLng(40.413966, -111.758901),
 	};
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	//If markers were created before the map was, add them now
@@ -117,6 +117,7 @@ function createMarker(issue) {
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.open(map, marker);
 	});
+	
 	
 	//Keep track of the markers so that they can be removed from the map if necessary
 	markers[issue.id] = marker;
