@@ -8,20 +8,13 @@ comm = addCaching(comm);
 // user - the user - it's {} if no-one is logged in.
 
 // Login management
-
-var showLogin;
-
 var onLogin = [];
 var onLogout = [];
 
-function initLoginBindings(){
+function bindLogin(){
 	$("#login-close-button").click(function(){
 		$("#login-popup").hide();
 	});
-	
-	showLogin = function showLogin(){
-		$("#login-popup").show();
-	}
 	
 	$("#login").click(function(){
 		comm.signIn({
@@ -29,17 +22,51 @@ function initLoginBindings(){
 			password:$("#login-password")[0].value
 		}).then(
 			function success(user){
-				$("#login-popup").hide();
-				$("#login-close-button").off('click');
 				onLogin.map(function(func){func()})
+				bindLogout()
 			},
 			function failure(){
 				console.log("Failure");
 			}
 		)
 	});
+	
+	function showLogin(){
+		$("#login-password")[0].value = "";
+		$("#login-email")[0].value = "";
+		$("#login-popup").show();
+	}
+	
+	$("#logout-link").off("click");
+	$("#logout-link").hide();
+	
+	$("#login-link").show();
+	$("#login-link").on('click',showLogin)
+	
 };
 
-initLoginBindings();
+function bindLogout(){
+	
+	function doLogout(){
+		comm.signOut().then(
+			function success(){
+				onLogout.map(function(func){func()})
+				bindLogin()
+			},
+			function failure(){
+				alert("Couldn't log out!")
+			}
+		)
+	}
+	
 
-showLogin();
+	$("#login-popup").hide();
+	$("#login-close-button").off('click');	
+	$("#login-link").off("click");
+	$("#login-link").hide();
+	
+	$("#logout-link").show();
+	$("#logout-link").on('click', doLogout);
+}
+
+bindLogin();

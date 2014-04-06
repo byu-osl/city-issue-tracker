@@ -190,8 +190,9 @@
   }
 }
 
-.semantic-content footer > p {
+.semantic-content footer > * {
   margin-bottom: 0;
+  margin-top:15px;
 }
 .semantic-content .close-action,
 .semantic-content .open-popup {

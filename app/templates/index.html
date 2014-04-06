@@ -26,6 +26,10 @@
 					<li><a href="#about">About</a></li>
 					<li><a href="#contact">Contact</a></li>
 				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="login-link" href="#">Login</a></li>
+					<li><a id="logout-link" href="#" style="display:none">Logout</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -109,12 +113,12 @@
 			<footer>
 				<form id="upload-image-form" class="form image-input" action="/issues/images" >
 					<label for="uploadImage">
-						<button class="upload-button">Attach Image</button>
+						<button class="btn" class="upload-button">Attach Image</button>
 						<input type="file" name="uploadImage">
 					</label>
 				</form>
-				<button id="publish">Make Public</button>
-				<button id="save">Save</button>
+				<button class="btn" id="publish">Make Public</button>
+				<button class="btn btn-primary" id="save">Save</button>
 			</footer>
 		</div>
 		<a href="#!" id="issue-close-button" class="popup-close" title="Close this popup" data-close="Close"
@@ -142,7 +146,7 @@
 				</div>
 			</div>
 			<footer>
-				<button id="login">Login</button>
+				<button class="btn btn-primary" id="login">Login</button>
 			</footer>
 		</div>
 		<a href="#!" id="login-close-button" class="popup-close" title="Close this popup" data-close="Close"

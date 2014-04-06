@@ -34,7 +34,7 @@ addCaching = (function communicator_namespace() {
     }
     
     CacheCommunicator.prototype.signOut = function logout(){
-        return this.source.singOut.apply(this.source,arguments).then(function loggingOut(){
+        return this.source.signOut.apply(this.source,arguments).then(function loggingOut(){
             this.user = {};
         }.bind(this));
     }
