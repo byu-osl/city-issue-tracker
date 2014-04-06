@@ -15,12 +15,6 @@ li{
   display:block;
   margin-bottom:3px;
 }
-#issue-popup{
-  position:fixed;
-  margin-left:100px;
-  width:50%;
-  z-index:1000;
-}
 .close-button{
   float:right;
 }
