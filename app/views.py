@@ -410,6 +410,7 @@ def viewImage(photo_id):
 # Notes Section  #
 ##################
 
+#TODO: Authorization check
 @app.route('/notes', methods=["POST"])
 def createNote():
 
@@ -426,6 +427,7 @@ def createNote():
 
 	return note.toCitJSON();
 
+#TODO: Authorization check
 @app.route('/notes', methods=["GET"])
 def getNotes():
 
@@ -433,7 +435,7 @@ def getNotes():
 
 	return Note.composeCitJSONList(q)
 
-
+#TODO: Authorization check
 @app.route('/notes/<int:noteId>', methods=["GET"])
 def getNote(noteId):
 
@@ -444,13 +446,14 @@ def getNote(noteId):
 
 	return note.toCitJSON()
 
+#TODO: Authorization check
 @app.route('/notes/<int:noteId>', methods=["POST"])
 def updateNote(noteId):
 
 	note = Note.query.get(noteId)
 
 	if note == None:
-		return genError(404, "Issue ID was not found")
+		return genError(404, "Note ID was not found")
 
 	requestJson = request.get_json()
 
