@@ -437,17 +437,17 @@ def getNotes():
 @app.route('/notes/<int:noteId>', methods=["GET"])
 def getNote(noteId):
 
-	note = Note.query.get(issue_id)
+	note = Note.query.get(noteId)
 
 	if note == None:
-		return genError(404, "Issue ID was not found")
+		return genError(404, "Note ID was not found")
 
-	return "---"
+	return note.toCitJSON()
 
 @app.route('/notes/<int:noteId>', methods=["POST"])
 def updateNote(noteId):
 
-	note = Note.query.get(issue_id)
+	note = Note.query.get(noteId)
 
 	if note == None:
 		return genError(404, "Issue ID was not found")
@@ -457,7 +457,14 @@ def updateNote(noteId):
 	if not requestJson:
 		return genError(400, JSON_ERR_MSG)
 
-	return "---"
+	try:
+		note.fromCitDict(requestJson);
+	except ValidationError as e:
+		return genError(400, e.errorMsg)
+
+	db.session.commit()
+
+	return note.toCitJSON()
 
 
 
