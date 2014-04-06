@@ -157,7 +157,11 @@ def getAllUsers():
 #Create a new service
 @app.route('/services', methods=['POST'])
 def newService():
+	"""
+	A route to post a new Service
 
+	TODO: Test
+	"""
 	if not request.json:
 		return genError(400, JSON_ERR_MSG)
 
@@ -175,6 +179,12 @@ def newService():
 #Get a list of all services
 @app.route('/services', methods=['GET'])
 def getServices():
+	"""
+	A route to get a list of all services
+
+	TODO: Have some filter options. Maybe get attributes
+	TODO: Test
+	"""
 	l = Service.query.all()
 
 	return Service.composeFormatList("json", l)
@@ -182,6 +192,14 @@ def getServices():
 #Get a specific service
 @app.route('/services/<int:serviceId>', methods=['GET'])
 def getService(serviceId):
+	"""
+	A route to get a service
+
+	TODO: Test
+
+	Keyword arguments:
+	serviceId -- The serviceId of a Service to get
+	"""
 	s = Service.query.get(serviceId)
 
 	if s == None:
@@ -192,7 +210,13 @@ def getService(serviceId):
 #Updates a service
 @app.route('/services/<int:serviceId>', methods=['POST'])
 def postService(serviceId):
+	"""
+	A route to update a service
 
+	This should be working
+	Keyword arguments:
+	serviceId -- The serviceId of a Service we want to update
+	"""
 	#TODO: Check if json will error out
 	if not request.json:
 		return genError(400, JSON_ERR_MSG)
@@ -213,6 +237,11 @@ def postService(serviceId):
 
 @app.route('/services/<int:serviceId>', methods=['DELETE'])
 def deleteService(serviceId):
+	"""
+	A route to delete a service
+
+	NOT IMPLEMENTED
+	"""
 
 	s = Service.query.get(serviceId)
 
@@ -227,13 +256,11 @@ def deleteService(serviceId):
 #TODO: Implement
 @app.route('/services/<int:serviceId>/attr', methods=['GET'])
 def getServiceAttr(serviceId):
-	sa1 = ServiceAttribute()
+	"""
+	A view to get the attributes of a specific Service
 
-
-	sa2 = ServiceAttribute()
-
-
-	sa3 = ServiceAttribute()
+	NOT IMPLEMENTED
+	"""
 
 	return "---"
 
@@ -248,6 +275,9 @@ def getServiceAttr(serviceId):
 def getIssue(issue_id):
 	"""
 	Return the issue with id = issue_id
+
+	Keyword arguments:
+	issue_id -- The id of an issue to get
 	"""
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
@@ -283,11 +313,15 @@ def createIssue():
 
 	return serviceRequest.toCitJSON()
 
+#TODO: issue_id to issueId
 #TODO: Test and deal with user authorization
 @app.route('/issues/<int:issue_id>', methods=['POST'])
 def updateIssue(issue_id):
 	"""
 	Update the given issue
+
+	Keyword Arguments:
+	issue_id -- The id of an issue to update
 	"""
 
 	#TODO: Make sure that the updator is authorized
@@ -315,6 +349,17 @@ def updateIssue(issue_id):
 def viewAllIssues():
 	"""
 	Return all the issues
+
+	There are JSON attirbutes that are send but maybe they should be part
+	of get request(not the body?)
+
+	JSON Attributes:
+	orderBy -- create_at, priority, open
+	offset -- (int) How many down the list you should start at
+	max -- (int) The number of items to get
+	query -- A string to look for in the issues
+	reversed -- (bool)
+	includeClosed -- (bool)
 	"""
 
 	requestJson = request.get_json()
@@ -413,7 +458,9 @@ def viewImage(photo_id):
 #TODO: Authorization check
 @app.route('/notes', methods=["POST"])
 def createNote():
-
+	"""
+	A route to create a new Note
+	"""
 	requestJson = request.get_json()
 
 	if not requestJson:
@@ -430,6 +477,9 @@ def createNote():
 #TODO: Authorization check
 @app.route('/notes', methods=["GET"])
 def getNotes():
+	"""
+	A route to get a list of all notes
+	"""
 
 	q = Note.query.all()
 
@@ -438,6 +488,12 @@ def getNotes():
 #TODO: Authorization check
 @app.route('/notes/<int:noteId>', methods=["GET"])
 def getNote(noteId):
+	"""
+	Get a specific Note
+
+	Keyword arguments:
+	noteId -- The noteId of a Note to get
+	"""
 
 	note = Note.query.get(noteId)
 
@@ -449,7 +505,12 @@ def getNote(noteId):
 #TODO: Authorization check
 @app.route('/notes/<int:noteId>', methods=["POST"])
 def updateNote(noteId):
+	"""
+	Update a specific note
 
+	Keyword arguments:
+	noteId -- The noteId of a Note to update
+	"""
 	note = Note.query.get(noteId)
 
 	if note == None:
@@ -474,6 +535,9 @@ def updateNote(noteId):
 ######################
 # Open311 API Routes #
 ######################
+
+#TODO: All of these need to be implemented
+
 
 #TODO: Implement
 @app.route('/open311/api/services.<form>', methods=['GET'])

@@ -9,6 +9,13 @@ class ValidationError(Exception):
 	Have invalid data that is set
 	"""
 	def __init__(self, msg):
+		"""
+		The init function for this error
+		It takes in one argument which is the msg of what is wrong
+
+		Keyword arguments:
+		msg -- A string message that will be stored
+		"""
 		self.errorMsg = msg
 	def __str__(self):
 		return repr(self.errorMsg)
@@ -17,7 +24,13 @@ class ValidationError(Exception):
 def genError(code, desc):
 	"""
 	A simple error code generate modeled after Open311's error codes
+
+	Keyword arguments:
+	code -- A http service code
+	desc -- A string description of what will be passed back 
 	"""
+
+	# A jsonify Response that is generated
 	jsonResp = jsonify({
 		"code": code,
 		"description": desc
