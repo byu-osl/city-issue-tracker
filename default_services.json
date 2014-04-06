@@ -1,0 +1,70 @@
+[
+	{
+		"name": "Pothole in Street",
+		"description": "A",
+		"metadata": false,
+		"type": "realtime",
+		"attributes": []
+	},
+	{
+		"name": "Street Light Out",
+		"description": "B",
+		"metadata": false,
+		"type": "realtime",
+		"attributes": []
+	},
+	{
+		"name": "Street Lights Out",
+		"description": "C",
+		"metadata": false,
+		"type": "realtime",
+		"attributes": []
+	},
+	{
+		"name": "Traffic Signal Out",
+		"description": "D",
+		"metadata": false,
+		"type": "realtime",
+		"attributes": []
+	},
+	{
+		"name": "Graffiti Removal",
+		"description": "E",
+		"metadata": false,
+		"type": "realtime",
+		"attributes": []
+	},
+	{
+		"name": "Abandoned Vehicle",
+		"description": "F",
+		"metadata": false,
+		"type": "realtime",
+		"attributes": []
+	},
+
+	{
+		"name": "Z",
+		"description": "Z",
+		"metadata": true,
+		"type": "realtime",
+		"attributes": [
+			{
+				"variable": true,
+				"required": false,
+				"datatype": "text",
+				"datatypeDescription": "--",
+				"description":"-",
+				"order": 1
+			},
+			{
+				"variable": true,
+				"required": false,
+				"datatype": "text",
+				"datatypeDescription": "--",
+				"description":"-",
+				"order": 2
+			}
+		]
+
+	}
+]
