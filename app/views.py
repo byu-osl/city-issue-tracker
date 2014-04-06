@@ -264,6 +264,8 @@ def createIssue():
 	Create an issue
 	"""
 
+	#TODO: Authoization?
+
 	requestJson = request.get_json()
 
 	if not requestJson:
@@ -288,12 +290,16 @@ def updateIssue(issue_id):
 	Update the given issue
 	"""
 
+	#TODO: Make sure that the updator is authorized
+
 	requestJson = request.get_json()
 
 	if not requestJson:
 		return genError(400, JSON_ERR_MSG)
 
 	serviceRequest = ServiceRequest.query.get(issue_id)
+
+	#TODO: Check that it's not empty
 
 	try:
 		serviceRequest.fromCitDict(requestJson);
@@ -406,18 +412,51 @@ def viewImage(photo_id):
 
 @app.route('/notes', methods=["POST"])
 def createNote():
-	return "---"
+
+	requestJson = request.get_json()
+
+	if not requestJson:
+		return genError(400, JSON_ERR_MSG)
+
+	note = Note()
+	note.fromCitDict(requestJson);
+
+	db.session.add(note)
+	db.session.commit()
+
+	return note.toCitJSON();
 
 @app.route('/notes', methods=["GET"])
 def getNotes():
-	return "---"
+
+	q = Note.query.all()
+
+	return Note.composeCitJSONList(q)
+
 
 @app.route('/notes/<int:noteId>', methods=["GET"])
 def getNote(noteId):
+
+	note = Note.query.get(issue_id)
+
+	if note == None:
+		return genError(404, "Issue ID was not found")
+
 	return "---"
 
 @app.route('/notes/<int:noteId>', methods=["POST"])
 def updateNote(noteId):
+
+	note = Note.query.get(issue_id)
+
+	if note == None:
+		return genError(404, "Issue ID was not found")
+
+	requestJson = request.get_json()
+
+	if not requestJson:
+		return genError(400, JSON_ERR_MSG)
+
 	return "---"
 
 

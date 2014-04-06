@@ -1,5 +1,6 @@
 from app import db
 from citmodel import CITModel
+import datetime
 
 class Note(CITModel):
 	"""
@@ -13,7 +14,7 @@ class Note(CITModel):
 
 	__tablename__ = "note"
 	noteId = db.Column(db.Integer, primary_key=True)
-	createdAt = db.Column(db.TIMESTAMP)
+	createdAt = db.Column(db.TIMESTAMP, default=datetime.datetime.utcnow)
 	note = db.Column(db.Text)
 	requestId = db.Column(db.Integer, db.ForeignKey("serviceRequest.serviceRequestId"))
 
@@ -22,10 +23,9 @@ class Note(CITModel):
 		This converts the model to a dictionary
 		"""
 
-		return
-		{
+		return {
 			"note_id" : self.noteId,
-			"created_at" : self.createdAt,
+			"created_at" : self.createdAt.__repr__(),
 			"note" : self.note,
 			"request_id" : self.requestId
 		}
@@ -34,10 +34,12 @@ class Note(CITModel):
 		"""
 		This converts the model to a dictionary for the CIT front-end
 		"""
-		return
-		{
-			"created_at" : self.createdAt,
-			"note" : self.note
+
+		return {
+			"note_id" : self.noteId,
+			"created_at" : self.createdAt.__str__(),
+			"note" : self.note,
+			"request_id" : self.requestId
 		}
 
 	def fromDict(self, d):
@@ -49,4 +51,16 @@ class Note(CITModel):
 		self.createdAt = d.get("created_at", self.createdAt)
 		self.note = d.get("note", self.note)
 		self.requestId = d.get("request_id", self.requestId)
+		return True
+
+	def fromCitDict(self, d):
+		"""
+		This converts a CIT dictionary into a model
+		"""
+
+		#self.noteId = d.get("note_id", self.noteId)
+		#self.createdAt = d.get("created_at", self.createdAt)
+		self.note = d.get("note", self.note)
+		self.requestId = d.get("request_id", self.requestId)
+
 		return True
