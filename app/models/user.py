@@ -64,8 +64,8 @@ class User(CITModel):
 		}
 
 
-	def toCITDict(self):
-		admin = True if user.role == 'admin' else False
+	def toCitDict(self):
+		admin = True if self.role == 'admin' else False
 		return {
 			"user_id" : self.userId,
 			"admin" : admin,

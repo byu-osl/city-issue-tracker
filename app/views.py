@@ -70,13 +70,13 @@ def createUser():
 	# Generate a Cryptographically Secure Salt of length 16 bytes then generate the password
 	# hash using the password and salt and hashing 10,000 times.
 	password = requestJson['password']
-	user.passwordSalt = urandom(16).encode('hex')
+	user.passwordSalt = urandom(8).encode('hex')
 	user.passwordHash = sha512_crypt.encrypt(password, rounds = 10000, salt = user.passwordSalt)
 	user.lastLogin = None
 	user.joined = datetime.today()
 
 	user.subscriptionList = []
-	user = user.fromDict(requestJson)
+	user.fromDict(requestJson)
 	db.session.add(user)
 	db.session.commit()
 
@@ -114,7 +114,7 @@ def updateUser(user_id):
 	user.role = 'admin' if requestJson['admin'] else 'user'
 	if requestJson['password']:
 		password = requestJson['password']
-		user.passwordSalt = urandom(16).encode('hex')
+		user.passwordSalt = urandom(8).encode('hex')
 		user.passwordHash = sha512_crypt.encrypt(password, rounds = 10000, salt = user.passwordSalt)
 	user = user.fromDict(requestJson)
 	db.session.add(user)
