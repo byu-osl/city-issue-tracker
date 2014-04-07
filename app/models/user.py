@@ -69,8 +69,8 @@ class User(CITModel):
 		return {
 			"user_id" : self.userId,
 			"admin" : admin,
-			"firstname" : self.firstName,
-			"lastname" : self.lastName,
+			"first_name" : self.firstName,
+			"last_name" : self.lastName,
 			"email" : self.email
 		}
 
