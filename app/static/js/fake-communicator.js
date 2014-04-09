@@ -228,7 +228,6 @@ FakeCommunicator = (function communicator_namespace() {
         var admin = this.user && this.user.admin;
         return new Promise(function(resolve, reject){
             if (admin){
-                console.log("here");
                 resolve(asArrayResponse(issues,"issues"));
             } else {
                 console.log(issues, issues.filter(function(issue){

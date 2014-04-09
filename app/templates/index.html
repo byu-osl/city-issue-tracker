@@ -45,7 +45,7 @@
 							</button>
 						</span>
 					</div>
-					<div id="add-new-issue" class="btn-group">
+					<div id="add-new-issue" class="btn-group" style="display:none">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 							Add new issue <span class="caret"></span>
 						</button>
@@ -93,7 +93,7 @@
 					<div id="edit-priority-div" class="form-group">
 						<label class="col-sm-2 control-label">Priority</label>
 						<div class="col-sm-6">
-							<select class="form-control">
+							<select class="form-control" id="popup-priority">
 								<option value="high">High</option>
 								<option value="moderate">Moderate</option>
 								<option value="low">Low</option>
@@ -111,12 +111,6 @@
 				</div>
 			</div>
 			<footer>
-				<form id="upload-image-form" class="form image-input" action="/issues/images" >
-					<label for="uploadImage">
-						<button class="btn" class="upload-button">Attach Image</button>
-						<input type="file" name="uploadImage">
-					</label>
-				</form>
 				<button class="btn" id="publish">Make Public</button>
 				<button class="btn btn-primary" id="save">Save</button>
 			</footer>
@@ -164,7 +158,9 @@
 	<script src="/static/js/cache-communicator.js"></script>
 	<!-- To change the communicator, go to base.js -->
 	<script src="/static/js/base.js"></script>
+	<script src="/static/js/displayIssue.js"></script>
 	<script src="/static/js/map.js"></script>
+	<script src="/static/js/manageIssues.js"></script>
 	<script src="/static/js/main.js"></script>
 </footer>
 </html>

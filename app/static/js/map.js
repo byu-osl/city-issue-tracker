@@ -5,6 +5,13 @@ var geocoder;
 var bounds;
 var markers = {};
 var infoWindow = new google.maps.InfoWindow({});
+
+var createIssue = startAddIssue;
+
+function explore(event){
+	
+}
+
 function initialize() {
 	geocoder = new google.maps.Geocoder();
 	var sw = new google.maps.LatLng(40.392528, -111.773320);
@@ -24,12 +31,18 @@ function initialize() {
 	google.maps.event.addListener(map, 'click', function(event) {
 		infoWindow.close();
 		infoWindow = new google.maps.InfoWindow({
-			content: "<div><p>Would you like to create a new issue here?</p>" +
-					"<button style='width: 40px; margin: 5px 15px;' onclick='createIssue(event.latLng.lat(), event.latLng.lng());infoWindow.close();'>Yes</button>" +
-					"<button style='width: 40px; margin: 5px 15px;' onclick='infoWindow.close();'>No</button></div>",
+			content: "<div>" +
+					"<p>Would you like to create a new issue here?</p>" +
+					"<button id='btn-yes' style='width: 40px; margin: 5px 15px;'>Yes</button>" +
+					"<button id='btn-no'  style='width: 40px; margin: 5px 15px;'>No</button>" +
+					"</div>",
 			position: event.latLng
 		});
+		
 		infoWindow.open(map);
+		
+		$('#btn-yes').on('click',function(){createIssue(event.latLng.lat(), event.latLng.lng());infoWindow.close();})
+		$('#btn-no').on('click',function(){infoWindow.close()});	
 		console.log("Latitude:", event.latLng.lat());
 		console.log("Longitude:", event.latLng.lng());
 	});

@@ -27,9 +27,16 @@ addCaching = (function communicator_namespace() {
     ].map(useSourceFor, this)
     
     CacheCommunicator.prototype.signIn = function login(){
-        console.log(this);
         return this.source.signIn.apply(this.source,arguments).then(function saveUser(user){
             this.user = user;
+            return user;
+        }.bind(this));
+    }
+    
+    CacheCommunicator.prototype.getIssues = function getIssues(){
+        return this.source.getIssues.apply(this.source,arguments).then(function saveIssues(issues){
+            this.issues = issues;
+            return issues;
         }.bind(this));
     }
     
