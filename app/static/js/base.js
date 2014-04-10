@@ -38,9 +38,9 @@ function bindLogin(){
 	}
 	
 	$("#logout-link").off("click");
-	$("#logout-link").toggleClass('target',false);
+	$("#logout-link").hide();
 	
-	$("#login-link").toggleClass('target',true);
+	$("#login-link").show();
 	$("#login-link").on('click',showLogin)
 	
 };
@@ -50,7 +50,7 @@ function bindLogout(){
 	function doLogout(){
 		comm.signOut().then(
 			function success(){
-				onLogout.map(function(func){func()})
+				onLogout.map(function(func){console.log(func);func()})
 				bindLogin()
 			},
 			function failure(){
@@ -59,8 +59,7 @@ function bindLogout(){
 		)
 	}
 	
-
-	$("#login-popup").hide();
+	$("#login-popup").toggleClass('target',false);
 	$("#login-close-button").off('click');	
 	$("#login-link").off("click");
 	$("#login-link").hide();
