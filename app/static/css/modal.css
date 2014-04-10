@@ -1,24 +1,59 @@
 /**
- * Taken from http://drublic.github.io/css-modal/
- * Modified to remove the requirement for the modal to be the target
- * Also, changed any appearance of the word 'modal' to 'popup' to avoid conflicts w/bootstrap
+ * Modal as reusable module
+ *
+ * Usage:
+ *    selector {
+ *        @extend %popup;
+ *    }
  */
+/*
+ * Configuration
+ */
+html {
+  overflow-y: scroll;
+}
+
+.has-overlay {
+  overflow: hidden;
+}
+.has-overlay > body {
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .semantic-content {
+  -webkit-transform: translate(0, 100%);
+  -moz-transform: translate(0, 100%);
+  -o-transform: translate(0, 100%);
+  -ms-transform: translate(0, 100%);
+  transform: translate(0, 100%);
+  -webkit-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1111;
+  z-index: 999;
+  opacity: 0;
   color: #222;
   line-height: 1.3;
+  display: none\9;
+}
+.semantic-content:target, .semantic-content.target {
   -webkit-transform: translate(0, 0);
   -moz-transform: translate(0, 0);
   -o-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   transform: translate(0, 0);
+  opacity: 1;
 }
-
+.is-active.semantic-content {
+  display: block\9;
+}
+.semantic-content:target, .semantic-content.target {
+  display: block\9;
+}
 .semantic-content .popup-inner {
   position: absolute;
   top: 50px;
@@ -114,11 +149,25 @@
 }
 @media screen and (max-width: 30em) {
   .semantic-content {
+    -webkit-transform: translate(0, 400px);
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    -webkit-transition: -webkit-transform .25s ease-in-out, opacity 1ms .25s;
+    -moz-transition: -moz-transform .25s ease-in-out, opacity 1ms .25s;
+    -o-transition: -o-transform .25s ease-in-out, opacity 1ms .25s;
+    -ms-transition: -ms-transform .25s ease-in-out, opacity 1ms .25s;
+    transition: transform .25s ease-in-out, opacity 1ms .25s;
     display: block;
     height: 100%;
     bottom: auto;
   }
-  
+  .semantic-content:target, .semantic-content.target  {
+    -webkit-transition: -webkit-transform .25s ease-in-out;
+    -moz-transition: -moz-transform .25s ease-in-out;
+    -o-transition: -o-transform .25s ease-in-out;
+    -ms-transition: -ms-transform .25s ease-in-out;
+    transition: transform .25s ease-in-out;
+  }
   .semantic-content:before {
     background-color: #27aae2;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#27aae2), to(#1c9cd3));
@@ -145,7 +194,7 @@
     right: 0;
     padding-top: 3em;
     height: 100%;
-    overflow: auto;
+    overflow: scroll;
     -webkit-box-shadow: none;
     box-shadow: none;
   }
@@ -190,9 +239,8 @@
   }
 }
 
-.semantic-content footer > * {
+.semantic-content footer > p {
   margin-bottom: 0;
-  margin-top:15px;
 }
 .semantic-content .close-action,
 .semantic-content .open-popup {

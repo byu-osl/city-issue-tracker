@@ -3,8 +3,7 @@ var issuePopup = {
 		return $("#issue-popup");
 	},
 	setVisible:function(visible){
-		if (visible) this.$().show();
-		else this.$().hide();
+		issuePopup.$().toggleClass('target',visible);
 	},
 	useData:function(data){
 		var latlong;
@@ -33,15 +32,24 @@ var issuePopup = {
 			$("#publish").hide();
 			$("#save").hide();
 		}
+	},
+	viewIssue:function(issue){
+		if (issue.id == undefined){
+			var id = issue;	
+			issue = comm.issues.issues.filter(function(i){return i.id == [id]})[0];
+		}
+		issuePopup.useData(issue);
+		issuePopup.setEditable(comm.user.admin, comm.user.admin);
+		issuePopup.setVisible(true);
+	},
+	addIssue:function(data){
+		if (!data.priority) data.priority = "medium";
+		issuePopup.useData(data)
+		issuePopup.setEditable(true,comm.user.admin)
+		issuePopup.setVisible(true);
 	}
 };
 
 $("#issue-close-button").click(function(){
 	issuePopup.setVisible(false);
 });
-
-function startAddIssue(data){
-	issuePopup.useData(data)
-	issuePopup.setEditable(true,comm.user.admin)
-	issuePopup.setVisible(true);
-}

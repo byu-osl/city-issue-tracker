@@ -1,13 +1,14 @@
 var manageIssues = (function(){
     
+    function id(issue_dom){
+        return $(issue_dom).attr("issue-id");
+    }
+    
     function bindShowFunction(){
         $(".issue").on("click",function(){
             console.log("HERE")
-            console.log($(this).attr("issue-id"));
-            var issue = comm.issues.issues.filter(function(i){return i.id == [$(this).attr("issue-id")]},this)[0];
-            issuePopup.setEditable(comm.user.admin, comm.user.admin);
-            issuePopup.useData(issue);
-            issuePopup.setVisible(true);
+            console.log(id(this));
+            issuePopup.viewIssue($(this).attr("issue-id"));
         });
     }
     
@@ -30,7 +31,7 @@ var manageIssues = (function(){
             $el.append(check);
         }
         $("#issue-list").append($el);
-        addIssueToMap(issue);
+        mapView.add(issue);
     }
     
     $("#search-box").keyup(function(e){
@@ -45,9 +46,12 @@ var manageIssues = (function(){
             var title = $(this).children(".issue-title").text().toLowerCase();
             if(title.indexOf(searchString) == -1){
                 $(this).hide();
+                mapView.hide(id(this))
             }
             else{
                 $(this).show();
+                console.log(this,id(this));
+                mapView.show(id(this))
             }
         });
     });

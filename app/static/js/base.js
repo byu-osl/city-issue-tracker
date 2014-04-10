@@ -13,7 +13,7 @@ var onLogout = [];
 
 function bindLogin(){
 	$("#login-close-button").click(function(){
-		$("#login-popup").hide();
+		$("#login-popup").toggleClass('target',false);
 	});
 	
 	$("#login").click(function(){
@@ -34,13 +34,13 @@ function bindLogin(){
 	function showLogin(){
 		$("#login-password")[0].value = "";
 		$("#login-email")[0].value = "";
-		$("#login-popup").show();
+		$("#login-popup").toggleClass('target',true);
 	}
 	
 	$("#logout-link").off("click");
-	$("#logout-link").hide();
+	$("#logout-link").toggleClass('target',false);
 	
-	$("#login-link").show();
+	$("#login-link").toggleClass('target',true);
 	$("#login-link").on('click',showLogin)
 	
 };
