@@ -8,7 +8,7 @@ var mapView = (function map_namespace(){
 	var markers = {};
 	var infoWindow = new google.maps.InfoWindow({});
 
-	var createIssue = issuePopup.displayIssue;
+	var createIssue = issuePopup.addIssue;
 
 	function explore(event){
 		
@@ -149,7 +149,12 @@ var mapView = (function map_namespace(){
 	issuesMap.setVisible = setVisible;
 	issuesMap.hide = function(issue){ setVisible(issue,false) };
 	issuesMap.show = function(issue){ setVisible(issue,true) };
-	
+	issuesMap.clear= function(){
+		for (var id in markers) {
+			markers[id].setMap(null);
+		}
+		markers = {}
+	}
 	
 	
 	return issuesMap

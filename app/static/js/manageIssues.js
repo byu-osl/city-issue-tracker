@@ -57,7 +57,7 @@ var manageIssues = (function(){
     });
     
     $("#add-new-issue").click(function(){
-        startAddIssue({});
+        issuePopup.addIssue({});
     });
     
     var controller = {
