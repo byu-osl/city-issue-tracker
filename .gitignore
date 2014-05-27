@@ -7,7 +7,7 @@ virtualenv-1.9/
 cit_env/
 
 #For now ignore the run.py (I have some ideas about how we can have a generic run.py but not just yet)
-run.py
+# run.py
 
 # Project files
 *.sublime-*
